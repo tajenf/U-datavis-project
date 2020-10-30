@@ -1,0 +1,1 @@
+d3.json('./data/words.json'); //simp 
