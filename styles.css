@@ -1,3 +1,11 @@
 * {
   font-family: 'Roboto', sans-serif;
 }
+
+.wrapper {
+  display: grid;
+  grid-template-columns: 1fr 500px;
+  /*1fr will scale based on the left over pixels and how many frames listed*/
+  /* this settup means 1fr = total width - 300px*/
+  /*https://developer.mozilla.org/en-US/docs/Web/CSS/grid-template-columns */
+}
