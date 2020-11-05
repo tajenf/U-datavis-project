@@ -3,8 +3,13 @@
 }
 
 .wrapper {
+  width: 1600;
+}
+
+.data-wrapper {
+  width: 1600;
   display: grid;
-  grid-template-columns: 1fr 500px;
+  grid-template-columns: 300px 1fr; /*left side is details right is graphs*/
   /*1fr will scale based on the left over pixels and how many frames listed*/
   /* this settup means 1fr = total width - 300px*/
   /*https://developer.mozilla.org/en-US/docs/Web/CSS/grid-template-columns */
