@@ -14,3 +14,37 @@
   /* this settup means 1fr = total width - 300px*/
   /*https://developer.mozilla.org/en-US/docs/Web/CSS/grid-template-columns */
 }
+
+#map {
+  height: 800px;
+}
+
+#map svg {
+  width: 100%;
+  height: 100%;
+  margin: auto;
+}
+
+#map svg {
+  margin: auto;
+}
+
+.boundary {
+  fill: #d9d9d9;
+  stroke: #fff;
+  stroke-width: .8px;
+}
+
+.graticule {
+  fill: none;
+  stroke: #777;
+  stroke-width: .5px;
+  stroke-opacity: .2;
+  pointer-events: none;
+}
+
+.stroke {
+  fill: none;
+  stroke: #000;
+  stroke-width: 2px;
+}
