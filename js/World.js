@@ -20,9 +20,10 @@ class CountryData {
 
 class World {
 
-    constructor(data)
+    constructor(data, updateCountry)
     {
         this.data = data;
+        this.updateCountry = updateCountry;
         this.projection = d3.geoWinkel3().scale(140).translate([365, 225]);
     }
     
@@ -82,11 +83,6 @@ class World {
             .attr('d', path);
     }
 
-    updateCountry()
-    {
-        console.log("confirming this works");
-    }
-
     drawLegend()
     {
 
@@ -94,7 +90,7 @@ class World {
 
     drawData()
     {
-
+        
     }
 
     toggleHighlight()
