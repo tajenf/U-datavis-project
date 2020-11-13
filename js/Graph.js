@@ -1,4 +1,4 @@
-class Table {
+class Graph {
 
     constructor(data)
     {
