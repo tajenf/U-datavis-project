@@ -12,11 +12,9 @@ Promise.all([data]).then(data =>
         }
 
         let world = new World(data[0], updateCountry);
-        let graph = new graph(data[0]);
+        let graph = new Graph(data[0]);
         let info = new InfoPanel(data[0]);
 
         d3.json('./data/world.json').then(map => { world.drawWorld(map)});
-
-        
 
     });
