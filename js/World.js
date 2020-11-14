@@ -7,13 +7,11 @@ class CountryData {
      * @param geometry contains array of coordinates to draw the country paths
      * @param region the country region
      */
-    constructor(type, id, properties, geometry, region) {
-
-        this.type = type;
-        this.id = id;
+    constructor(type, name, properties, geometry) {
+        this.type = type
+        this.name = name;
         this.properties = properties;
         this.geometry = geometry;
-        this.region = region;
     }
 }
 
@@ -37,12 +35,12 @@ class World {
         for(i in world.features)
         {
             let found = false;
-            for (j in this.nameArray)
+            for (j in this.data)
             {
 
-                if (this.nameArray[j] == world.features[i].id)
+                if (this.data[j]["country"] == world.features[i].properties.ADMIN)
                 {
-                    countries.push(new CountryData(world.features[i].type, world.features[i].id, this.populationData[j], world.features[i].geometry, this.populationData[j].region));
+                    countries.push(new CountryData(world.features[i].type, world.features[i].properties.ADMIN, this.data[j], world.features[i].geometry));
                     found = true;
                     break;
                 }
@@ -50,9 +48,11 @@ class World {
 
             if (!found)
             {
-                countries.push(new CountryData(world.features[i].type, world.features[i].id, undefined, world.features[i].geometry, undefined));
+                countries.push(new CountryData(world.features[i].type, world.features[i].properties.ADMIN, undefined, world.features[i].geometry));
             }
         }
+
+        console.log(countries);
 
         let svg = d3.select("#map").append("svg");
         let that = this;
@@ -66,7 +66,7 @@ class World {
             .join('path')
             .attr('d', path)
             .attr('class', 'boundary')
-            .attr('id', d => d.id)
+            .attr('id', d => d.name)
             .on('click', function ()
             {
                 that.updateCountry(this.id);

@@ -30,7 +30,7 @@ Promise.all([data]).then(data =>
             console.log(countryId);
         }
 
-        let world = new World(data[0], updateCountry);
+        let world = new World(oData, updateCountry);
         let graph = new Graph(data[0]);
         let info = new InfoPanel(data[0]);
 
