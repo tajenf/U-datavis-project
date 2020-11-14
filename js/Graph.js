@@ -23,6 +23,8 @@ class Graph {
         //filter over 
         d3.select('#graph').append("svg").attr("id", "graph_svg").attr("height", 500).attr("width", 600);
 
+        d3.select('#graph_svg').append("g").attr("transform", "translate(50,20)").append("path").attr("id", "graph_path"); 
+
         this.drawLegend();
         this.drawGraph(data);
     }
@@ -43,17 +45,25 @@ class Graph {
 
     drawGraph(data) {
 
-        let svg = d3.select("#graph_svg");
+      //  let svg = d3.select("#graph_svg");
 
         let LineGenerator = d3
             .line()
-            .x((d, i) => scaleX(i))
-            .y(d => scaleY(d.suicides_no));
+            // .attr("x", function(d){
+            //     return this.scaleX(d.year); 
+            // })
+            // .attr("y", function(d) {
+            //     return this.scaleY(d.suicides_no); 
+            // }); 
+            // .x((d, i) => this.scaleX(i))
+            // .y(d => this.scaleY(d.suicides_no));
+            .x((d) => this.scaleX(d.year))
+            .y(d => this.scaleY(d.suicides_no));
 
-        d3.select("#aLineChart")
+        d3.select("#graph_path")
             .data(data)
-            .transition().duration(2000)
-            .attr("d", aLineGenerator(data));
+            //.transition().duration(2000)
+            .attr("d", LineGenerator(data));
     }
 
     //? 
