@@ -24,12 +24,13 @@ class World {
     {
         this.data = data;
         this.updateCountry = updateCountry;
-        this.projection = d3.geoWinkel3().scale(140).translate([365, 225]);
+        this.projection = d3.geoMercator().translate([500, 500]).scale([150]);
     }
     
     drawWorld(world)
     {
-        world = topojson.feature(world, world.objects.countries);
+        console.log(world);
+        //world = topojson.feature(world, world.objects.countries);
 
         let countries = [];
         let i,j;
@@ -70,17 +71,6 @@ class World {
             {
                 that.updateCountry(this.id);
             });
-
-        let graticule = d3.geoGraticule();
-        d3.select("#mapDrawing").append('path')
-            .datum(graticule)
-            .attr('class', "graticule")
-            .attr('d', path);
-
-        d3.select("#mapDrawing").append('path')
-            .datum(graticule.outline)
-            .attr('class', "stroke")
-            .attr('d', path);
     }
 
     drawLegend()
