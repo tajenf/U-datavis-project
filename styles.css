@@ -2,6 +2,17 @@
   font-family: 'Roboto', sans-serif;
 }
 
+.header {
+  width: 600px;
+  margin: auto;
+  text-align: center;
+}
+
+.info {
+  font-size: 12px;
+  margin: 2px;
+}
+
 .wrapper {
   width: 1600;
 }
