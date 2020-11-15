@@ -24,15 +24,9 @@ Promise.all([data]).then(data =>
         console.log(oData);
         console.log(data);
 
-        function updateCountry(countryId)
-        {
-            console.log("confirming this works");
-            console.log(countryId);
-        }
-
-        let world = new World(oData, updateCountry);
         let graph = new Graph(data[0]);
         let info = new InfoPanel(data[0]);
+        let world = new World(oData, (country) => info.updateInfo(country));
 
         d3.json('./data/countries.geojson').then(map => { world.drawWorld(map)});
 

@@ -7,9 +7,9 @@
 }
 
 .data-wrapper {
-  width: 1600;
+  width: 2000;
   display: grid;
-  grid-template-columns: 300px 1fr; /*left side is details right is graphs*/
+  grid-template-columns: 500px 1fr; /*left side is details right is graphs*/
   /*1fr will scale based on the left over pixels and how many frames listed*/
   /* this settup means 1fr = total width - 300px*/
   /*https://developer.mozilla.org/en-US/docs/Web/CSS/grid-template-columns */
@@ -27,6 +27,18 @@
 
 #map svg {
   margin: auto;
+}
+
+div.cat {
+  display: block;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+div.data {
+  display: inline;
+  font-size: 16px;
+  font-weight: normal;
 }
 
 .boundary {
