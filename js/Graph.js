@@ -10,7 +10,7 @@ class Graph {
 
         //sucide 
         this.scaleY = d3.scaleLinear()
-            .domain([max, 0]) //max = 22338
+            .domain([50, 0]) //max = 22338
             .range([0, 400]); //will need to change later 
 
         //time 
@@ -23,10 +23,21 @@ class Graph {
         //filter over 
         d3.select('#graph').append("svg").attr("id", "graph_svg").attr("height", 500).attr("width", 600);
 
-        d3.select('#graph_svg').append("g").attr("transform", "translate(50,20)").append("path").attr("id", "graph_path"); 
+        d3.select('#graph_svg').append("g").attr("transform", "translate(50,20)").append("path")
+        .attr("id", "graph_path").attr("fill", "none").attr("stroke", "black");
 
         this.drawLegend();
-        this.drawGraph(data);
+
+
+
+        //grab the data from some text feild and enter it into the filtered data 
+
+        let filter_data = data.filter(d => ((d.country == "Albania") && (d.sex == "male") && (d.age == "15-24 years")));
+
+        console.log(filter_data);
+
+        //give it the right data to show off? 
+        this.drawLines(filter_data);
     }
 
     //need? if were changing the y axis a lot? 
@@ -44,20 +55,9 @@ class Graph {
     }
 
     drawGraph(data) {
-
-      //  let svg = d3.select("#graph_svg");
-
         let LineGenerator = d3
             .line()
-            // .attr("x", function(d){
-            //     return this.scaleX(d.year); 
-            // })
-            // .attr("y", function(d) {
-            //     return this.scaleY(d.suicides_no); 
-            // }); 
-            // .x((d, i) => this.scaleX(i))
-            // .y(d => this.scaleY(d.suicides_no));
-            .x((d) => this.scaleX(d.year))
+            .x(d => this.scaleX(d.year))
             .y(d => this.scaleY(d.suicides_no));
 
         d3.select("#graph_path")
@@ -67,10 +67,16 @@ class Graph {
     }
 
     //? 
-    drawLines() {
+    drawLines(data) {
+        let LineGenerator = d3
+            .line()
+            .x(d => this.scaleX(d.year)) 
+            .y(d => this.scaleY(d.suicides_no));
 
-
-
+        d3.select("#graph_path")
+            .data(data)
+            //.transition().duration(2000)
+            .attr("d", LineGenerator(data));
     }
 
     //don't know if we need this or not, just blocking out some code
