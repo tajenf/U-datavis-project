@@ -23,8 +23,17 @@ class Graph {
         //filter over 
         d3.select('#graph').append("svg").attr("id", "graph_svg").attr("height", 500).attr("width", 600);
 
-        d3.select('#graph_svg').append("g").attr("transform", "translate(50,20)").append("path")
-        .attr("id", "graph_path").attr("fill", "none").attr("stroke", "black");
+        let graph_svg = d3.select('#graph_svg');
+
+        graph_svg.append("g").attr("transform", "translate(50,20)").append("path")
+            .attr("id", "graph_path").attr("fill", "none").attr("stroke", "black");
+
+
+        graph_svg.append("text").attr("class", "axis-label-y").attr("transform", "translate(15, 200), rotate(-90)").style("text-anchor", "middle").text("Suicide Count"); 
+
+        graph_svg.append("text").attr("class", "axis-label-x").attr("transform", "translate(300, 470)").style("text-anchor", "middle").text("Years"); 
+
+        graph_svg.append("text").attr("class", "axis-label-x").attr("transform", "translate(300, 490)").style("text-anchor", "middle").text("Country: Albania,  Gender: Male,  Age:15-24 years"); 
 
         this.drawLegend();
 
@@ -68,15 +77,20 @@ class Graph {
 
     //? 
     drawLines(data) {
+
+        let svg = d3.select("#graph_svg");
+
         let LineGenerator = d3
             .line()
-            .x(d => this.scaleX(d.year)) 
+            .x(d => this.scaleX(d.year))
             .y(d => this.scaleY(d.suicides_no));
 
         d3.select("#graph_path")
             .data(data)
             //.transition().duration(2000)
             .attr("d", LineGenerator(data));
+
+        svg.selectAll()
     }
 
     //don't know if we need this or not, just blocking out some code
