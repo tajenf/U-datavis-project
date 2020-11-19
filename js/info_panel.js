@@ -9,7 +9,7 @@ class InfoPanel {
         this.countryKeys = cKeys;
         this.ageGroups = ageGroups;
 
-        console.log(this.ageGroups);
+        //console.log(this.ageGroups);
 
         this.detailPanel = d3.select("#detail");
 
@@ -169,7 +169,7 @@ class InfoPanel {
         let female = panel.select("#female");
         this.ageGroups.forEach( age =>
             {
-                console.log(age);
+                //console.log(age);
                 male.select(`#${age}`).text(this.suicideData[this.country]["male"][age][this.year]["suicides"]);
                 female.select(`#${age}`).text(this.suicideData[this.country]["female"][age][this.year]["suicides"]);
             });  
