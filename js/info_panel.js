@@ -2,22 +2,16 @@ class InfoPanel {
 
     constructor(sdata, ydata)
     {
-        //console.log("data for info");
-        //console.log(data);
-
         this.yeardata = ydata;
         this.suicides = sdata;
-
-        console.log(this.suicides);
-        console.log(this.yeardata);
 
         this.detailPanel = d3.select("#detail");
 
         this.initialPopulate();
 
+        this.country = "";
         this.year = "1987";
-        this.sex = "both";
-        this.age = "all";
+        this.yearspan = 0;
     }
 
     initialPopulate()
@@ -36,25 +30,35 @@ class InfoPanel {
                 .append("div").text("curPop").attr('id', "pop").classed("data", true);
     }
 
-    updateInfo(countryID)
+    UpdateCountry(countryID)
     {
+        this.country = countryID;
+
+        this.UpdatePanel();
+    }
+
+    UpdateYear(year, span)
+    {
+        this.year = year;
+        this.span = span;
+
+        this.UpdatePanel();
+    }
+
+    UpdatePanel(){
         let detailPanel = d3.select("#detail");
 
+        detailPanel.select("#country").text(this.country);
 
-        detailPanel.select("#country").text(countryID);
-
-        if (this.yeardata[countryID]) {
-            detailPanel.select("#pop").text(this.yeardata[countryID][this.year]["population"]);
+        if (this.yeardata[this.country]) {
+            detailPanel.select("#pop").text(this.yeardata[this.country][this.year]["population"]);
             
-            let suicides = this.findSuicides(countryID);
+            let suicides = this.findSuicides(this.country);
             detailPanel.select("#suicide").text(suicides);
         } else {
             detailPanel.select("#pop").text("N/A");
             detailPanel.select("#suicide").text("N/A");
         }
-        
-
-        //console.log(this.data[countryID]);
     }
 
     findSuicides(countryID)

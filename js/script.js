@@ -52,13 +52,29 @@ Promise.all([data]).then(data =>
             suicideData[element.country][element.year][element.sex][element.age] = [suicides, popsuicides];
         });
 
-        //the difference between the two data sets
-        console.log(oData);
-        console.log(data);
+        function UpdateCountry(country) {
+            info.UpdateCountry(country);
+        }
 
+        //year is starting year, span is number of following years
+        //span = 0 means we are only looking at the year in question
+        function UpdateYear(year, span) {
+            info.UpdateYear(year, span);
+        }
+
+        function UpdateAge(ageGroup) {
+        }
+
+        function UpdateSex(sex) {
+        }
+
+        //the difference between the two data sets
+        //console.log(oData);
+        //console.log(data);
+
+        let world = new World(oData, UpdateCountry);
         let graph = new Graph(data[0]);
         let info = new InfoPanel(suicideData, yearData);
-        let world = new World(oData, (country) => info.updateInfo(country));
 
         d3.json('./data/countries.geojson').then(map => { world.drawWorld(map)});
 
