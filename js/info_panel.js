@@ -1,45 +1,15 @@
 class InfoPanel {
 
-    constructor(data)
+    constructor(sdata, ydata)
     {
         //console.log("data for info");
         //console.log(data);
 
-        this.data = {};
-        this.suicides = {}
-        
-        data.forEach(element => {
-            
-            if (!this.data[element.country]) {
-                this.data[element.country] = {};
-            }
+        this.yeardata = ydata;
+        this.suicides = sdata;
 
-            let population = element.population;
-            let gdp = element["gdp_per_capita ($)"];
-
-            this.data[element.country][element.year] = {population, gdp};
-
-            if (!this.suicides[element.country]) {
-                this.suicides[element.country] = {};
-            }
-
-            if (!this.suicides[element.country][element.year]) {
-                this.suicides[element.country][element.year] = {};
-            }
-
-            if (!this.suicides[element.country][element.year][element.sex]) {
-                this.suicides[element.country][element.year][element.sex] = {};
-            }
-
-            let suicides = parseInt(element.suicides_no);
-            let popsuicides = parseFloat(element["suicides/100k pop"]);
-
-            this.suicides[element.country][element.year][element.sex][element.age] = [suicides, popsuicides];
-            
-            
-        });
-
-        //console.log(this.suicides);
+        console.log(this.suicides);
+        console.log(this.yeardata);
 
         this.detailPanel = d3.select("#detail");
 
@@ -73,8 +43,8 @@ class InfoPanel {
 
         detailPanel.select("#country").text(countryID);
 
-        if (this.data[countryID]) {
-            detailPanel.select("#pop").text(this.data[countryID][this.year]["population"]);
+        if (this.yeardata[countryID]) {
+            detailPanel.select("#pop").text(this.yeardata[countryID][this.year]["population"]);
             
             let suicides = this.findSuicides(countryID);
             detailPanel.select("#suicide").text(suicides);

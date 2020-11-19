@@ -6,6 +6,9 @@ Promise.all([data]).then(data =>
         let oData = [];
         let countryName = "";
         let startIndex = -1;
+        let yearData = {};
+        let suicideData = {};
+
         for (let i = 0; i < data[0].length; i++)
         {
             if (countryName == "")
@@ -20,12 +23,41 @@ Promise.all([data]).then(data =>
             }
         }
 
+        data[0].forEach(element => {
+            
+            if (!yearData[element.country]) {
+                yearData[element.country] = {};
+            }
+
+            let population = element.population;
+            let gdp = element["gdp_per_capita ($)"];
+
+            yearData[element.country][element.year] = {population, gdp};
+
+            if (!suicideData[element.country]) {
+                suicideData[element.country] = {};
+            }
+
+            if (!suicideData[element.country][element.year]) {
+                suicideData[element.country][element.year] = {};
+            }
+
+            if (!suicideData[element.country][element.year][element.sex]) {
+                suicideData[element.country][element.year][element.sex] = {};
+            }
+
+            let suicides = parseInt(element.suicides_no);
+            let popsuicides = parseFloat(element["suicides/100k pop"]);
+
+            suicideData[element.country][element.year][element.sex][element.age] = [suicides, popsuicides];
+        });
+
         //the difference between the two data sets
         console.log(oData);
         console.log(data);
 
         let graph = new Graph(data[0]);
-        let info = new InfoPanel(data[0]);
+        let info = new InfoPanel(suicideData, yearData);
         let world = new World(oData, (country) => info.updateInfo(country));
 
         d3.json('./data/countries.geojson').then(map => { world.drawWorld(map)});
