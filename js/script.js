@@ -17,7 +17,7 @@ Promise.all([data]).then(data =>
         //data specific to a country that won't change over time
         let countryData = {};
         //all possible subkeys for country data
-        let countryKeys = {};
+        let countryKeys = new Set();
         //all possible subkeys for yearly data
         let yearKeys = new Set();
 
