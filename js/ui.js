@@ -1,69 +1,66 @@
 class UI {
 
-    constructor(data){
+    constructor(data) {
 
-        d3.select("#ui").append("svg"); 
+        // console.log(data); 
+        // console.log(data.length);
+
+
+        // this.textbox();
+        this.drawPlot();
     }
 
-//     <form>
-//   <label for="fname">First name:</label><br>
-//   <input type="text" id="fname" name="fname"><br>
-//   <label for="lname">Last name:</label><br>
-//   <input type="text" id="lname" name="lname">
-// </form>
+    drawPlot() {
+        let ui_svg = d3.select("#ui").append("svg").attr("id", "ui_svg").attr("height", "250px").attr("width", "1100px");
+
+       // ui_svg.append('div').attr('id', 'activeYear-bar');
+
+        this.textTitles();
+        this.year_slider(); 
+    }
+
+    textTitles() {
+        let ui_svg = d3.select("#ui_svg");
+
+        let end = ui_svg.attr("width");
+
+        //Country Text
+        ui_svg.append("text").text("Country").attr("transform", "translate(10, 30)").attr("id", "country").attr("class", "title");
+
+        //Country 2 Text
+        ui_svg.append("text").text("Country").attr("transform", "translate(300, 30)").attr("id", "country").attr("class", "title");
+
+        //Gender Text
+        ui_svg.append("text").text("Gender").attr("transform", "translate(10, 90)");
+
+        //Age Group
+        ui_svg.append("text").text("Age Group").attr("transform", "translate(300, 90)");
+
+        //Religion 
+        ui_svg.append("text").text("Religion").attr("transform", "translate(600, 90)");
+
+        //Lifestyle 
+        ui_svg.append("text").text("Lifestyle").attr("transform", "translate(10, 150)");
+
+        //Government Structure 
+        ui_svg.append("text").text("Government Structure").attr("transform", "translate(300, 150)");
+
+        //Country comparison 
+        ui_svg.append("text").text("Country Comparison").attr("transform", "translate(800, 30)");
+    }
+
+    dropdown(data) {
 
 
+    }
+
+    year_slider() {
+        // let that = this;
+        // let yearScale = d3.scaleLinear().domain([1985, 2016]).range([30, 730]);
+        let ui_svg = d3.select("#ui_svg"); 
 
 
-    // /**
-    //  * Draws the year bar and hooks up the events of a year change
-    //  */
-    // drawYearBar() {
-
-    //     // ******* TODO: PART 2 *******
-    //     //The drop-down boxes are set up for you, but you have to set the slider to updatePlot() on activeYear change
-
-    //     // Create the x scale for the activeYear;
-    //     // hint: the domain should be max and min of the years (1800 - 2020); it's OK to set it as numbers
-    //     // the plot needs to update on move of the slider
-
-    //     /* ******* TODO: PART 3 *******
-    //     You will need to call the updateYear() function passed from script.js in your activeYear slider
-    //     */
-    //     let that = this;
-
-    //     //Slider to change the activeYear of the data
-    //     let yearScale = d3.scaleLinear().domain([1800, 2020]).range([30, 730]);
-
-    //     let yearSlider = d3.select('#activeYear-bar')
-    //         .append('div').classed('slider-wrap', true)
-    //         .append('input').classed('slider', true)
-    //         .attr('type', 'range')
-    //         .attr('min', 1800)
-    //         .attr('max', 2020)
-    //         .attr('value', this.activeYear);
-
-    //     let sliderLabel = d3.select('.slider-wrap')
-    //         .append('div').classed('slider-label', true)
-    //         .append('svg');
-
-    //     let sliderText = sliderLabel.append('text').text(this.activeYear);
-
-    //     sliderText.attr('x', yearScale(this.activeYear));
-    //     sliderText.attr('y', 25);
-
-    //     yearSlider.on('input', function () {
-    //         sliderText.text(this.value);
-    //         sliderText.attr("x", yearScale(this.value));
-    //         //TODO - your code goes here -
-    //         let c_content = d3.select('.dropdown-wrapper').select('#dropdown_c').select('.dropdown-content').select('select').node().value;
-    //         let x_content = d3.select('.dropdown-wrapper').select('#dropdown_x').select('.dropdown-content').select('select').node().value;
-    //         let y_content = d3.select('.dropdown-wrapper').select('#dropdown_y').select('.dropdown-content').select('select').node().value;
-    //         that.updatePlot(this.value, x_content, y_content, c_content);
-    //         that.updateYear(this.value);
-    //         that.updateCountry(that.activeCountry);
-    //     });
-    // }
+    }
 
 
 }

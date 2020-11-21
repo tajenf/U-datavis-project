@@ -134,7 +134,7 @@ Promise.all([data]).then(data =>
 
         let world = new World(oData, UpdateCountry);
         let graph = new Graph(data[0]);
-        let ui = new UI(data[0]); 
+        let ui = new UI(oData); 
         let info = new InfoPanel(suicideData, yearData, yearKeys, countryData, countryKeys, ageGroups);
 
         d3.json('./data/countries.geojson').then(map => { world.drawWorld(map)});
