@@ -13,10 +13,10 @@ class UI {
     drawPlot() {
         let ui_svg = d3.select("#ui").append("svg").attr("id", "ui_svg").attr("height", "250px").attr("width", "1100px");
 
-       // ui_svg.append('div').attr('id', 'activeYear-bar');
+        // ui_svg.append('div').attr('id', 'activeYear-bar');
 
         this.textTitles();
-        this.year_slider(); 
+        this.year_slider();
     }
 
     textTitles() {
@@ -57,9 +57,41 @@ class UI {
     year_slider() {
         // let that = this;
         // let yearScale = d3.scaleLinear().domain([1985, 2016]).range([30, 730]);
-        let ui_svg = d3.select("#ui_svg"); 
+        let ui_svg = d3.select("#ui_svg");
 
 
+        let range1 = d3.select("#range1");
+
+        // range1.attr("oninput", function(){
+        //     console.log(this.max);
+        //     console.log(this.value);
+        //     console.log(this.parentNode);
+        //     console.log(this.parentNode.childNodes); 
+        //     console.log(this.parentNode.childNodes[4]); 
+        //     let children = this.parentNode.childNodes[1].childNodes; 
+        //     console.log(children); 
+        //     console.log(children[11]);
+        //     return ("this.value=Math.min(this.value,this.parentNode.childNodes[5].value-1);"+
+        //     "var value=(100/(parseInt(this.max)-parseInt(this.min)))*parseInt(this.value)-(100/(parseInt(this.max)-parseInt(this.min)))*parseInt(this.min);"+
+        //     "var children = this.parentNode.childNodes[1].childNodes;"+
+        //     "children[1].style.width=value+'%';"+
+        //     "children[5].style.left=value+'%';"+
+        //     "children[7].style.left=value+'%';"+
+        //     "children[11].style.left=value+'%';"+
+        //     "children[11].childNodes[1].innerHTML=this.value;")
+        // });
+
+
+
+
+        // this.value=Math.min(this.value,this.parentNode.childNodes[5].value-1);
+        // var value=(100/(parseInt(this.max)-parseInt(this.min)))*parseInt(this.value)-(100/(parseInt(this.max)-parseInt(this.min)))*parseInt(this.min);
+        // var children = this.parentNode.childNodes[1].childNodes;
+        // children[1].style.width=value+'%';
+        // children[5].style.left=value+'%';
+        // children[7].style.left=value+'%';
+        // children[11].style.left=value+'%';
+        // children[11].childNodes[1].innerHTML=this.value;"
     }
 
 
