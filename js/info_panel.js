@@ -177,8 +177,8 @@ class InfoPanel {
         let female = panel.select("#female");
         this.ageGroups.forEach( age =>
             {
-                console.log(male.select(`#${age.replace("+","")}`));
-                console.log(`#${age.replace("+","")}`);
+                //console.log(male.select(`#${age.replace("+","")}`));
+                //console.log(`#${age.replace("+","")}`);
                 if (this.suicideData[this.country]) {  //May need to expand to check there is data for this year
                     if (this.yearSpan == 0) {
                         male.select(`#${age.replace("+","")}`).text(this.suicideData[this.country]["male"][age][this.year]["suicides"]);
