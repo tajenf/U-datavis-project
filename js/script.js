@@ -45,7 +45,7 @@ Promise.all([data]).then(data =>
             }
 
             let population = element.population;
-            let gdp = element["gdp_per_capita ($)"];
+            let gdp = parseInt(element["gdp_per_capita ($)"]);
 
             yearData[element.country][element.year] = {gdp};
 

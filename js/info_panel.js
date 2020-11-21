@@ -100,7 +100,7 @@ class InfoPanel {
             .append("div").text("curSuicides").attr('id', "a55-74_years").classed("data", true);
 
         females.append("div").text("-Ages 75+ : ").classed("cat", true)
-            .append("div").text("curSuicides").attr('id', "a75_years").classed("data", true);
+            .append("div").text("curSuicides").attr('id', "a75+_years").classed("data", true);
 
         
     }
@@ -159,7 +159,12 @@ class InfoPanel {
         if (this.yearData[this.country] && this.yearData[this.country][this.year])
         {
             this.yearKeys.forEach(key => {
-                d3.select(`#${key}`).text(this.yearData[this.country][this.year][key]);
+                if (Number.isInteger(this.yearData[this.country][this.year][key])) {
+                    d3.select(`#${key}`).text(new Intl.NumberFormat().format(this.yearData[this.country][this.year][key]));
+                } else {
+                    d3.select(`#${key}`).text(this.yearData[this.country][this.year][key]);
+                }
+                
             });
         } else 
         {
@@ -168,10 +173,10 @@ class InfoPanel {
             });
         }
 
-        this.UpdateSuicides(panel);
+        this.UpdateAgeSuicides(panel);
     }
 
-    UpdateSuicides(panel)
+    UpdateAgeSuicides(panel)
     {
         let male = panel.select("#male");
         let female = panel.select("#female");
@@ -181,8 +186,8 @@ class InfoPanel {
                 //console.log(`#${age.replace("+","")}`);
                 if (this.suicideData[this.country]) {  //May need to expand to check there is data for this year
                     if (this.yearSpan == 0) {
-                        male.select(`#${age.replace("+","")}`).text(this.suicideData[this.country]["male"][age][this.year]["suicides"]);
-                        female.select(`#${age}`).text(this.suicideData[this.country]["female"][age][this.year]["suicides"]);
+                        male.select(`#${age}`).text(new Intl.NumberFormat().format(this.suicideData[this.country]["male"][age][this.year]["suicides"]));
+                        female.select(`#${age}`).text(new Intl.NumberFormat().format(this.suicideData[this.country]["female"][age][this.year]["suicides"]));
                     } else {
                         let maleSui = 0;
                         let femaleSui = 0;
@@ -192,8 +197,8 @@ class InfoPanel {
                             femaleSui += this.suicideData[this.country]["female"][age][year]["suicides"];
                         }
 
-                        male.select(`#${age}`).text(maleSui);
-                        female.select(`#${age}`).text(femaleSui);
+                        male.select(`#${age}`).text(new Intl.NumberFormat().format(maleSui));
+                        female.select(`#${age}`).text(new Intl.NumberFormat().format(femaleSui));
 
                         //TODO add average deaths a year?
                     }
