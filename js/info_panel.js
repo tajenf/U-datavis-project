@@ -33,8 +33,9 @@ class InfoPanel {
 
         //forloop of country specific information
 
-        detailPanel.append("div").text("year: ").attr('id', "yearlabel").classed("cat", true)
-            .append("div").text("curCountry").attr('id', "year").classed("data", true);
+        let year = detailPanel.append('g');
+        year.append("div").text("year: ").attr('id', "yearlabel").classed("cat", true).style('display', 'inline');
+        year.append("div").text("curYear").attr('id', "year").classed("data", true);
 
         detailPanel.append("div").text("Total Suicides: ").classed("cat", true)
             .append("div").text("curSuicides").attr('id', "totalSui").classed("data", true);
@@ -99,7 +100,7 @@ class InfoPanel {
             .append("div").text("curSuicides").attr('id', "a55-74_years").classed("data", true);
 
         females.append("div").text("-Ages 75+ : ").classed("cat", true)
-            .append("div").text("curSuicides").attr('id', "a75+_years").classed("data", true);
+            .append("div").text("curSuicides").attr('id', "a75_years").classed("data", true);
 
         
     }
@@ -120,22 +121,27 @@ class InfoPanel {
         let detailPanel = d3.select("#detail");
 
         this.UpdateYearInfo(detailPanel);
-        this.UpdateSuicides(detailPanel);
     }
 
+    //updates country speific data then yearly data
     UpdateAllInfo()
     {
         let detailPanel = d3.select("#detail");
 
         detailPanel.select("#country").text(this.country);
 
-        this.UpdateSuicides(detailPanel);
-        
-        this.UpdateYearInfo(detailPanel);
+        this.countryKeys.forEach(key => {
+            //this.countryData[key];
+        });
+
+        this.UpdateYearInfo();
     }
 
-    UpdateYearInfo(panel)
+    //updates information altered by years specifically
+    UpdateYearInfo()
     {
+        let panel = d3.select("#detail")
+
         let yearlabel = panel.select("#yearlabel")
         let year = panel.select("#year");
         if (this.yearSpan == 0) {
@@ -152,15 +158,17 @@ class InfoPanel {
 
         if (this.yearData[this.country] && this.yearData[this.country][this.year])
         {
-            Object.keys(this.yearData[this.country][this.year]).forEach(key => {
+            this.yearKeys.forEach(key => {
                 d3.select(`#${key}`).text(this.yearData[this.country][this.year][key]);
             });
         } else 
         {
-            Object.keys(this.yearData[this.country][this.year]).forEach(key => {
+            this.yearKeys.forEach(key => {
                 d3.select(`#${key}`).text("N/A");
             });
         }
+
+        this.UpdateSuicides(panel);
     }
 
     UpdateSuicides(panel)
@@ -169,9 +177,30 @@ class InfoPanel {
         let female = panel.select("#female");
         this.ageGroups.forEach( age =>
             {
-                //console.log(age);
-                male.select(`#${age}`).text(this.suicideData[this.country]["male"][age][this.year]["suicides"]);
-                female.select(`#${age}`).text(this.suicideData[this.country]["female"][age][this.year]["suicides"]);
+                console.log(male.select(`#${age.replace("+","")}`));
+                console.log(`#${age.replace("+","")}`);
+                if (this.suicideData[this.country]) {  //May need to expand to check there is data for this year
+                    if (this.yearSpan == 0) {
+                        male.select(`#${age.replace("+","")}`).text(this.suicideData[this.country]["male"][age][this.year]["suicides"]);
+                        female.select(`#${age}`).text(this.suicideData[this.country]["female"][age][this.year]["suicides"]);
+                    } else {
+                        let maleSui = 0;
+                        let femaleSui = 0;
+
+                        for (let year = this.year; year <= this.year + this.yearSpan ; year++) {
+                            maleSui += this.suicideData[this.country]["male"][age][year]["suicides"];
+                            femaleSui += this.suicideData[this.country]["female"][age][year]["suicides"];
+                        }
+
+                        male.select(`#${age}`).text(maleSui);
+                        female.select(`#${age}`).text(femaleSui);
+
+                        //TODO add average deaths a year?
+                    }
+                } else {
+                    male.select(`#${age}`).text("N/A");
+                    female.select(`#${age}`).text("N/A");
+                }
             });  
     }
 }
