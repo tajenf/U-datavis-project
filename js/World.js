@@ -55,6 +55,7 @@ class World {
         console.log(countries);
 
         let svg = d3.select("#map").append("svg");
+        let container = d3.select('#map');
         let that = this;
         
         svg.append("g").attr("id", "mapDrawing");
@@ -71,6 +72,15 @@ class World {
             {
                 that.updateCountry(this.id);
             });
+
+        let zoom = d3.zoom()
+            .scaleExtent([1,2])
+            .translateExtent([[-500, -300], [1500, 1000]])
+            .on('zoom', () => {
+                svg.attr('transform', d3.event.transform)
+            });
+
+        container.call(zoom);
     }
 
     drawLegend()
