@@ -75,7 +75,19 @@ div.data {
   stroke-width: 2px;
 }
 
+/* Title Dropdowns */
 
+#gender_div {
+  position: absolute;
+  top: 270px;
+  left: 20px;
+}
+
+#age_div {
+  position: absolute;
+  top: 270px;
+  left: 200px;
+}
 
 /*slider*/ 
 
