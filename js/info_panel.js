@@ -28,78 +28,84 @@ class InfoPanel {
 
         detailPanel.classed("details");
 
-        detailPanel.append("div").text("Country: ").classed("cat", true)
+        let infoBlock1 = detailPanel.append('g');
+        let infoBlock2 = detailPanel.append('g');
+
+        let maleBlock = detailPanel.append('g').attr('id', "male");
+        let femaleBlock = detailPanel.append('g').attr('id', "female");
+
+        infoBlock1.append("div").text("Country: ").classed("cat", true)
             .append("div").text("curCountry").attr('id', "country").classed("data", true);
 
         //forloop of country specific information
 
-        let year = detailPanel.append('g');
+        let year = infoBlock1.append('g');
         year.append("div").text("year: ").attr('id', "yearlabel").classed("cat", true).style('display', 'inline');
         year.append("div").text("curYear").attr('id', "year").classed("data", true);
 
-        detailPanel.append("div").text("Total Suicides: ").classed("cat", true)
+        infoBlock1.append("div").text("Total Suicides: ").classed("cat", true)
             .append("div").text("curSuicides").attr('id', "totalSui").classed("data", true);
 
-        detailPanel.append("div").text("Population: ").classed("cat", true)
+        infoBlock1.append("div").text("Population: ").classed("cat", true)
             .append("div").text("curPop").attr('id', "totalPop").classed("data", true);
 
-        detailPanel.append("div").text("GDP: ").classed("cat", true)
+        infoBlock1.append("div").text("GDP: ").classed("cat", true)
             .append("div").text("curGDP").attr('id', "gdp").classed("data", true);
 
-        let males = detailPanel.append('g').attr('id', "male");
+        
 
-        males.append("div").text("Male Breakdown: ").classed("cat", true)
+        maleBlock.append("div").text("Male Breakdown: ").classed("cat", true)
 
-        males.append("div").text("Male Population: ").classed("cat", true)
+        maleBlock.append("div").text("Male Population: ").classed("cat", true)
             .append("div").text("curPop").attr('id', "malePop").classed("data", true);
             
-        males.append("div").text("Total Male Suicides: ").classed("cat", true)
+        maleBlock.append("div").text("Male Suicides: ").classed("cat", true)
             .append("div").text("curSuicides").attr('id', "maleSui").classed("data", true);
             
-        males.append("div").text("-Ages 5-14 : ").classed("cat", true)
+        maleBlock.append("div").text("-Ages 5-14 : ").classed("cat", true)
             .append("div").text("curSuicides").attr('id', "a5-14_years").classed("data", true);
 
-        males.append("div").text("-Ages 15-24: ").classed("cat", true)
+        maleBlock.append("div").text("-Ages 15-24: ").classed("cat", true)
             .append("div").text("curSuicides").attr('id', "a15-24_years").classed("data", true);
 
-        males.append("div").text("-Ages 25-34: ").classed("cat", true)
+        maleBlock.append("div").text("-Ages 25-34: ").classed("cat", true)
             .append("div").text("curSuicides").attr('id', "a25-34_years").classed("data", true);
 
-        males.append("div").text("-Ages 35-54: ").classed("cat", true)
+        maleBlock.append("div").text("-Ages 35-54: ").classed("cat", true)
             .append("div").text("curSuicides").attr('id', "a35-54_years").classed("data", true);
 
-        males.append("div").text("-Ages 55-74: ").classed("cat", true)
+        maleBlock.append("div").text("-Ages 55-74: ").classed("cat", true)
             .append("div").text("curSuicides").attr('id', "a55-74_years").classed("data", true);
 
-        males.append("div").text("-Ages 75+ : ").classed("cat", true)
+        maleBlock.append("div").text("-Ages 75+ : ").classed("cat", true)
             .append("div").text("curSuicides").attr('id', "a75_years").classed("data", true);
 
-        let females = detailPanel.append('g').attr('id', "female");
+        
 
-        females.append("div").text("Female Breakdown: ").classed("cat", true)
+        femaleBlock.append("div").text("Female Breakdown: ").classed("cat", true)
 
-        females.append("div").text("Female Population: ").classed("cat", true)
+        femaleBlock.append("div").text("Female Population: ").classed("cat", true)
             .append("div").text("curPop").attr('id', "femalePop").classed("data", true);
             
-        females.append("div").text("Total Female Suicides: ").classed("cat", true)
+        femaleBlock.append("div").text("Female Suicides: ").classed("cat", true)
             .append("div").text("curSuicides").attr('id', "femaleSui").classed("data", true);
 
-        females.append("div").text("-Ages 5-14 : ").classed("cat", true)
+        femaleBlock.append("div").text("-Ages 5-14 : ").classed("cat", true)
             .append("div").text("curSuicides").attr('id', "a5-14_years").classed("data", true);
 
-        females.append("div").text("-Ages 15-24: ").classed("cat", true)
+        femaleBlock.append("div").text("-Ages 15-24: ").classed("cat", true)
             .append("div").text("curSuicides").attr('id', "a15-24_years").classed("data", true);
 
-        females.append("div").text("-Ages 25-34: ").classed("cat", true)
+        femaleBlock.append("div").text("-Ages 25-34: ").classed("cat", true)
             .append("div").text("curSuicides").attr('id', "a25-34_years").classed("data", true);
 
-        females.append("div").text("-Ages 35-54: ").classed("cat", true)
+        femaleBlock.append("div").text("-Ages 35-54: ").classed("cat", true)
             .append("div").text("curSuicides").attr('id', "a35-54_years").classed("data", true);
 
-        females.append("div").text("-Ages 55-74: ").classed("cat", true)
+        femaleBlock.append("div").text("-Ages 55-74: ").classed("cat", true)
             .append("div").text("curSuicides").attr('id', "a55-74_years").classed("data", true);
 
-        females.append("div").text("-Ages 75+ : ").classed("cat", true)
+        femaleBlock.append("div").text("-Ages 75+ : ").classed("cat", true)
             .append("div").text("curSuicides").attr('id', "a75_years").classed("data", true);
 
         
