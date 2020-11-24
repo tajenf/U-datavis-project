@@ -18,7 +18,7 @@ class InfoPanel {
 
 
         this.country = "";
-        this.year = "1987";
+        this.year = "1985";
         this.yearSpan = 0;
     }
 
@@ -72,7 +72,7 @@ class InfoPanel {
             .append("div").text("curSuicides").attr('id', "a55-74_years").classed("data", true);
 
         males.append("div").text("-Ages 75+ : ").classed("cat", true)
-            .append("div").text("curSuicides").attr('id', "a75+_years").classed("data", true);
+            .append("div").text("curSuicides").attr('id', "a75_years").classed("data", true);
 
         let females = detailPanel.append('g').attr('id', "female");
 
@@ -100,7 +100,7 @@ class InfoPanel {
             .append("div").text("curSuicides").attr('id', "a55-74_years").classed("data", true);
 
         females.append("div").text("-Ages 75+ : ").classed("cat", true)
-            .append("div").text("curSuicides").attr('id', "a75+_years").classed("data", true);
+            .append("div").text("curSuicides").attr('id', "a75_years").classed("data", true);
 
         
     }
@@ -182,29 +182,50 @@ class InfoPanel {
         let female = panel.select("#female");
         this.ageGroups.forEach( age =>
             {
-                //console.log(male.select(`#${age.replace("+","")}`));
-                //console.log(`#${age.replace("+","")}`);
-                if (this.suicideData[this.country]) {  //May need to expand to check there is data for this year
+                let ageDivM = male.select(`#${age.replace('+', '')}`);
+                let ageDivF = female.select(`#${age.replace('+', '')}`);
+
+                if (!this.suicideData[this.country] || (this.yearSpan == 0 && !this.suicideData[this.country]["male"][age][this.year])) {  //May need to expand to check there is data for this year
+                    ageDivM.text("N/A");
+                    ageDivF.text("N/A");
+                    
+                } else {
                     if (this.yearSpan == 0) {
-                        male.select(`#${age}`).text(new Intl.NumberFormat().format(this.suicideData[this.country]["male"][age][this.year]["suicides"]));
-                        female.select(`#${age}`).text(new Intl.NumberFormat().format(this.suicideData[this.country]["female"][age][this.year]["suicides"]));
+                        ageDivM.text(new Intl.NumberFormat().format(
+                                this.suicideData[this.country]["male"][age][this.year]["suicides"]));
+                        ageDivF.text(new Intl.NumberFormat().format(
+                                this.suicideData[this.country]["female"][age][this.year]["suicides"]));
                     } else {
+                        let maleRecordFound = false;
+                        let femaleRecordFound = false;
                         let maleSui = 0;
                         let femaleSui = 0;
 
                         for (let year = this.year; year <= this.year + this.yearSpan ; year++) {
-                            maleSui += this.suicideData[this.country]["male"][age][year]["suicides"];
-                            femaleSui += this.suicideData[this.country]["female"][age][year]["suicides"];
+                            if (this.suicideData[this.country]["male"][age][this.year]) {
+                                maleSui += this.suicideData[this.country]["male"][age][year]["suicides"];
+                                maleRecordFound = true;
+                            }
+                            if (this.suicideData[this.country]["female"][age][year]) {
+                                femaleSui += this.suicideData[this.country]["female"][age][year]["suicides"];
+                                femaleRecordFound = true;
+                            }
                         }
 
-                        male.select(`#${age}`).text(new Intl.NumberFormat().format(maleSui));
-                        female.select(`#${age}`).text(new Intl.NumberFormat().format(femaleSui));
+                        if (maleRecordFound) {
+                            ageDivM.text(new Intl.NumberFormat().format(maleSui));
+                        } else {
+                            ageDivM.text("N/A");
+                        }
+                        
+                        if (femaleRecordFound) {
+                            ageDivF.text(new Intl.NumberFormat().format(femaleSui));
+                        } else {
+                            ageDivF.text("N/A");
+                        }
 
                         //TODO add average deaths a year?
                     }
-                } else {
-                    male.select(`#${age}`).text("N/A");
-                    female.select(`#${age}`).text("N/A");
                 }
             });  
     }
