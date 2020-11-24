@@ -32,6 +32,10 @@ class UI {
             .append("div")
             .attr("id", "gov_div");
 
+        let ui_compare_toggle = d3.select("#ui")
+            .append("div")
+            .attr("id", "compare_div");
+
 
         this.textTitles();
         this.year_slider();
@@ -62,13 +66,19 @@ class UI {
             .attr("class", "title");
 
         //Country name 2
-        ui_svg.append("text")
-            .text("Country_Name2")
-            .attr("transform", "translate(380, 30)")
+        ui_svg.append("rect")
+            .attr("transform", "translate(360, 10)")
             .attr("id", "country_name2")
-            .attr("class", "country");
+            .attr("x", "0px")
+            .attr("y", "0px")
+            .attr("width", "150px")
+            .attr("height", "30px")
+            .attr("class", "country_box")
+            ;
 
-/////////////////////////////// gender section 
+
+            //stroke-width:3;stroke:rgb(0,0,0)
+        /////////////////////////////// gender section 
         let gender_options = ["Female", "Male"];
 
         let gender_div = d3.select("#gender_div");
@@ -92,7 +102,7 @@ class UI {
                 return d;
             });
 
-/////////////////////////////age section 
+        /////////////////////////////age section 
         let age_group_options = ["15-24 years", "25-34 years", "35-54 years", "55-74 years", "75+ years"];
 
         let age_div = d3.select("#age_div");
@@ -116,6 +126,15 @@ class UI {
                 return d;
             });
 
+
+
+        let compare_div = d3.select("#compare_div")
+            .append("input")
+            .attr("type", "checkbox")
+            .attr("id", "compare_box")
+            .attr("value", "compare")
+            .attr("onclick", "none");
+
         // //Religion 
         // ui_svg.append("text")
         //     .text("Religion")
@@ -134,7 +153,7 @@ class UI {
         //Country comparison 
         ui_svg.append("text")
             .text("Country Comparison")
-            .attr("transform", "translate(800, 30)");
+            .attr("transform", "translate(700, 30)");
     }
 
     buttons() {

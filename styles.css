@@ -89,6 +89,20 @@ div.data {
   left: 200px;
 }
 
+#compare_div {
+  position: absolute;
+  top: 210px;
+  right: 10px;
+}
+
+
+.country_box {
+ fill: rgba(0, 0, 0, 0);
+ stroke: #000;
+ border-radius: 10%;
+ /* not working */
+}
+
 /*slider*/ 
 
 [slider] {
