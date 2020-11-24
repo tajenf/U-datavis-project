@@ -18,8 +18,8 @@ class InfoPanel {
 
 
         this.country = "";
-        this.year = "1985";
-        this.yearSpan = 0;
+        this.year = 1985;
+        this.yearSpan = 2;
     }
 
     initialPopulate()
@@ -48,14 +48,14 @@ class InfoPanel {
 
         let males = detailPanel.append('g').attr('id', "male");
 
+        males.append("div").text("Male Breakdown: ").classed("cat", true)
+
         males.append("div").text("Male Population: ").classed("cat", true)
             .append("div").text("curPop").attr('id', "malePop").classed("data", true);
             
         males.append("div").text("Total Male Suicides: ").classed("cat", true)
             .append("div").text("curSuicides").attr('id', "maleSui").classed("data", true);
             
-        males.append("div").text("Breakdown: ").classed("cat", true)
-
         males.append("div").text("-Ages 5-14 : ").classed("cat", true)
             .append("div").text("curSuicides").attr('id', "a5-14_years").classed("data", true);
 
@@ -76,13 +76,13 @@ class InfoPanel {
 
         let females = detailPanel.append('g').attr('id', "female");
 
+        females.append("div").text("Female Breakdown: ").classed("cat", true)
+
         females.append("div").text("Female Population: ").classed("cat", true)
             .append("div").text("curPop").attr('id', "femalePop").classed("data", true);
             
         females.append("div").text("Total Female Suicides: ").classed("cat", true)
             .append("div").text("curSuicides").attr('id', "femaleSui").classed("data", true);
-            
-        females.append("div").text("Breakdown: ").classed("cat", true)
 
         females.append("div").text("-Ages 5-14 : ").classed("cat", true)
             .append("div").text("curSuicides").attr('id', "a5-14_years").classed("data", true);
@@ -149,7 +149,7 @@ class InfoPanel {
             year.text(this.year);
         } else {
             yearlabel.text("years: ");
-            year.text(`${this.year}-${this.year + this.yearSpan}`)
+            year.text(`${this.year}-${ this.year + this.yearSpan}`)
         }
 
         if (this.country == "") {
@@ -185,7 +185,7 @@ class InfoPanel {
                 let ageDivM = male.select(`#${age.replace('+', '')}`);
                 let ageDivF = female.select(`#${age.replace('+', '')}`);
 
-                if (!this.suicideData[this.country] || (this.yearSpan == 0 && !this.suicideData[this.country]["male"][age][this.year])) {  //May need to expand to check there is data for this year
+                if (!this.suicideData[this.country] || this.yearSpan == 0 && !this.suicideData[this.country]["male"][age] || (this.yearSpan == 0 && !this.suicideData[this.country]["male"][age][this.year])) {  //May need to expand to check there is data for this year
                     ageDivM.text("N/A");
                     ageDivF.text("N/A");
                     
@@ -202,7 +202,7 @@ class InfoPanel {
                         let femaleSui = 0;
 
                         for (let year = this.year; year <= this.year + this.yearSpan ; year++) {
-                            if (this.suicideData[this.country]["male"][age][this.year]) {
+                            if (this.suicideData[this.country]["male"][age][year]) {
                                 maleSui += this.suicideData[this.country]["male"][age][year]["suicides"];
                                 maleRecordFound = true;
                             }
@@ -212,14 +212,22 @@ class InfoPanel {
                             }
                         }
 
+                        let avgCatString = `--Avg per Year: `;
+
                         if (maleRecordFound) {
                             ageDivM.text(new Intl.NumberFormat().format(maleSui));
+                            ageDivM.append("div").text(avgCatString).classed("cat", true)
+                                .append("div").text(new Intl.NumberFormat().format(
+                                    Math.round(maleSui/(this.yearSpan + 1)))).classed("data", true);
                         } else {
                             ageDivM.text("N/A");
                         }
                         
                         if (femaleRecordFound) {
                             ageDivF.text(new Intl.NumberFormat().format(femaleSui));
+                            ageDivF.append("div").text(avgCatString).classed("cat", true)
+                                .append("div").text(new Intl.NumberFormat().format(
+                                    Math.round(femaleSui/(this.yearSpan + 1)))).classed("data", true);
                         } else {
                             ageDivF.text("N/A");
                         }
