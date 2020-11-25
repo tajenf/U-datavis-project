@@ -28,22 +28,9 @@ class UI {
             .append("div")
             .attr("id", "age_div");
 
-        let ui_religion_drop = d3.select("#ui")
-            .append("div")
-            .attr("id", "religion_div");
-
-        let ui_lifestyle_drop = d3.select("#ui")
-            .append("div")
-            .attr("id", "lifestyle_div");
-
-        let ui_gov_drop = d3.select("#ui")
-            .append("div")
-            .attr("id", "gov_div");
-
         let ui_compare_toggle = d3.select("#ui")
             .append("div")
             .attr("id", "compare_div");
-
 
         this.textTitles();
         this.year_slider();
@@ -51,41 +38,31 @@ class UI {
 
     textTitles() {
         let ui_svg = d3.select("#ui_svg");
+        let end = d3.select("#ui_svg").attr("width");
+
+        console.log(end);
 
         //Country Text
         ui_svg.append("text")
             .text("Country")
             .attr("transform", "translate(10, 30)")
-            .attr("id", "country")
+            .attr("id", "country1_title")
             .attr("class", "title");
-
-        //Country name 1
-        // ui_svg.append("text")
-        //     .text("Country_Name1")
-        //     .attr("transform", "translate(80, 30)")
-        //     .attr("id", "country_name1")  //buttons
-        //     .attr("class", "country");
 
         //Country 2 Text
         ui_svg.append("text")
             .text("Country")
             .attr("transform", "translate(300, 30)")
-            .attr("id", "country")
+            .attr("id", "country2_title")
             .attr("class", "title");
 
-        //Country name 2
-        // ui_svg.append("rect")
-        //     .attr("transform", "translate(360, 10)")
-        //     .attr("id", "country_name2")
-        //     .attr("x", "0px")
-        //     .attr("y", "0px")
-        //     .attr("width", "150px")
-        //     .attr("height", "30px")
-        //     .attr("class", "country_box")
-        //     ;
+        //Age Group Title 
+        ui_svg.append("text")
+            .text("Age Group")
+            .attr("transform", "translate(50, 60)")
+            .attr("id", "age_group_title")
+            .attr("class", "title");
 
-
-        //stroke-width:3;stroke:rgb(0,0,0)
         /////////////////////////////// gender section 
         let gender_options = ["Female", "Male", "Both"];
 
@@ -110,59 +87,117 @@ class UI {
                 return d;
             });
 
+        // gender_form.on("input", function () {
 
-
-        gender_form.on("input", function () {
-            console.log(this.value);
-        });
+        // });
 
         /////////////////////////////age section 
-        let age_group_options = ["15-24 years", "25-34 years", "35-54 years", "55-74 years", "75+ years"];
+
+        let age_group_options = ["15-24 years", "25-34 years", "35-54 years", "55-74 years", "75+ years", "All"];
 
         let age_div = d3.select("#age_div");
 
         let age_form = age_div.append("form")
             .attr("name", "form_age")
-            .attr("id", "form_age")
-            .text("Age Group: ");
+            .attr("id", "form_age");
 
-        let select_age = age_form.append("select")
-            .attr("name", "age")
-            .attr("id", "age")
-            .selectAll("option")
+        age_form.selectAll("g")
             .data(age_group_options)
             .enter()
-            .append("option")
+            .append("g");
+
+        age_form.selectAll("g")
+            .append("input")
+            .attr("type", "checkbox")
+            .property("checked", function (d) {
+                if (d == "15-24 years") {
+                    return true;
+                }
+                return false;
+            })
+            .attr("name", function (d) {
+                return d;
+            })
             .attr("value", function (d) {
+                return d;
+            })
+            .attr("id", function (d) {
+                return d + "_option_ID";
+            })
+            .attr("class", "age_input_options")
+            .property("required", true);
+
+        age_form.selectAll("g")
+            .append("label")
+            .attr("for", function (d) {
                 return d;
             })
             .text(function (d) {
                 return d;
             });
 
-        let compare_div = d3.select("#compare_div")
-            .append("input")
-            .attr("type", "checkbox")
-            .attr("id", "compare_box")
-            .attr("value", "compare")
-            .attr("onclick", "none");
+        age_form.selectAll("g")
+            .append("br")
 
-        //Country comparison 
-        ui_svg.append("text")
-            .text("Country Comparison")
-            .attr("transform", "translate(700, 30)");
+        function deselectAll() {
+            d3.select("#All_option_ID").property("checked", false);
+        }
+
+        function UpdateAgeOption() {
+            //need to call updateAge here 
+            
+
+            d3.select("#All_option_ID").property("checked", false);
+        };
+
+        document.getElementById("15-24 years_option_ID").onclick = function () {
+            UpdateAgeOption();
+        };
+
+        document.getElementById("25-34 years_option_ID").onclick = function () {
+            UpdateAgeOption();
+        };
+
+        document.getElementById("35-54 years_option_ID").onclick = function () {
+            UpdateAgeOption();
+        };
+
+        document.getElementById("55-74 years_option_ID").onclick = function () {
+            UpdateAgeOption();
+        };
+
+        document.getElementById("75+ years_option_ID").onclick = function () {
+            UpdateAgeOption();
+        };
+
+        document.getElementById("All_option_ID").onclick = function () {
+            //need to call updateAge here 
+           
+            if(this.checked == true){
+                d3.selectAll(".age_input_options").property("checked", true);
+            }
+            else{
+                this.checked = false; 
+            }
+        };
+
+        //////////////////////////////Compare section 
+        // let compare_div = d3.select("#compare_div")
+        //     .append("input")
+        //     .attr("type", "checkbox")
+        //     .attr("id", "compare_box")
+        //     .attr("value", "compare")
+        //     .attr("onclick", "none");
+
+        // //Country comparison 
+        // ui_svg.append("text")
+        //     .text("Country Comparison")
+        //     .attr("transform", "translate(700, 30)");
     }
 
     buttons() {
-        let ui_svg = d3.select("#ui_buttons");
 
-        let male_button = ui_svg.append("button").text("herro")
-            .attr("type", "button")
-            .attr("id", "male_button")
-            .attr("onclick", "alert('Hello world!')")
-            // .attr("transform", "translate(10, 90)")
-            ;
-        // male_button.append("text").text("hello");
+
     }
 
     year_slider() {
