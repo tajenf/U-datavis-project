@@ -97,7 +97,7 @@ class UI {
 
         let select_gender = gender_form.append("select")
             .attr("name", "gender")
-            .attr("id", "gender")
+            .attr("id", "gender_select")
             .selectAll("option")
             .data(gender_options)
             .enter()
@@ -108,6 +108,12 @@ class UI {
             .text(function (d) {
                 return d;
             });
+
+        
+
+        gender_form.on("input", function(){
+            console.log(this.value); 
+        }); 
 
         /////////////////////////////age section 
         let age_group_options = ["15-24 years", "25-34 years", "35-54 years", "55-74 years", "75+ years"];
@@ -184,7 +190,7 @@ class UI {
                 "children[5].style.right=(100-value)+'%'; " +
                 "children[9].style.left=value+'%'; " +
                 "children[13].style.left=value+'%'; " +
-                "children[13].childNodes[1].innerHTML=this.value;")
+                "children[13].childNodes[1].innerHTML=this.value-1;")
         });
 
         range2.on("input", function(){
