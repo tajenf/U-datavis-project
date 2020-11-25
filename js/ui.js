@@ -47,23 +47,23 @@ class UI {
         //Country Text
         ui_svg.append("text")
             .text("Country")
-            .attr("transform", "translate(10, 30)")
+            .attr("transform", "translate(40, 30)")
             .attr("id", "country1_title")
             .attr("class", "title");
 
         //Country 2 Text
         ui_svg.append("text")
             .text("Country")
-            .attr("transform", "translate(300, 30)")
+            .attr("transform", "translate(330, 30)")
             .attr("id", "country2_title")
             .attr("class", "title");
 
         //Age Group Title 
         ui_svg.append("text")
             .text("Age Group")
-            .attr("transform", "translate(50, 60)")
-            .attr("id", "age_group_title")
-            .attr("class", "title");
+            .attr("transform", "translate(80, 60)")
+            .attr("id", "age_group_title"); 
+            //.attr("class", "title");
     }
 
     ui_Features() {
