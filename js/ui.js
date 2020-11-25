@@ -8,6 +8,7 @@ class UI {
 
         this.startYear = 1985;
         this.endYear = 2016;
+        this.checkCount = 1; 
 
         this.drawItems();
     }
@@ -37,6 +38,7 @@ class UI {
     }
 
     textTitles() {
+        let that = this; 
         let ui_svg = d3.select("#ui_svg");
         let end = d3.select("#ui_svg").attr("width");
 
@@ -115,9 +117,7 @@ class UI {
                 }
                 return false;
             })
-            .attr("name", function (d) {
-                return d;
-            })
+            .attr("name", "age_options")
             .attr("value", function (d) {
                 return d;
             })
@@ -139,48 +139,55 @@ class UI {
         age_form.selectAll("g")
             .append("br")
 
-        function deselectAll() {
-            d3.select("#All_option_ID").property("checked", false);
-        }
-
-        function UpdateAgeOption() {
+        function UpdateAgeOption(current) {
             //need to call updateAge here 
-            
+            if(current.checked == true){
+                that.checkCount++; 
+            }
+            else if(current.checked == false && that.checkCount > 1){
+                that.checkCount--; 
+            }
+            else{
+                current.checked = true; 
+            }
+            // console.log(that.checkCount); 
+            // console.log(current.checked); 
 
             d3.select("#All_option_ID").property("checked", false);
         };
 
         document.getElementById("15-24 years_option_ID").onclick = function () {
-            UpdateAgeOption();
+            UpdateAgeOption(this);
         };
 
         document.getElementById("25-34 years_option_ID").onclick = function () {
-            UpdateAgeOption();
+            UpdateAgeOption(this);
         };
 
         document.getElementById("35-54 years_option_ID").onclick = function () {
-            UpdateAgeOption();
+            UpdateAgeOption(this);
         };
 
         document.getElementById("55-74 years_option_ID").onclick = function () {
-            UpdateAgeOption();
+            UpdateAgeOption(this);
         };
 
         document.getElementById("75+ years_option_ID").onclick = function () {
-            UpdateAgeOption();
+            UpdateAgeOption(this);
         };
 
         document.getElementById("All_option_ID").onclick = function () {
             //need to call updateAge here 
-           
-            if(this.checked == true){
+            if (this.checked == true) {
                 d3.selectAll(".age_input_options").property("checked", true);
+                that.checkCount = 5; 
             }
-            else{
-                this.checked = false; 
+            else {
+                this.checked = false;
             }
         };
 
+    
         //////////////////////////////Compare section 
         // let compare_div = d3.select("#compare_div")
         //     .append("input")
