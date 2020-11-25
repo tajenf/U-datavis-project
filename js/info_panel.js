@@ -120,10 +120,12 @@ class InfoPanel {
 
     UpdateYear(year, span)
     {
-        this.year = year;
-        this.yearSpan = span;
+        this.year = parseInt(year);
+        this.yearSpan = parseInt(span);
 
-        
+        if (this.country == "") {
+            return;
+        }
         let detailPanel = d3.select("#detail");
 
         this.UpdateYearInfo(detailPanel);
