@@ -40,26 +40,8 @@
                         <span id="value">2016</span>
                     </div>
                 </div>
-                <input id="range1" type="range" tabindex="0" value="0" max="2016" min="1985" step="1" oninput="
-                // this.value=Math.min(this.value,this.parentNode.childNodes[5].value-1);
-                // var value=(100/(parseInt(this.max)-parseInt(this.min)))*parseInt(this.value)-(100/(parseInt(this.max)-parseInt(this.min)))*parseInt(this.min);
-                // var children = this.parentNode.childNodes[1].childNodes;
-                // children[1].style.width=value+'%';
-                // children[5].style.left=value+'%';
-                // children[7].style.left=value+'%';
-                // children[11].style.left=value+'%';
-                // children[11].childNodes[1].innerHTML=(this.value+1985);" />
-
-                <input id="range2" type="range" tabindex="0" value="2016" max="2016" min="1985" step="1" oninput="
-            //     this.value=Math.max(this.value,this.parentNode.childNodes[3].value-(-1));
-            //    // let value2 = 20; 
-            //     var value=(100/(parseInt(this.max)-parseInt(this.min)))*parseInt(this.value)-(100/(parseInt(this.max)-parseInt(this.min)))*parseInt(this.min);
-            //     var children = this.parentNode.childNodes[1].childNodes;
-            //     children[3].style.width=(100-value)+'%';//grey bar
-            //     children[5].style.right=(100-value)+'%'; //blue bar
-            //     children[9].style.left=value+'%'; //right circle 
-            //     children[13].style.left=value+'%'; //right number indicator placement 
-            //     children[13].childNodes[1].innerHTML=this.value;//number indicator" />
+                <input id="range1" type="range" value="0" max="2016" min="1985" oninput="" />
+                <input id="range2" type="range" value="2016" max="2016" min="1985" oninput="" />
             </div>
         </div>
         <div id="map" style="overflow: hidden;"></div>

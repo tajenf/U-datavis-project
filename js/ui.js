@@ -1,6 +1,13 @@
 class UI {
 
     constructor(data, updateYear, updateAge, updateGender, updateStory) {
+        this.updateYear = updateYear; 
+        this.updateAge = updateAge;  
+        this.updateGender = updateGender; 
+        this.updateStory = updateStory; 
+
+        this.endYear = 2016; 
+
         this.drawItems();
     }
 
@@ -126,29 +133,12 @@ class UI {
                 return d;
             });
 
-
-
         let compare_div = d3.select("#compare_div")
             .append("input")
             .attr("type", "checkbox")
             .attr("id", "compare_box")
             .attr("value", "compare")
             .attr("onclick", "none");
-
-        // //Religion 
-        // ui_svg.append("text")
-        //     .text("Religion")
-        //     .attr("transform", "translate(600, 90)");
-
-        // //Lifestyle 
-        // ui_svg.append("text")
-        //     .text("Lifestyle")
-        //     .attr("transform", "translate(10, 150)");
-
-        // //Government Structure 
-        // ui_svg.append("text")
-        //     .text("Government Structure")
-        //     .attr("transform", "translate(300, 150)");
 
         //Country comparison 
         ui_svg.append("text")
@@ -169,20 +159,21 @@ class UI {
     }
 
     year_slider() {
-        let ui_svg = d3.select("#ui_svg");
+        let that = this; 
 
         let range1 = d3.select("#range1");
         let range2 = d3.select("#range2");
 
         range1.attr("oninput", function () {
-            return ("this.value=Math.min(this.value,this.parentNode.childNodes[5].value-1);" +
+            return "this.value=Math.min(this.value,this.parentNode.childNodes[5].value-1);" +
                 "var value=(100/(parseInt(this.max)-parseInt(this.min)))*parseInt(this.value)-(100/(parseInt(this.max)-parseInt(this.min)))*parseInt(this.min);" +
                 "var children = this.parentNode.childNodes[1].childNodes;" +
                 "children[1].style.width=value+'%';" +
                 "children[5].style.left=value+'%';" +
                 "children[7].style.left=value+'%';" +
                 "children[11].style.left=value+'%';" +
-                "children[11].childNodes[1].innerHTML= this.value;")
+                "children[11].childNodes[1].innerHTML= this.value;"
+                
         });
 
         range2.attr("oninput", function () {
@@ -195,6 +186,19 @@ class UI {
                 "children[13].style.left=value+'%'; " +
                 "children[13].childNodes[1].innerHTML=this.value;")
         });
+
+        range2.on("input", function(){
+            // console.log(that.endYear); 
+            that.endYear = this.value; 
+        }); 
+
+        range1.on("input", function(){
+            // console.log(that.endYear);
+            // console.log(that.endYear - this.value); 
+            that.updateYear(this.value, (that.endYear - this.value)); 
+        });
+
+
     }
 
 

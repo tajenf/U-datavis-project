@@ -75,7 +75,6 @@ class Graph {
             .attr("d", LineGenerator(data));
     }
 
-    //? 
     drawLines(data) {
 
         let svg = d3.select("#graph_svg");
@@ -87,7 +86,7 @@ class Graph {
 
         d3.select("#graph_path")
             .data(data)
-            //.transition().duration(2000)
+            .transition().duration(2000)
             .attr("d", LineGenerator(data));
 
         svg.selectAll()
