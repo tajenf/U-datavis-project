@@ -59,11 +59,11 @@ class UI {
             .attr("class", "title");
 
         //Country name 1
-        ui_svg.append("text")
-            .text("Country_Name1")
-            .attr("transform", "translate(80, 30)")
-            .attr("id", "country_name1")  //buttons
-            .attr("class", "country");
+        // ui_svg.append("text")
+        //     .text("Country_Name1")
+        //     .attr("transform", "translate(80, 30)")
+        //     .attr("id", "country_name1")  //buttons
+        //     .attr("class", "country");
 
         //Country 2 Text
         ui_svg.append("text")
@@ -73,20 +73,20 @@ class UI {
             .attr("class", "title");
 
         //Country name 2
-        ui_svg.append("rect")
-            .attr("transform", "translate(360, 10)")
-            .attr("id", "country_name2")
-            .attr("x", "0px")
-            .attr("y", "0px")
-            .attr("width", "150px")
-            .attr("height", "30px")
-            .attr("class", "country_box")
-            ;
+        // ui_svg.append("rect")
+        //     .attr("transform", "translate(360, 10)")
+        //     .attr("id", "country_name2")
+        //     .attr("x", "0px")
+        //     .attr("y", "0px")
+        //     .attr("width", "150px")
+        //     .attr("height", "30px")
+        //     .attr("class", "country_box")
+        //     ;
 
 
             //stroke-width:3;stroke:rgb(0,0,0)
         /////////////////////////////// gender section 
-        let gender_options = ["Female", "Male"];
+        let gender_options = ["Female", "Male", "Both"];
 
         let gender_div = d3.select("#gender_div");
 
@@ -194,13 +194,10 @@ class UI {
         });
 
         range2.on("input", function(){
-            // console.log(that.endYear); 
             that.endYear = this.value; 
         }); 
 
         range1.on("input", function(){
-            // console.log(that.endYear);
-            // console.log(that.endYear - this.value); 
             that.updateYear(this.value, (that.endYear - this.value)); 
         });
 
