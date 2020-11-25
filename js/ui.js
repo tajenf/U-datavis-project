@@ -204,7 +204,7 @@ class UI {
         //UpdateYear function passing in the current starting year and the span of current start to current end. 
         //Updates the current endYear
         range2.on("input", function () {
-            that.endYear = parseeInt(this.value) -1;
+            that.endYear = parseInt(this.value) - 1;
             that.updateYear(that.startYear, that.endYear - that.startYear)
         });
     }
