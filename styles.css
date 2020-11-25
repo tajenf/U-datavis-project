@@ -285,3 +285,5 @@ div[slider] > input[type=range]::-ms-tooltip {
 [slider]:hover > div > [sign] {
   opacity: 1;
 }
+
+/* Slider code provided by GlitchWorker at https://codepen.io/glitchworker */
