@@ -1,12 +1,13 @@
 class UI {
 
     constructor(data, updateYear, updateAge, updateGender, updateStory) {
-        this.updateYear = updateYear; 
-        this.updateAge = updateAge;  
-        this.updateGender = updateGender; 
-        this.updateStory = updateStory; 
+        this.updateYear = updateYear;
+        this.updateAge = updateAge;
+        this.updateGender = updateGender;
+        this.updateStory = updateStory;
 
-        this.endYear = 2016; 
+        this.startYear = 1985;
+        this.endYear = 2016;
 
         this.drawItems();
     }
@@ -84,7 +85,7 @@ class UI {
         //     ;
 
 
-            //stroke-width:3;stroke:rgb(0,0,0)
+        //stroke-width:3;stroke:rgb(0,0,0)
         /////////////////////////////// gender section 
         let gender_options = ["Female", "Male", "Both"];
 
@@ -109,11 +110,11 @@ class UI {
                 return d;
             });
 
-        
 
-        gender_form.on("input", function(){
-            console.log(this.value); 
-        }); 
+
+        gender_form.on("input", function () {
+            console.log(this.value);
+        });
 
         /////////////////////////////age section 
         let age_group_options = ["15-24 years", "25-34 years", "35-54 years", "55-74 years", "75+ years"];
@@ -165,7 +166,7 @@ class UI {
     }
 
     year_slider() {
-        let that = this; 
+        let that = this;
 
         let range1 = d3.select("#range1");
         let range2 = d3.select("#range2");
@@ -179,7 +180,7 @@ class UI {
                 "children[7].style.left=value+'%';" +
                 "children[11].style.left=value+'%';" +
                 "children[11].childNodes[1].innerHTML= this.value;"
-                
+
         });
 
         range2.attr("oninput", function () {
@@ -193,15 +194,19 @@ class UI {
                 "children[13].childNodes[1].innerHTML=this.value-1;")
         });
 
-        range2.on("input", function(){
-            that.endYear = this.value; 
-        }); 
-
-        range1.on("input", function(){
-            that.updateYear(this.value, (that.endYear - this.value)); 
+        //UpdateYear function passing in the current starting year and the span of current start to current end. 
+        //Updates teh current startYear
+        range1.on("input", function () {
+            that.startYear = parseInt(this.value);
+            that.updateYear(that.startYear, (that.endYear - that.startYear));
         });
 
-
+        //UpdateYear function passing in the current starting year and the span of current start to current end. 
+        //Updates the current endYear
+        range2.on("input", function () {
+            that.endYear = parseeInt(this.value) -1;
+            that.updateYear(that.startYear, that.endYear - that.startYear)
+        });
     }
 
 
