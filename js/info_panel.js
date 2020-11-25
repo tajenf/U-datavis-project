@@ -162,13 +162,13 @@ class InfoPanel {
             return;
         }
 
-        if (this.yearData[this.country] && this.yearData[this.country][this.year])
+        if (this.yearData[this.country] && this.yearData[this.country][this.year + this.yearSpan])
         {
             this.yearKeys.forEach(key => {
                 if (Number.isInteger(this.yearData[this.country][this.year][key])) {
-                    d3.select(`#${key}`).text(new Intl.NumberFormat().format(this.yearData[this.country][this.year][key]));
+                    d3.select(`#${key}`).text(new Intl.NumberFormat().format(this.yearData[this.country][this.year + this.yearSpan][key]));
                 } else {
-                    d3.select(`#${key}`).text(this.yearData[this.country][this.year][key]);
+                    d3.select(`#${key}`).text(this.yearData[this.country][this.year + this.yearSpan][key]);
                 }
                 
             });
