@@ -30,7 +30,7 @@ Promise.all([data]).then(data =>
             }
             if (countryName != data[0][i]["country"])
             {
-                oData.push([{key:"country", value: countryName}, {key:"values", value: data[0].slice(startIndex, i)}]);
+                oData.push({key:countryName, value: data[0].slice(startIndex, i)});
                 countryName = "";
             }
         }
@@ -136,7 +136,7 @@ Promise.all([data]).then(data =>
         //console.log(oData);
         //console.log(data);
 
-        let world = new World(oData, UpdateCountry);
+        let world = new World(oData, UpdateCountry, yearData);
         let graph = new Graph(data[0]);
         let ui = new UI(oData, UpdateYear, UpdateAge, UpdateSex, UpdateStory); 
         let info = new InfoPanel(suicideData, yearData, yearKeys, countryData, countryKeys, ageGroups);
