@@ -128,6 +128,10 @@ Promise.all([data]).then(data =>
         function UpdateSex(sex) {
         }
 
+        //story integer
+        function UpdateStory(storyNum){
+            info.UpdateStory(storyNum);
+        }
         //the difference between the two data sets
         //console.log(oData);
         //console.log(data);

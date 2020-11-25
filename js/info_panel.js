@@ -182,6 +182,11 @@ class InfoPanel {
         this.UpdateAgeSuicides(panel);
     }
 
+    UpdateStory(storyNum)
+    {
+        
+    }
+
     UpdateAgeSuicides(panel)
     {
         let male = panel.select("#male");
@@ -237,8 +242,6 @@ class InfoPanel {
                         } else {
                             ageDivF.text("N/A");
                         }
-
-                        //TODO add average deaths a year?
                     }
                 }
             });  
