@@ -81,6 +81,9 @@ div.data {
 }
 
 /* UI Features*/
+.title {
+  /* font-size: 30px; */
+}
 
 #gender_div {
   position: absolute;
@@ -108,7 +111,63 @@ div.data {
  /* not working */
 }
 
-/*slider*/ 
+/* Gender dropdown view  */
+.gender-selected {
+  background-color:rgb(131, 236, 255);
+}
+
+/*style the arrow inside the select element:*/
+.gender-selected:after {
+  position: absolute;
+  content: "";
+  top: 10px;
+  right: 8px;
+  width: 0;
+  height: 0;
+  border: 6px solid transparent;
+  border-color: #fff transparent transparent transparent;
+}
+
+/*point the arrow upwards when the select box is open (active):*/
+.gender-selected.select-arrow-active:after {
+  border-color: transparent transparent #fff transparent;
+  top: 7px;
+}
+
+/*style the items (options), including the selected item:*/
+.select-items div,.gender-selected {
+  color: #000000;
+  padding: 6px 12px;
+  border: 1px solid transparent;
+  border-color: transparent transparent rgba(0, 0, 0, 0.1) transparent;
+}
+
+/*style items (options):*/
+.select-items {
+  position: absolute;
+  background-color: rgb(131, 236, 255);
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 99;
+}
+
+/*hide the items when the select box is closed:*/
+.select-hide {
+  display: none;
+}
+
+.select-items div:hover, .same-as-selected {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+/* Custom selection dropdown box from https://www.w3schools.com/howto/howto_custom_select.asp */
+
+
+
+
+
+
+/*Year Slider*/ 
 
 [slider] {
   position: relative;

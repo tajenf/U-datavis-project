@@ -82,6 +82,7 @@ class UI {
         let select_gender = gender_form.append("select")
             .attr("name", "gender")
             .attr("id", "gender_select")
+            .attr("class", "gender-selected")
             .selectAll("option")
             .data(gender_options)
             .enter()
@@ -109,7 +110,8 @@ class UI {
         age_form.selectAll("g")
             .data(age_group_options)
             .enter()
-            .append("g");
+            .append("g")
+            .attr("class", "container");
 
         age_form.selectAll("g")
             .append("input")
