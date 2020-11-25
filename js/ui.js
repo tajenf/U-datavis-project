@@ -8,7 +8,7 @@ class UI {
 
         this.startYear = 1985;
         this.endYear = 2016;
-        this.checkCount = 1; 
+        this.checkCount = 1;
 
         this.drawItems();
     }
@@ -33,12 +33,12 @@ class UI {
             .append("div")
             .attr("id", "compare_div");
 
-        this.textTitles();
+        this.ui_Titles();
+        this.ui_Features();
         this.year_slider();
     }
 
-    textTitles() {
-        let that = this; 
+    ui_Titles() {
         let ui_svg = d3.select("#ui_svg");
         let end = d3.select("#ui_svg").attr("width");
 
@@ -64,8 +64,12 @@ class UI {
             .attr("transform", "translate(50, 60)")
             .attr("id", "age_group_title")
             .attr("class", "title");
+    }
 
-        /////////////////////////////// gender section 
+    ui_Features() {
+        let that = this;
+
+        //Gender feature 
         let gender_options = ["Female", "Male", "Both"];
 
         let gender_div = d3.select("#gender_div");
@@ -89,12 +93,11 @@ class UI {
                 return d;
             });
 
-        // gender_form.on("input", function () {
+        document.getElementById("gender_select").onchange = function () {
+            that.updateGender(this.value); /////////////Need string? 
+        };
 
-        // });
-
-        /////////////////////////////age section 
-
+        //Age Group feature  
         let age_group_options = ["15-24 years", "25-34 years", "35-54 years", "55-74 years", "75+ years", "All"];
 
         let age_div = d3.select("#age_div");
@@ -141,14 +144,14 @@ class UI {
 
         function UpdateAgeOption(current) {
             //need to call updateAge here 
-            if(current.checked == true){
-                that.checkCount++; 
+            if (current.checked == true) {
+                that.checkCount++;
             }
-            else if(current.checked == false && that.checkCount > 1){
-                that.checkCount--; 
+            else if (current.checked == false && that.checkCount > 1) {
+                that.checkCount--;
             }
-            else{
-                current.checked = true; 
+            else {
+                current.checked = true;
             }
             // console.log(that.checkCount); 
             // console.log(current.checked); 
@@ -180,26 +183,23 @@ class UI {
             //need to call updateAge here 
             if (this.checked == true) {
                 d3.selectAll(".age_input_options").property("checked", true);
-                that.checkCount = 5; 
+                that.checkCount = 5;
             }
             else {
                 this.checked = false;
             }
         };
 
-    
-        //////////////////////////////Compare section 
-        // let compare_div = d3.select("#compare_div")
-        //     .append("input")
-        //     .attr("type", "checkbox")
-        //     .attr("id", "compare_box")
-        //     .attr("value", "compare")
-        //     .attr("onclick", "none");
+        //Compare feature 
+        d3.select("#compare_div").append("form")
+            .text("Country Comparison ")
+            .append("input")
+            .attr("id", "input_compare")
+            .attr("type", "checkbox");
 
-        // //Country comparison 
-        // ui_svg.append("text")
-        //     .text("Country Comparison")
-        //     .attr("transform", "translate(700, 30)");
+        document.getElementById("input_compare").onchange = function () {
+            // console.log(this.checked);
+        };
     }
 
     buttons() {
