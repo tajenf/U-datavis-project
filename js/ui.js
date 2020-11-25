@@ -1,6 +1,6 @@
 class UI {
 
-    constructor(data) {
+    constructor(data, updateYear, updateAge, updateGender, updateStory) {
         this.drawItems();
     }
 
@@ -55,7 +55,7 @@ class UI {
         ui_svg.append("text")
             .text("Country_Name1")
             .attr("transform", "translate(80, 30)")
-            .attr("id", "country_name1")
+            .attr("id", "country_name1")  //buttons
             .attr("class", "country");
 
         //Country 2 Text
