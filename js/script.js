@@ -1,6 +1,11 @@
-let data = d3.csv('./data/master.csv'); //simp 
+let suiData = d3.csv('./data/master.csv'); //simp
+let densityData = d3.csv('./data/population_density.csv');
+let cellData = d3.csv('./data/Cellphone.csv');
+let powerData = d3.csv('./data/PowerConsumption.csv');
+let unemploymentData = d3.csv('./data/totalUnemployment.csv');
 
-Promise.all([data]).then(data => 
+
+Promise.all([suiData, densityData, cellData, powerData, unemploymentData]).then(data => 
     {
         //oData is the organized data with each country having its own subarray
         let oData = [];
@@ -42,58 +47,69 @@ Promise.all([data]).then(data =>
         suicideData["World"] = {};
 
 
-        data[0].forEach(element => {
+        data[0].forEach(suiData => {
             
-            if (!yearData[element.country]) {
-                yearData[element.country] = {};
+            //yearly data section
+            if (!yearData[suiData.country]) {
+                yearData[suiData.country] = {};
             }
 
-            if (!yearData["World"][element.year]) {
-                yearData["World"][element.year] = {};
-                yearData["World"][element.year]["suicides"] = 0;
-                yearData["World"][element.year]["population"] = 0;
+            if (!yearData["World"][suiData.year]) {
+                yearData["World"][suiData.year] = {};
+                yearData["World"][suiData.year]["suicides"] = 0;
+                yearData["World"][suiData.year]["population"] = 0;
             }
 
-            let gdp = parseInt(element["gdp_per_capita ($)"]);
+            let gdp = parseInt(suiData["gdp_per_capita ($)"]);
 
-            yearData[element.country][element.year] = {gdp};
+            yearData[suiData.country][suiData.year] = {gdp};
 
-            if (!suicideData[element.country]) {
-                suicideData[element.country] = {};
+            //suicide data section
+            if (!suicideData[suiData.country]) {
+                suicideData[suiData.country] = {};
             }
 
-            if (!suicideData[element.country][element.sex]) {
-                suicideData[element.country][element.sex] = {};
+            if (!suicideData[suiData.country][suiData.sex]) {
+                suicideData[suiData.country][suiData.sex] = {};
             }
 
-            if (!suicideData[element.country][element.sex]["a" + element.age.replace(" ", "_")]) {
-                suicideData[element.country][element.sex]["a" + element.age.replace(" ", "_")] = {};
+            if (!suicideData[suiData.country][suiData.sex]["a" + suiData.age.replace(" ", "_")]) {
+                suicideData[suiData.country][suiData.sex]["a" + suiData.age.replace(" ", "_")] = {};
             }
 
-            if (!suicideData["World"][element.sex]) {
-                suicideData["World"][element.sex] = {};
+            if (!suicideData["World"][suiData.sex]) {
+                suicideData["World"][suiData.sex] = {};
             }
 
-            if (!suicideData["World"][element.sex]["a" + element.age.replace(" ", "_")]) {
-                suicideData["World"][element.sex]["a" + element.age.replace(" ", "_")] = {};
+            if (!suicideData["World"][suiData.sex]["a" + suiData.age.replace(" ", "_")]) {
+                suicideData["World"][suiData.sex]["a" + suiData.age.replace(" ", "_")] = {};
             }
             
-            if (!suicideData["World"][element.sex]["a" + element.age.replace(" ", "_")][element.year]) {
-                suicideData["World"][element.sex]["a" + element.age.replace(" ", "_")][element.year] = {};
-                suicideData["World"][element.sex]["a" + element.age.replace(" ", "_")][element.year]["suicides"] = 0;
-                suicideData["World"][element.sex]["a" + element.age.replace(" ", "_")][element.year]["population"] = 0;
+            if (!suicideData["World"][suiData.sex]["a" + suiData.age.replace(" ", "_")][suiData.year]) {
+                suicideData["World"][suiData.sex]["a" + suiData.age.replace(" ", "_")][suiData.year] = {};
+                suicideData["World"][suiData.sex]["a" + suiData.age.replace(" ", "_")][suiData.year]["suicides"] = 0;
+                suicideData["World"][suiData.sex]["a" + suiData.age.replace(" ", "_")][suiData.year]["population"] = 0;
             }
 
-            let suicides = parseInt(element.suicides_no);
-            let population = parseInt(element.population);
-            let popsuicides = parseFloat(element["suicides/100k pop"]);
+            let suicides = parseInt(suiData.suicides_no);
+            let population = parseInt(suiData.population);
+            let popsuicides = parseFloat(suiData["suicides/100k pop"]);
 
-            suicideData["World"][element.sex]["a" + element.age.replace(" ", "_")][element.year]["suicides"] += (suicides) ;
-            suicideData["World"][element.sex]["a" + element.age.replace(" ", "_")][element.year]["population"] += (population);
-            suicideData[element.country][element.sex]["a" + element.age.replace(" ", "_")][element.year] = {suicides, popsuicides, population};
+            suicideData["World"][suiData.sex]["a" + suiData.age.replace(" ", "_")][suiData.year]["suicides"] += (suicides) ;
+            suicideData["World"][suiData.sex]["a" + suiData.age.replace(" ", "_")][suiData.year]["population"] += (population);
+            suicideData[suiData.country][suiData.sex]["a" + suiData.age.replace(" ", "_")][suiData.year] = {suicides, popsuicides, population};
 
-            years.add(element.year);
-            ageGroups.add("a" + element.age.replace(" ", "_"));
+            years.add(suiData.year);
+            ageGroups.add("a" + suiData.age.replace(" ", "_"));
+        });
+
+        data[1].forEach(data => {
+            let year = parseInt(data.year);
+            if (year >= 1985 && year <= 2016 && yearData[data.country]){
+                if (!yearData[data.country][year]) {
+                    yearData[data.country][year] = {}
+                }
+            }
         });
 
         yearKeys.add("gdp");

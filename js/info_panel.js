@@ -9,9 +9,6 @@ class InfoPanel {
         this.countryKeys = cKeys;
         this.ageGroups = ageGroups;
 
-        console.log(this.suicideData["World"]);
-        console.log(this.suicideData["Brazil"]);
-
         this.initialPopulate();
 
         this.UpdateYear(1985, 2);
