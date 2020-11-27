@@ -17,7 +17,7 @@ class InfoPanel {
         this.UpdateCountry("World",1);
         this.UpdateCountry("World",2);
         this.UpdateStory(0);
-        this.UpdateNumCountries(false);
+        this.UpdateDualCountryView(false);
     }
 
     initialPopulate()
@@ -146,7 +146,7 @@ class InfoPanel {
 
     }
 
-    UpdateNumCountries(display2countries)
+    UpdateDualCountryView(display2countries)
     {
         let country2 =  d3.select("#detail").select("#country2");
         let sui2 =  d3.select("#detail").select("#sui2");
@@ -276,14 +276,12 @@ class InfoPanel {
                 else if (Number.isInteger(this.yearData[country][this.year][key])) 
                 {
                     panel.select(`#${key}`).text(new Intl.NumberFormat().format(this.yearData[country][this.year + this.yearSpan][key]));
-                } else 
-                {
+                } else {
                     panel.select(`#${key}`).text(this.yearData[country][this.year + this.yearSpan][key]);
                 }
                 
             });
-        } else 
-        {
+        } else {
             this.yearKeys.forEach(key => {
                 panel.select(`#${key}`).text("N/A");
             });

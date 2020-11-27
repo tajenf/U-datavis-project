@@ -158,8 +158,15 @@ Promise.all([suiData, densityData, cellData, powerData, unemploymentData]).then(
             });
         });
 
-        function UpdateCountry(country) {
-            info.UpdateCountry(country);
+        //1 for primary country
+        //2 for country that is only visible when comparing.
+        function UpdateCountry(country, countryNum) {
+            info.UpdateCountry(country, countryNum);
+        }
+
+        //param is a bool true for display 2 countries false for only 1.
+        function UpdateDualCountryView(display2countries) {
+            info.UpdateDualCountryView(display2countries);
         }
 
         //year is starting year, span is number of following years
