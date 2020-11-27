@@ -5,7 +5,6 @@ class Graph {
 
         console.log(data);
 
-
         let max = d3.max(data, function (d) { return +d.suicides_no });
 
         //sucide 
@@ -28,12 +27,11 @@ class Graph {
         graph_svg.append("g").attr("transform", "translate(50,20)").append("path")
             .attr("id", "graph_path").attr("fill", "none").attr("stroke", "black");
 
+        graph_svg.append("g").attr("transform", "translate(50,20)").attr("id", "Hover_points");
 
-        graph_svg.append("text").attr("class", "axis-label-y").attr("transform", "translate(15, 200), rotate(-90)").style("text-anchor", "middle").text("Suicide Count"); 
-
-        graph_svg.append("text").attr("class", "axis-label-x").attr("transform", "translate(300, 470)").style("text-anchor", "middle").text("Years"); 
-
-        graph_svg.append("text").attr("class", "axis-label-x").attr("transform", "translate(300, 490)").style("text-anchor", "middle").text("Country: Albania,  Gender: Male,  Age:15-24 years"); 
+        graph_svg.append("text").attr("id", "axis-label-y").attr("transform", "translate(15, 200), rotate(-90)").style("text-anchor", "middle").text("Suicide Count");
+        graph_svg.append("text").attr("id", "axis-label-x").attr("transform", "translate(300, 470)").style("text-anchor", "middle").text("Years");
+        graph_svg.append("text").attr("id", "Graph-Info").attr("transform", "translate(300, 490)").style("text-anchor", "middle").text("Country: Albania,  Gender: Male,  Age:15-24 years");
 
         this.drawLegend();
 
@@ -47,6 +45,7 @@ class Graph {
 
         //give it the right data to show off? 
         this.drawLines(filter_data);
+        this.drawPoints(filter_data);
     }
 
     //need? if were changing the y axis a lot? 
@@ -63,21 +62,21 @@ class Graph {
             .call(d3.axisLeft(this.scaleY).ticks(10));
     }
 
-    drawGraph(data) {
-        let LineGenerator = d3
-            .line()
-            .x(d => this.scaleX(d.year))
-            .y(d => this.scaleY(d.suicides_no));
+    // drawGraph(data) {
+    //     let LineGenerator = d3
+    //         .line()
+    //         .x(d => this.scaleX(d.year))
+    //         .y(d => this.scaleY(d.suicides_no));
 
-        d3.select("#graph_path")
-            .data(data)
-            //.transition().duration(2000)
-            .attr("d", LineGenerator(data));
-    }
+    //     d3.select("#graph_path")
+    //         .data(data)
+    //         //.transition().duration(2000)
+    //         .attr("d", LineGenerator(data));
+    // }
 
     drawLines(data) {
 
-        let svg = d3.select("#graph_svg");
+        // let svg = d3.select("#graph_svg");
 
         let LineGenerator = d3
             .line()
@@ -89,7 +88,55 @@ class Graph {
             .transition().duration(2000)
             .attr("d", LineGenerator(data));
 
-        svg.selectAll()
+        // svg.selectAll()
+    }
+
+    drawPoints(data) {
+
+        let that = this;
+        let point_group = d3.select("#Hover_points");
+
+        point_group.selectAll("circle")
+            .data(data)
+            .join(
+                enter => {
+                    enter.append("circle")
+                        .attr("r", "3")
+                        .attr("cx", d => this.scaleX(d.year))
+                        .attr("cy", d => this.scaleY(d.suicides_no))
+                },
+                update => {
+                    update.transition()
+                        .attr("r", "3")
+                        .attr("cx", d => this.scaleX(d.year))
+                        .attr("cy", d => this.scaleY(d.suicides_no))
+                },
+                exit => {
+                    exit.remove();
+                }
+            );
+
+
+        point_group.selectAll("circle")
+            .data(data)
+            .on("mouseover", function (d) {
+                let current = d3.select(this);
+                current.attr("class", "hovered");
+                let current_title = current.append("title");
+                current_title
+                    .append("text")
+                    .text("Number of Suicides: " + Math.round(that.scaleY.invert(current.attr("cy"))) + "\n" + "Year: " + Math.round(that.scaleX.invert(current.attr("cx"))));
+            })
+            .on("mouseout", function () {
+                let current = d3.select(this);
+                current.attr("class", null);
+                current.selectAll("title").remove();
+            });
+        //   .on("click", function () {
+        //     let current = d3.select(this);
+        //     console.log("X: " + Math.round(aScale.invert(current.attr("cx"))) + ",");
+        //     console.log("Y: " + Math.round(bScale.invert(current.attr("cy"))));
+        //   });
     }
 
     //don't know if we need this or not, just blocking out some code
