@@ -9,17 +9,14 @@ class InfoPanel {
         this.countryKeys = cKeys;
         this.ageGroups = ageGroups;
 
-        //console.log(this.ageGroups);
-
-        this.detailPanel = d3.select("#detail");
+        console.log(this.suicideData["World"]);
+        console.log(this.suicideData["Brazil"]);
 
         this.initialPopulate();
 
-
-
-        this.country = "";
-        this.year = 1985;
-        this.yearSpan = 2;
+        this.UpdateYear(1985, 2);
+        this.UpdateCountry("World");
+        this.UpdateStory(0);
     }
 
     initialPopulate()
@@ -49,8 +46,14 @@ class InfoPanel {
         CountryBlock.append("div").text("Population: ").classed("cat", true)
             .append("div").text("curPop").attr('id', "totalPop").classed("data", true);
 
+        CountryBlock.append("div").text("Suicides per 100k: ").classed("cat", true)
+            .append("div").text("spk").attr('id', "suipk").classed("data", true);
+
+
         CountryBlock.append("div").text("GDP: ").classed("cat", true)
             .append("div").text("curGDP").attr('id', "gdp").classed("data", true);
+
+        CountryBlock.append("div").text("Disclaimer: values like population and GDP will use the last year if you are looking at a span of years but suicides uses the total number in the span.").classed("disclaimer", true);
 
         
         StoryBlock.append('div').text("Story: ").classed("cat", true).attr('id', "title");
@@ -168,35 +171,85 @@ class InfoPanel {
             return;
         }
 
+        let pop;
+        let sui;
+
         if (this.yearData[this.country] && this.yearData[this.country][this.year + this.yearSpan])
         {
+            if (this.yearData[this.country][this.year + this.yearSpan]["totalPop"]) {
+                pop = this.yearData[this.country][this.year + this.yearSpan]["totalPop"];
+            }
+            if (this.yearData[this.country][this.year + this.yearSpan]["totalSui"]) {
+                sui = this.yearData[this.country][this.year + this.yearSpan]["totalSui"];
+            }
+
             this.yearKeys.forEach(key => {
-                if (Number.isInteger(this.yearData[this.country][this.year][key])) {
-                    d3.select(`#${key}`).text(new Intl.NumberFormat().format(this.yearData[this.country][this.year + this.yearSpan][key]));
-                } else {
-                    d3.select(`#${key}`).text(this.yearData[this.country][this.year + this.yearSpan][key]);
+                if (key == "totalSui" && this.yearSpan > 0)
+                {
+                    let valueFound = false;
+                    let totSui = 0;
+
+                    for (let year = this.year; year <= this.year + this.yearSpan; year++)
+                    {
+                        if (this.yearData[this.country][year][key]) {
+                            valueFound = true;
+                            
+                            totSui += parseInt(this.yearData[this.country][year][key]);
+                        }
+                    }
+
+                    if (valueFound) {
+                        panel.select(`#${key}`).text(new Intl.NumberFormat().format(totSui));
+                    }
+                    else
+                    {
+                        panel.select(`#${key}`).text("N/A");
+                    }
+
+                }
+                else if (!this.yearData[this.country][this.year][key]) 
+                {
+                    panel.select(`#${key}`).text("N/A");
+                }
+                else if (Number.isInteger(this.yearData[this.country][this.year][key])) 
+                {
+                    panel.select(`#${key}`).text(new Intl.NumberFormat().format(this.yearData[this.country][this.year + this.yearSpan][key]));
+                } else 
+                {
+                    panel.select(`#${key}`).text(this.yearData[this.country][this.year + this.yearSpan][key]);
                 }
                 
             });
         } else 
         {
             this.yearKeys.forEach(key => {
-                d3.select(`#${key}`).text("N/A");
+                panel.select(`#${key}`).text("N/A");
             });
         }
+
+        //TODO set suicides per 100k
 
         this.UpdateAgeSuicides(panel);
     }
 
     UpdateStory(storyNum)
     {
-        d3.select
+        let panel = d3.select("#detail");
+
+        let title = panel.select("#title");
+        let text = panel.select("#story");
+
+        let titlebase = "Story: ";
+
         switch (storyNum) {
             case 0:
-                
+                title.text(titlebase + "introduction");
+
+                text.text("fill in later");
                 break;
         
             default:
+                
                 break;
         }
     }

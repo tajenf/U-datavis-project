@@ -59,6 +59,10 @@ div.story {
   font-size: 12px;
 }
 
+div.disclaimer {
+  font-size: 9px;
+}
+
 div.data {
   display: inline;
   font-size: 16px;

@@ -38,13 +38,22 @@ Promise.all([data]).then(data =>
         let years = new Set();
         let ageGroups = new Set();
 
+        yearData["World"] = {};
+        suicideData["World"] = {};
+
+
         data[0].forEach(element => {
             
             if (!yearData[element.country]) {
                 yearData[element.country] = {};
             }
 
-            let population = element.population;
+            if (!yearData["World"][element.year]) {
+                yearData["World"][element.year] = {};
+                yearData["World"][element.year]["suicides"] = 0;
+                yearData["World"][element.year]["population"] = 0;
+            }
+
             let gdp = parseInt(element["gdp_per_capita ($)"]);
 
             yearData[element.country][element.year] = {gdp};
@@ -61,9 +70,26 @@ Promise.all([data]).then(data =>
                 suicideData[element.country][element.sex]["a" + element.age.replace(" ", "_")] = {};
             }
 
+            if (!suicideData["World"][element.sex]) {
+                suicideData["World"][element.sex] = {};
+            }
+
+            if (!suicideData["World"][element.sex]["a" + element.age.replace(" ", "_")]) {
+                suicideData["World"][element.sex]["a" + element.age.replace(" ", "_")] = {};
+            }
+            
+            if (!suicideData["World"][element.sex]["a" + element.age.replace(" ", "_")][element.year]) {
+                suicideData["World"][element.sex]["a" + element.age.replace(" ", "_")][element.year] = {};
+                suicideData["World"][element.sex]["a" + element.age.replace(" ", "_")][element.year]["suicides"] = 0;
+                suicideData["World"][element.sex]["a" + element.age.replace(" ", "_")][element.year]["population"] = 0;
+            }
+
             let suicides = parseInt(element.suicides_no);
+            let population = parseInt(element.population);
             let popsuicides = parseFloat(element["suicides/100k pop"]);
 
+            suicideData["World"][element.sex]["a" + element.age.replace(" ", "_")][element.year]["suicides"] += (suicides) ;
+            suicideData["World"][element.sex]["a" + element.age.replace(" ", "_")][element.year]["population"] += (population);
             suicideData[element.country][element.sex]["a" + element.age.replace(" ", "_")][element.year] = {suicides, popsuicides, population};
 
             years.add(element.year);
