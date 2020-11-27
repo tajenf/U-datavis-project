@@ -28,31 +28,35 @@ class InfoPanel {
 
         detailPanel.classed("details");
 
-        let infoBlock1 = detailPanel.append('g');
-        let infoBlock2 = detailPanel.append('g');
+        let CountryBlock = detailPanel.append('g');
+        let StoryBlock = detailPanel.append('g');
 
         let maleBlock = detailPanel.append('g').attr('id', "male");
         let femaleBlock = detailPanel.append('g').attr('id', "female");
 
-        infoBlock1.append("div").text("Country: ").classed("cat", true)
+        CountryBlock.append("div").text("Country: ").classed("cat", true)
             .append("div").text("curCountry").attr('id', "country").classed("data", true);
 
         //forloop of country specific information
 
-        let year = infoBlock1.append('g');
+        let year = CountryBlock.append('g');
         year.append("div").text("year: ").attr('id', "yearlabel").classed("cat", true).style('display', 'inline');
         year.append("div").text("curYear").attr('id', "year").classed("data", true);
 
-        infoBlock1.append("div").text("Total Suicides: ").classed("cat", true)
+        CountryBlock.append("div").text("Total Suicides: ").classed("cat", true)
             .append("div").text("curSuicides").attr('id', "totalSui").classed("data", true);
 
-        infoBlock1.append("div").text("Population: ").classed("cat", true)
+        CountryBlock.append("div").text("Population: ").classed("cat", true)
             .append("div").text("curPop").attr('id', "totalPop").classed("data", true);
 
-        infoBlock1.append("div").text("GDP: ").classed("cat", true)
+        CountryBlock.append("div").text("GDP: ").classed("cat", true)
             .append("div").text("curGDP").attr('id', "gdp").classed("data", true);
 
         
+        StoryBlock.append('div').text("Story: ").classed("cat", true).attr('id', "title");
+
+        StoryBlock.append('div').classed("story",true).attr('id', "story");
+
 
         maleBlock.append("div").text("Male Breakdown: ").classed("cat", true)
 
@@ -186,7 +190,15 @@ class InfoPanel {
 
     UpdateStory(storyNum)
     {
+        d3.select
+        switch (storyNum) {
+            case 0:
+                
+                break;
         
+            default:
+                break;
+        }
     }
 
     UpdateAgeSuicides(panel)
