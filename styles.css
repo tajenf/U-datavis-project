@@ -21,13 +21,18 @@
 }
 
 .data-wrapper {
-  width: 2000;
   display: grid;
-  grid-template-rows: min-content;
-  grid-template-columns: 600px 1fr; /*left side is details right is graphs*/
+  vertical-align: top;
+  grid-template-rows: 300px 1fr;
+  grid-template-columns: 1fr 1fr; /*left side is details right is graphs*/
   /*1fr will scale based on the left over pixels and how many frames listed*/
   /* this settup means 1fr = total width - 300px*/
   /*https://developer.mozilla.org/en-US/docs/Web/CSS/grid-template-columns */
+}
+
+.breakdown-Grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
 }
 
 .info-wrapper {

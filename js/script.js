@@ -62,7 +62,7 @@ Promise.all([suiData, densityData, cellData, powerData, unemploymentData]).then(
 
             let gdp = parseInt(suiData["gdp_per_capita ($)"]);
 
-            yearData[suiData.country][suiData.year] = {gdp};
+            yearData[suiData.country][parseInt(suiData.year)] = {gdp};
 
             //suicide data section
             if (!suicideData[suiData.country]) {
@@ -103,12 +103,16 @@ Promise.all([suiData, densityData, cellData, powerData, unemploymentData]).then(
             ageGroups.add("a" + suiData.age.replace(" ", "_"));
         });
 
-        data[1].forEach(data => {
-            let year = parseInt(data.year);
-            if (year >= 1985 && year <= 2016 && yearData[data.country]){
-                if (!yearData[data.country][year]) {
-                    yearData[data.country][year] = {}
-                }
+        //console.log(data[1]);
+
+        data[1].forEach(denData => {
+            //console.log(denData);
+            //console.log(denData.Country);
+            let country = denData.Country;
+
+            for (let year = 1985; year <= 2016; year++) {
+                //const element = array[year];
+                
             }
         });
 
