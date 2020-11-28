@@ -152,6 +152,10 @@ Promise.all([suiData, densityData, cellData, powerData, unemploymentData]).then(
         });
     });
 
+
+    console.log(ageGroups); 
+    console.log(yearData); 
+
     //1 for primary country
     //2 for country that is only visible when comparing.
     function UpdateCountry(country, countryNum) {

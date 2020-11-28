@@ -16,22 +16,29 @@ class UI {
     }
 
     drawItems() {
-        //UI SVG 
-        let ui_svg = d3.select("#ui")
+
+        let ui_div = d3.select("#ui");
+
+        //Add div sections for UI features 
+        let ui_svg = ui_div
             .append("svg")
             .attr("id", "ui_svg")
             .attr("height", "220px")
             .attr("width", "1100px");
 
-        let ui_gender_drop = d3.select("#ui")
+        let ui_gender_drop = ui_div
             .append("div")
             .attr("id", "gender_div");
 
-        let ui_age_drop = d3.select("#ui")
+        let ui_age_drop = ui_div
             .append("div")
             .attr("id", "age_div");
 
-        let ui_compare_toggle = d3.select("#ui")
+        let ui_story = ui_div
+            .append("div")
+            .attr("id", "story_div");
+
+        let ui_compare_toggle = ui_div
             .append("div")
             .attr("id", "compare_div");
 
@@ -42,9 +49,7 @@ class UI {
 
     ui_Titles() {
         let ui_svg = d3.select("#ui_svg");
-        let end = d3.select("#ui_svg").attr("width");
-
-        console.log(end);
+        let end = d3.select("#ui_svg").attr("width");//not sure if need yet 
 
         //Country Text
         ui_svg.append("text")
@@ -160,7 +165,7 @@ class UI {
 
         function UpdateAgeOption(current) {
             let array = that.age_map.get(current.value);
-            //need to call updateAge here 
+
             if (current.checked == true) {
                 array[1] = 1;
                 that.checkCount++;
@@ -177,6 +182,7 @@ class UI {
             that.updateAge(that.age_map);
         };
 
+        //Apply Age selection update age function
         document.getElementById("5-14 years_option_ID").onclick = function () {
             UpdateAgeOption(this);
         };
@@ -226,13 +232,31 @@ class UI {
             .attr("type", "checkbox");
 
         document.getElementById("input_compare").onchange = function () {
-            if(this.checked == true){
-                that.updateCompare(true); 
+            if (this.checked == true) {
+                that.updateCompare(true);
             }
-            else{
-                that.updateCompare(false); 
+            else {
+                that.updateCompare(false);
             }
         };
+
+
+        let stories = ["Cellphone Use", "Population Density", "Power Consumption", "Total Unemployment", "deselect"];
+
+        //Story feature 
+        d3.select("#story_div").selectAll("input")
+            .data(stories)
+            .enter()
+            .append("input")
+            .attr("type", "radio")
+            .attr("class", function(d){
+                return d+"class"; 
+            })
+            .attr("id", function(d){
+                return d+"id"; 
+            })
+            .attr("name", "Story_radio");
+
     }
 
     year_slider() {

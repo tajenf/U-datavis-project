@@ -2,44 +2,51 @@ class Graph {
 
     constructor(data, country_name, Gender, Age_group, compare) {
 
-        let graph_svg = d3.select('#graph')
+        let graph_svg1 = d3.select('#graph')
             .append("svg")
-            .attr("id", "graph_svg")
+            .attr("id", "graph_svg1")
             .attr("height", 500)
-            .attr("width", 600);
+            .attr("width", 650);
+            
+        let graph_svg2 = d3.select('#graph')
+            .append("svg")
+            .attr("id", "graph_svg2")
+            .attr("height", 500)
+            .attr("width", 650)
+            .classed("hidden", false);
 
         //Graph 1 Line
-        graph_svg.append("g")
-            .attr("transform", "translate(50,20)")
+        graph_svg1.append("g")
+            .attr("transform", "translate(120,20)")
             .append("path")
             .attr("id", "graph_path")
             .attr("fill", "none")
             .attr("stroke", "black");
 
         //Graph 1 Hover points 
-        graph_svg.append("g")
-            .attr("transform", "translate(50,20)")
+        graph_svg1.append("g")
+            .attr("transform", "translate(120,20)")
             .attr("id", "Hover_points");
 
         //Graph 1 y-axis 
-        graph_svg.append("text")
+        graph_svg1.append("text")
             .attr("id", "axis-label-y")
-            .attr("transform", "translate(15, 200), rotate(-90)")
+            .attr("transform", "translate(40, 200), rotate(-90)")
             .style("text-anchor", "middle")
             .text("Suicide Count");
 
         //Graph 1 x-axis 
-        graph_svg.append("text")
+        graph_svg1.append("text")
             .attr("id", "axis-label-x")
-            .attr("transform", "translate(300, 470)")
+            .attr("transform", "translate(330, 470)")
             .style("text-anchor", "middle")
             .text("Years");
 
         //Display 
-        graph_svg.append("g")
+        graph_svg1.append("g")
             .attr("id", "Graph-Info_1")
             .append("text")
-            .attr("transform", "translate(300, 490)")
+            .attr("transform", "translate(330, 490)")
             .style("text-anchor", "middle")
             .text("Country: " + country_name + ",  Gender: " + Gender + ",  Age: " + Age_group);
 
@@ -50,16 +57,16 @@ class Graph {
 
         let filter_data = null;
 
-        if (country_name == "world" && Gender == "both" && Age_group == "all") {
-            console.log("I went in here!"); 
-            filter_data = data; 
-        }
-        else if (country_name != "world" && Gender != "both" && Age_group != "all") {
-            filter_data = data.filter(d => ((d.country == country_name) && (d.sex == Gender) && (d.age == Age_group)));
-        }
-        //will need more checkers 
-        console.log(data);
-        console.log(filter_data);
+        // if (country_name == "world" && Gender == "both" && Age_group == "all") {
+        //     console.log("I went in here!"); 
+        //     filter_data = data; 
+        // }
+        // else if (country_name != "world" && Gender != "both" && Age_group != "all") {
+        filter_data = data.filter(d => ((d.country == "Albania") && (d.sex == "female") && (d.age == "5-14 years")));
+        // }
+        // //will need more checkers 
+        // console.log(data);
+        // console.log(filter_data);
 
         let max_sui = d3.max(filter_data, function (d) { return +d.suicides_no });
         let max_yr = d3.max(filter_data, function (d) { return d.year });
@@ -80,14 +87,14 @@ class Graph {
 
     drawLegend() {
 
-        let svg = d3.select("#graph_svg");
+        let svg = d3.select("#graph_svg1");
 
         //x-axis
-        svg.append("g").attr("transform", "translate(50, 420)")
+        svg.append("g").attr("transform", "translate(120, 420)")
             .call(d3.axisBottom(this.scaleX).ticks().tickFormat(d3.format("d")));
 
         //y-axis
-        svg.append("g").attr("transform", "translate(50,20)")
+        svg.append("g").attr("transform", "translate(120,20)")
             .call(d3.axisLeft(this.scaleY).ticks(10));
     }
 
