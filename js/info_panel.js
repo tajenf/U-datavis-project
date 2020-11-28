@@ -24,11 +24,13 @@ class InfoPanel {
     {
         let StoryBlock = d3.select("#detail").append('g');
 
-        
-        StoryBlock.append('div').text("Story: ").classed("cat", true).attr('id', "title");
+        StoryBlock.append('br');
+
+        StoryBlock.append('div').text("Story: ").classed("story-title", true).attr('id', "title");
 
         StoryBlock.append('div').classed("story",true).attr('id', "story");
 
+        StoryBlock.append('br');
         StoryBlock.append('br');
 
 
@@ -40,40 +42,43 @@ class InfoPanel {
         let CountryBlock2 = detailPanel.append('g').attr('id', "country2");
         let CountryBlock1 = detailPanel.append('g').attr('id', "country1");
 
-        let suiBreakdown2 = detailPanel.append('g').attr('id', "sui2");
-        let suiBreakdown1 = detailPanel.append('g').attr('id', "sui1");
+        this.initCountryBlock(CountryBlock1);
+        this.initCountryBlock(CountryBlock2);
+
+
+        let suiBreakdown2 = CountryBlock2.append('g');
+        let suiBreakdown1 = CountryBlock1.append('g');
+
+        d3.select("#detail").append("div").text("Disclaimer: values like population and GDP will use the last year if you are looking at a span of years but suicides uses the total number in the span.").classed("disclaimer", true);
 
         this.initPopSui(suiBreakdown1);
         this.initPopSui(suiBreakdown2);
+        
+    }
 
-        let maleBlock = detailPanel.append('g').attr('id', "male");
-        let femaleBlock = detailPanel.append('g').attr('id', "female");
-
-        CountryBlock1.append("div").text("Country: ").classed("cat", true)
+    initCountryBlock(block)
+    {
+        block.append("div").text("Country: ").classed("cat", true)
             .append("div").text("curCountry").attr('id', "country").classed("data", true);
 
-        //forloop of country specific information
-
-        let year = CountryBlock1.append('g');
+        let year = block.append('g');
         year.append("div").text("year: ").attr('id', "yearlabel").classed("cat", true).style('display', 'inline');
         year.append("div").text("curYear").attr('id', "year").classed("data", true);
 
-        CountryBlock1.append("div").text("Total Suicides: ").classed("cat", true)
+        block.append("div").text("Total Suicides: ").classed("cat", true)
             .append("div").text("curSuicides").attr('id', "totalSui").classed("data", true);
 
-        CountryBlock1.append("div").text("Population: ").classed("cat", true)
+        block.append("div").text("Population*: ").classed("cat", true)
             .append("div").text("curPop").attr('id', "totalPop").classed("data", true);
 
-        CountryBlock1.append("div").text("Suicides per 100k: ").classed("cat", true)
+        block.append("div").text("Suicides per 100k*: ").classed("cat", true)
             .append("div").text("spk").attr('id', "suipk").classed("data", true);
 
 
-        CountryBlock1.append("div").text("GDP: ").classed("cat", true)
+        block.append("div").text("GDP*: ").classed("cat", true)
             .append("div").text("curGDP").attr('id', "gdp").classed("data", true);
 
-        CountryBlock1.append("div").text("Disclaimer: values like population and GDP will use the last year if you are looking at a span of years but suicides uses the total number in the span.").classed("disclaimer", true);
-
-        
+            //TODO add other data sets
     }
 
     initPopSui(block)
@@ -87,13 +92,15 @@ class InfoPanel {
 
         maleBlock.append("div").text("Male Breakdown: ").classed("cat", true)
 
-        maleBlock.append("div").text("Male Pop: ").classed("cat", true)
+        maleBlock.append("div").text("M Pop: ").classed("cat", true)
             .append("div").text("curPop").attr('id', "malePop").classed("data", true);
             
-        maleBlock.append("div").text("Male Suicides: ").classed("cat", true)
+        maleBlock.append("div").text("M Suicides: ").classed("cat", true)
             .append("div").text("curSuicides").attr('id', "maleSui").classed("data", true);
 
-        maleBlock.append('div').text("Ages:").classed("cat", true);
+        maleBlock.append('br');
+
+        maleBlock.append('div').text("Ages Groups:").classed("cat", true);
             
         maleBlock.append("div").text("-5-14 : ").classed("cat", true)
             .append("div").text("curSuicides").attr('id', "a5-14_years").classed("data", true);
@@ -102,29 +109,44 @@ class InfoPanel {
 
         maleBlock.append("div").text("-15-24: ").classed("cat", true)
             .append("div").text("curSuicides").attr('id', "a15-24_years").classed("data", true);
+            
+            maleBlock.append('br');
 
         maleBlock.append("div").text("-25-34: ").classed("cat", true)
             .append("div").text("curSuicides").attr('id', "a25-34_years").classed("data", true);
+            
+            maleBlock.append('br');
 
         maleBlock.append("div").text("-35-54: ").classed("cat", true)
             .append("div").text("curSuicides").attr('id', "a35-54_years").classed("data", true);
+            
+            maleBlock.append('br');
 
         maleBlock.append("div").text("-55-74: ").classed("cat", true)
             .append("div").text("curSuicides").attr('id', "a55-74_years").classed("data", true);
+            
+            maleBlock.append('br');
 
         maleBlock.append("div").text("-75+ : ").classed("cat", true)
             .append("div").text("curSuicides").attr('id', "a75_years").classed("data", true);
+            
+            maleBlock.append('br');
 
         
         femaleBlock.append('br');
 
         femaleBlock.append("div").text("Female Breakdown: ").classed("cat", true)
 
-        femaleBlock.append("div").text("Female Pop: ").classed("cat", true)
+        femaleBlock.append("div").text("F Pop: ").classed("cat", true)
             .append("div").text("curPop").attr('id', "femalePop").classed("data", true);
             
-        femaleBlock.append("div").text("Female Suicides: ").classed("cat", true)
+        femaleBlock.append("div").text("F Suicides: ").classed("cat", true)
             .append("div").text("curSuicides").attr('id', "femaleSui").classed("data", true);
+
+        
+        femaleBlock.append('br');
+
+        femaleBlock.append('div').text("Age Groups:").classed("cat", true);
 
         femaleBlock.append("div").text("-5-14 : ").classed("cat", true)
             .append("div").text("curSuicides").attr('id', "a5-14_years").classed("data", true);
@@ -150,6 +172,7 @@ class InfoPanel {
     {
         let country2 =  d3.select("#detail").select("#country2");
         let sui2 =  d3.select("#detail").select("#sui2");
+
         if (display2countries) {
             country2.transition()
                 .style('opacity', 1)
@@ -225,33 +248,30 @@ class InfoPanel {
 
         let yearlabel = panel.select("#yearlabel")
         let year = panel.select("#year");
+
+        let endyear = this.year + this.yearSpan;
+
         if (this.yearSpan == 0) {
             yearlabel.text("year: ");
             year.text(this.year);
         } else {
             yearlabel.text("years: ");
-            year.text(`${this.year}-${ this.year + this.yearSpan}`)
+            year.text(`${this.year}-${ endyear}`)
         }
 
-        let pop;
-        let sui;
-
-        if (this.yearData[country] && this.yearData[country][this.year + this.yearSpan])
+        if (this.yearData[country] && this.yearData[country][endyear])
         {
-            if (this.yearData[country][this.year + this.yearSpan]["totalPop"]) {
-                pop = this.yearData[country][this.year + this.yearSpan]["totalPop"];
-            }
-            if (this.yearData[country][this.year + this.yearSpan]["totalSui"]) {
-                sui = this.yearData[country][this.year + this.yearSpan]["totalSui"];
-            }
+            let dataYear = endyear;
 
             this.yearKeys.forEach(key => {
-                if (key == "totalSui" && this.yearSpan > 0)
-                {
-                    let valueFound = false;
-                    let totSui = 0;
+                let dataYear = endyear;
+                let valueFound = false;
 
-                    for (let year = this.year; year <= this.year + this.yearSpan; year++)
+                let totSui = 0
+
+                if (key == "totalSui")
+                {
+                    for (let year = this.year; year <= endyear; year++)
                     {
                         if (this.yearData[country][year][key]) {
                             valueFound = true;
@@ -267,19 +287,37 @@ class InfoPanel {
                     {
                         panel.select(`#${key}`).text("N/A");
                     }
+                }
+                else {
 
+                    //if the key doesn't need to sum over a span do the following
+                    
+                    if (!this.yearData[country][endyear][key]) 
+                    {
+    
+                        //just checked end year. if span is 0 this will be skipped.
+                        for (let year = endyear - 1; year >= this.year; year--) {
+                            if (this.yearData[country][endyear][key]) {
+                                valueFound = true;
+                                
+                                dataYear = year;
+                            }
+                            
+                        }
+    
+                        if (!valueFound) {
+                            panel.select(`#${key}`).text("N/A");
+                        }
+                        
+                    }
+    
+                    if (Number.isInteger(this.yearData[country][dataYear][key])) 
+                    {
+                        panel.select(`#${key}`).text(new Intl.NumberFormat().format(this.yearData[country][dataYear][key]));
+                    } else {
+                        panel.select(`#${key}`).text(this.yearData[country][dataYear][key]);
+                    }
                 }
-                else if (!this.yearData[country][this.year][key]) 
-                {
-                    panel.select(`#${key}`).text("N/A");
-                }
-                else if (Number.isInteger(this.yearData[country][this.year][key])) 
-                {
-                    panel.select(`#${key}`).text(new Intl.NumberFormat().format(this.yearData[country][this.year + this.yearSpan][key]));
-                } else {
-                    panel.select(`#${key}`).text(this.yearData[country][this.year + this.yearSpan][key]);
-                }
-                
             });
         } else {
             this.yearKeys.forEach(key => {
@@ -316,7 +354,7 @@ class InfoPanel {
 
     UpdateAgeSuicides(panelNum)
     {
-        let panel = d3.select("#detail").select(`#sui${panelNum}`);
+        let panel = d3.select("#detail").select(`#country${panelNum}`);
         let male = panel.select("#male");
         let female = panel.select("#female");
 

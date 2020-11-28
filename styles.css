@@ -57,12 +57,18 @@ div.cat {
   font-weight: bold;
 }
 
+div.story-title {
+  text-align: center;
+  font-size: 20px;
+  font-weight: bold;
+}
+
 div.story {
-  font-size: 12px;
+  font-size: 13px;
 }
 
 div.disclaimer {
-  font-size: 9px;
+  font-size: 11px;
 }
 
 div.data {
