@@ -71,10 +71,10 @@ div.data {
   font-weight: normal;
 }
 
-/* .boundary {
+.boundary {
   stroke: black;
   stroke-width: .8px;
-} */
+}
 
 .graticule {
   fill: none;
