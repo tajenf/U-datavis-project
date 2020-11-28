@@ -194,6 +194,7 @@ Promise.all([suiData, densityData, cellData, powerData, unemploymentData]).then(
         let ui = new UI(oData, UpdateYear, UpdateAge, UpdateSex, UpdateStory); 
         let info = new InfoPanel(suicideData, yearData, yearKeys, countryData, countryKeys, ageGroups);
 
-        d3.json('./data/countries.geojson').then(map => { world.drawWorld(map)});
+        
+        d3.json('./data/countriestopo.json').then(map => { world.drawWorld(map)});
 
     });
