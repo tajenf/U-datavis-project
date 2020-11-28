@@ -49,7 +49,7 @@ class InfoPanel {
         let suiBreakdown2 = CountryBlock2.append('g');
         let suiBreakdown1 = CountryBlock1.append('g');
 
-        d3.select("#detail").append("div").text("Disclaimer: values like population and GDP will use the last year if you are looking at a span of years but suicides uses the total number in the span.").classed("disclaimer", true);
+        d3.select("#detail").append("div").text("Disclaimer:\n* uses ending population.\n** uses an average.\nSuicides as % is calculated using total suicides / ending pop").classed("disclaimer", true);
 
         this.initPopSui(suiBreakdown1);
         this.initPopSui(suiBreakdown2);
@@ -71,12 +71,26 @@ class InfoPanel {
         block.append("div").text("Population*: ").classed("cat", true)
             .append("div").text("curPop").attr('id', "totalPop").classed("data", true);
 
-        block.append("div").text("Suicides per 100k*: ").classed("cat", true)
+        block.append("div").text("Suicides per 100k: ").classed("cat", true)
             .append("div").text("spk").attr('id', "suipk").classed("data", true);
+            
+        block.append("div").text("Suicides as % of Pop*: ").classed("cat", true)
+            .append("div").text("%").attr('id', "percent").classed("data", true);
 
-
-        block.append("div").text("GDP*: ").classed("cat", true)
+        block.append("div").text("GDP**: ").classed("cat", true)
             .append("div").text("curGDP").attr('id', "gdp").classed("data", true);
+
+        block.append("div").text("Pop density**: ").classed("cat", true)
+            .append("div").text("density").attr('id', "density").classed("data", true);
+            
+        block.append("div").text("Unemployment**: ").classed("cat", true)
+        .append("div").text("unemployment").attr('id', "unemployment").classed("data", true);
+        
+        block.append("div").text("Power Consumption**: ").classed("cat", true)
+            .append("div").text("I have the power").attr('id', "power").classed("data", true);
+            
+        block.append("div").text("CellPhone**: ").classed("cat", true)
+        .append("div").text("This ain't my dad").attr('id', "cellphone").classed("data", true);
 
             //TODO add other data sets
     }
@@ -102,32 +116,32 @@ class InfoPanel {
 
         maleBlock.append('div').text("Ages Groups:").classed("cat", true);
             
-        maleBlock.append("div").text("-5-14 : ").classed("cat", true)
+        maleBlock.append("div").text("5-14 : ").classed("cat", true)
             .append("div").text("curSuicides").attr('id', "a5-14_years").classed("data", true);
             
         maleBlock.append('br');
 
-        maleBlock.append("div").text("-15-24: ").classed("cat", true)
+        maleBlock.append("div").text("15-24: ").classed("cat", true)
             .append("div").text("curSuicides").attr('id', "a15-24_years").classed("data", true);
             
             maleBlock.append('br');
 
-        maleBlock.append("div").text("-25-34: ").classed("cat", true)
+        maleBlock.append("div").text("25-34: ").classed("cat", true)
             .append("div").text("curSuicides").attr('id', "a25-34_years").classed("data", true);
             
             maleBlock.append('br');
 
-        maleBlock.append("div").text("-35-54: ").classed("cat", true)
+        maleBlock.append("div").text("35-54: ").classed("cat", true)
             .append("div").text("curSuicides").attr('id', "a35-54_years").classed("data", true);
             
             maleBlock.append('br');
 
-        maleBlock.append("div").text("-55-74: ").classed("cat", true)
+        maleBlock.append("div").text("55-74: ").classed("cat", true)
             .append("div").text("curSuicides").attr('id', "a55-74_years").classed("data", true);
             
             maleBlock.append('br');
 
-        maleBlock.append("div").text("-75+ : ").classed("cat", true)
+        maleBlock.append("div").text("75+ : ").classed("cat", true)
             .append("div").text("curSuicides").attr('id', "a75_years").classed("data", true);
             
             maleBlock.append('br');
@@ -148,22 +162,32 @@ class InfoPanel {
 
         femaleBlock.append('div').text("Age Groups:").classed("cat", true);
 
-        femaleBlock.append("div").text("-5-14 : ").classed("cat", true)
+        femaleBlock.append("div").text("5-14 : ").classed("cat", true)
             .append("div").text("curSuicides").attr('id', "a5-14_years").classed("data", true);
+        
+            femaleBlock.append('br');
 
-        femaleBlock.append("div").text("-15-24: ").classed("cat", true)
+        femaleBlock.append("div").text("15-24: ").classed("cat", true)
             .append("div").text("curSuicides").attr('id', "a15-24_years").classed("data", true);
+        
+            femaleBlock.append('br');
 
-        femaleBlock.append("div").text("-25-34: ").classed("cat", true)
+        femaleBlock.append("div").text("25-34: ").classed("cat", true)
             .append("div").text("curSuicides").attr('id', "a25-34_years").classed("data", true);
+        
+            femaleBlock.append('br');
 
-        femaleBlock.append("div").text("-35-54: ").classed("cat", true)
+        femaleBlock.append("div").text("35-54: ").classed("cat", true)
             .append("div").text("curSuicides").attr('id', "a35-54_years").classed("data", true);
+        
+            femaleBlock.append('br');
 
-        femaleBlock.append("div").text("-55-74: ").classed("cat", true)
+        femaleBlock.append("div").text("55-74: ").classed("cat", true)
             .append("div").text("curSuicides").attr('id', "a55-74_years").classed("data", true);
+        
+            femaleBlock.append('br');
 
-        femaleBlock.append("div").text("-75+ : ").classed("cat", true)
+        femaleBlock.append("div").text("75+ : ").classed("cat", true)
             .append("div").text("curSuicides").attr('id', "a75_years").classed("data", true);
 
     }
@@ -252,25 +276,24 @@ class InfoPanel {
         let endyear = this.year + this.yearSpan;
 
         if (this.yearSpan == 0) {
-            yearlabel.text("year: ");
+            yearlabel.text("Year: ");
             year.text(this.year);
         } else {
-            yearlabel.text("years: ");
+            yearlabel.text("Years: ");
             year.text(`${this.year}-${ endyear}`)
         }
 
+        let totSui = 0;
+
         if (this.yearData[country] && this.yearData[country][endyear])
         {
-            let dataYear = endyear;
 
             this.yearKeys.forEach(key => {
-                let dataYear = endyear;
-                let valueFound = false;
-
-                let totSui = 0
-
-                if (key == "totalSui")
+                
+                if (key.endsWith("Sui"))
                 {
+                    let valueFound = false;
+                    
                     for (let year = this.year; year <= endyear; year++)
                     {
                         if (this.yearData[country][year][key]) {
@@ -288,35 +311,55 @@ class InfoPanel {
                         panel.select(`#${key}`).text("N/A");
                     }
                 }
-                else {
+                else if(key.endsWith("Pop")) {
 
+                    
                     //if the key doesn't need to sum over a span do the following
                     
+                    let dataYear = endyear;
+
+                    let valueFound = true;
+
                     if (!this.yearData[country][endyear][key]) 
                     {
-    
+                        valueFound = false;
                         //just checked end year. if span is 0 this will be skipped.
                         for (let year = endyear - 1; year >= this.year; year--) {
-                            if (this.yearData[country][endyear][key]) {
+                            if (this.yearData[country][year][key]) {
                                 valueFound = true;
                                 
                                 dataYear = year;
+                                break;
                             }
                             
                         }
-    
-                        if (!valueFound) {
-                            panel.select(`#${key}`).text("N/A");
-                        }
                         
                     }
-    
-                    if (Number.isInteger(this.yearData[country][dataYear][key])) 
+
+                    if (!valueFound) {
+                        panel.select(`#${key}`).text("N/A");
+                    } else  
                     {
                         panel.select(`#${key}`).text(new Intl.NumberFormat().format(this.yearData[country][dataYear][key]));
-                    } else {
-                        panel.select(`#${key}`).text(this.yearData[country][dataYear][key]);
+                    } 
+                } else {
+
+                    let valuesFound = 0;
+                    let runningTotal = 0;
+
+                    for (let year = this.year; year < endyear; year++) {
+                        if (this.yearData[country][year][key]) {
+                            runningTotal += parseInt(this.yearData[country][year][key]);
+                            valuesFound++;
+                        }
                     }
+
+                    if (valuesFound == 0) {
+                        panel.select(`#${key}`).text("N/A");
+                    } else  
+                    {
+                        panel.select(`#${key}`).text(new Intl.NumberFormat().format((runningTotal/valuesFound).toFixed(2)));
+                    } 
                 }
             });
         } else {
@@ -325,7 +368,13 @@ class InfoPanel {
             });
         }
 
-        //TODO set suicides per 100k
+        let suipk = (totSui/100000).toFixed(2);
+
+        panel.select("#suipk").text(new Intl.NumberFormat().format(suipk));
+
+        let totPop = parseInt(panel.select("#totalPop").text().replaceAll(',',''));
+        let percent = totSui/totPop;
+        panel.select("#percent").text(`${(percent * 100).toFixed(3)}%`);
 
         this.UpdateAgeSuicides(panelNum);
     }
@@ -397,7 +446,7 @@ class InfoPanel {
                             }
                         }
 
-                        let avgCatString = `--Avg/Yr: `;
+                        let avgCatString = `Avg/Yr: `;
 
                         if (maleRecordFound) {
                             ageDivM.text(new Intl.NumberFormat().format(maleSui));
