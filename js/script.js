@@ -197,7 +197,7 @@ Promise.all([suiData, densityData, cellData, powerData, unemploymentData]).then(
 
     let world = new World(oData, UpdateCountry, yearData);
     let graph = new Graph(data[0], "world", "both", "all"); //, 0, null, null, null);
-    let ui = new UI(oData, UpdateYear, UpdateAge, UpdateSex, UpdateDualCountryView);
+    let ui = new UI(oData, UpdateYear, UpdateAge, UpdateSex, UpdateStory, UpdateDualCountryView);
     let info = new InfoPanel(suicideData, yearData, yearKeys, countryData, countryKeys, ageGroups);
 
 

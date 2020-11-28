@@ -1,9 +1,10 @@
 class UI {
 
-    constructor(data, updateYear, updateAge, updateGender, updateCompare) {
+    constructor(data, updateYear, updateAge, updateGender, updateStory, updateCompare) {
         this.updateYear = updateYear;
         this.updateAge = updateAge;
         this.updateGender = updateGender;
+        this.updateStory = updateStory;
         this.updateCompare = updateCompare;
 
         this.startYear = 1985;
@@ -241,7 +242,7 @@ class UI {
         };
 
 
-        let stories = ["Cellphone Use", "Population Density", "Power Consumption", "Total Unemployment", "deselect"];
+        let stories = ["Cellphone Use", "Population Density", "Power Consumption", "Total Unemployment"]; //, "deselect"];
 
         //Story feature 
         d3.select("#story_div").selectAll("input")
@@ -249,14 +250,36 @@ class UI {
             .enter()
             .append("input")
             .attr("type", "radio")
-            .attr("class", function(d){
-                return d+"class"; 
+            // .attr("class", function (d) {
+            //     return d + "class";
+            // })
+            .attr("id", function (d) {
+                return d + "_ID";
             })
-            .attr("id", function(d){
-                return d+"id"; 
-            })
-            .attr("name", "Story_radio");
+            .attr("name", "Story_radio")
+            .attr("value", function (d) {       ///need to fix the values 
+                return d;
+            });
 
+        document.getElementById("Cellphone Use_ID").onclick = function () {
+            UpdateStorySection(this);
+        };
+
+        document.getElementById("Population Density_ID").onclick = function () {
+            UpdateStorySection(this);
+        };
+
+        document.getElementById("Power Consumption_ID").onclick = function () {
+            UpdateStorySection(this);
+        };
+
+        document.getElementById("Total Unemployment_ID").onclick = function () {
+            UpdateStorySection(this);
+        };
+
+        function UpdateStorySection(current) {
+            that.updateStory(current.value); 
+        };
     }
 
     year_slider() {
