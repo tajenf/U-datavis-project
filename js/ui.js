@@ -1,14 +1,16 @@
 class UI {
 
-    constructor(data, updateYear, updateAge, updateGender, updateStory) {
+    constructor(data, updateYear, updateAge, updateGender, updateCompare) {
         this.updateYear = updateYear;
         this.updateAge = updateAge;
         this.updateGender = updateGender;
-        this.updateStory = updateStory;
+        this.updateCompare = updateCompare;
 
         this.startYear = 1985;
         this.endYear = 2016;
         this.checkCount = 1;
+
+        this.age_map = new Map([["5-14 years", ["5-14 years", 1]], ["15-24 years", ["15-24 years", 1]], ["25-34 years", ["25-34 years", 1]], ["35-54 years", ["35-54 years", 1]], ["55-74 years", ["55-74 years", 1]], ["75+ years", ["75+ years", 1]]]);
 
         this.drawItems();
     }
@@ -18,7 +20,7 @@ class UI {
         let ui_svg = d3.select("#ui")
             .append("svg")
             .attr("id", "ui_svg")
-            .attr("height", "250px")
+            .attr("height", "220px")
             .attr("width", "1100px");
 
         let ui_gender_drop = d3.select("#ui")
@@ -53,7 +55,7 @@ class UI {
 
         //Country Name Text 
         ui_svg.append("text")
-            .text("Country_name")
+            .text("World")
             .attr("transform", "translate(140, 30)")
             .attr("id", "country1_name")
             .attr("class", "title");
@@ -63,28 +65,29 @@ class UI {
             .text("Country: ")
             .attr("transform", "translate(330, 30)")
             .attr("id", "country2_title")
-            .attr("class", "title");
+            .attr("class", "title")
+            .classed("hidden", true);
 
         //Country 2 Text
         ui_svg.append("text")
             .text("Country_name2")
             .attr("transform", "translate(430, 30)")
             .attr("id", "country2_name")
-            .attr("class", "title");
+            .attr("class", "title")
+            .classed("hidden", true);
 
         //Age Group Title 
         ui_svg.append("text")
             .text("Age Group")
             .attr("transform", "translate(80, 60)")
             .attr("id", "age_group_title");
-        //.attr("class", "title");
     }
 
     ui_Features() {
         let that = this;
 
         //Gender feature 
-        let gender_options = ["Female", "Male", "Both"];
+        let gender_options = ["Both", "Female", "Male"];
 
         let gender_div = d3.select("#gender_div");
 
@@ -109,11 +112,11 @@ class UI {
             });
 
         document.getElementById("gender_select").onchange = function () {
-            that.updateGender(this.value); /////////////Need string? 
+            that.updateGender(this.value.toLowerCase());
         };
 
         //Age Group feature  
-        let age_group_options = ["15-24 years", "25-34 years", "35-54 years", "55-74 years", "75+ years", "All"];
+        let age_group_options = ["5-14 years", "15-24 years", "25-34 years", "35-54 years", "55-74 years", "75+ years", "All"];
 
         let age_div = d3.select("#age_div");
 
@@ -131,10 +134,7 @@ class UI {
             .append("input")
             .attr("type", "checkbox")
             .property("checked", function (d) {
-                if (d == "15-24 years") {
-                    return true;
-                }
-                return false;
+                return true;
             })
             .attr("name", "age_options")
             .attr("value", function (d) {
@@ -159,20 +159,26 @@ class UI {
             .append("br")
 
         function UpdateAgeOption(current) {
+            let array = that.age_map.get(current.value);
             //need to call updateAge here 
             if (current.checked == true) {
+                array[1] = 1;
                 that.checkCount++;
             }
             else if (current.checked == false && that.checkCount > 1) {
+                array[1] = 0;
                 that.checkCount--;
             }
             else {
                 current.checked = true;
             }
-            // console.log(that.checkCount); 
-            // console.log(current.checked); 
-
             d3.select("#All_option_ID").property("checked", false);
+
+            that.updateAge(that.age_map);
+        };
+
+        document.getElementById("5-14 years_option_ID").onclick = function () {
+            UpdateAgeOption(this);
         };
 
         document.getElementById("15-24 years_option_ID").onclick = function () {
@@ -199,7 +205,13 @@ class UI {
             //need to call updateAge here 
             if (this.checked == true) {
                 d3.selectAll(".age_input_options").property("checked", true);
-                that.checkCount = 5;
+
+                for (let i of that.age_map.values()) {
+                    i[1] = 1;
+                }
+
+                that.checkCount = 6;
+                that.updateAge(that.age_map);
             }
             else {
                 this.checked = false;
@@ -214,7 +226,12 @@ class UI {
             .attr("type", "checkbox");
 
         document.getElementById("input_compare").onchange = function () {
-            // console.log(this.checked);
+            if(this.checked == true){
+                that.updateCompare(true); 
+            }
+            else{
+                that.updateCompare(false); 
+            }
         };
     }
 
