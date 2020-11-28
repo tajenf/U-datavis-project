@@ -175,9 +175,11 @@ Promise.all([suiData, densityData, cellData, powerData, unemploymentData]).then(
             info.UpdateYear(year, span);
         }
 
-        function UpdateAge(ageGroup) {
+        //updates selected age groups
+        function UpdateAge(ageGroups) {
         }
 
+        //updates which sex is selected between male, female or both
         function UpdateSex(sex) {
         }
 
