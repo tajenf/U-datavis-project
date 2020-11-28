@@ -52,8 +52,6 @@ Promise.all([suiData, densityData, cellData, powerData, unemploymentData]).then(
 
         if (!yearData["World"][suiData.year]) {
             yearData["World"][suiData.year] = {};
-            yearData["World"][suiData.year]["suicides"] = 0;
-            yearData["World"][suiData.year]["population"] = 0;
         }
 
         let gdp = parseInt(suiData["gdp_per_capita ($)"]);
