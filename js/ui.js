@@ -3,12 +3,14 @@ class UI {
     constructor(data, updateYear, updateAge, updateGender, updateStory) {
         this.updateYear = updateYear;
         this.updateAge = updateAge;
-        this.updateGender = updateGender;
+       this.updateGender = updateGender;
         this.updateStory = updateStory;
 
         this.startYear = 1985;
         this.endYear = 2016;
         this.checkCount = 1;
+
+        this.age_map = new Map([["15-24 years", ["15-24 years", 1]], ["25-34 years", ["25-34 years", 0]], ["35-54 years", ["35-54 years", 0]], ["55-74 years", ["55-74 years", 0]], ["75+ years", ["75+ years", 0]]]);
 
         this.drawItems();
     }
@@ -109,11 +111,13 @@ class UI {
             });
 
         document.getElementById("gender_select").onchange = function () {
-            that.updateGender(this.value); /////////////Need string? 
+           // that.updateGender(this.value); /////////////Need string? 
         };
 
         //Age Group feature  
         let age_group_options = ["15-24 years", "25-34 years", "35-54 years", "55-74 years", "75+ years", "All"];
+       
+        // console.log(age_map); 
 
         let age_div = d3.select("#age_div");
 
@@ -159,20 +163,32 @@ class UI {
             .append("br")
 
         function UpdateAgeOption(current) {
+            let array = that.age_map.get(current.value);
             //need to call updateAge here 
             if (current.checked == true) {
+                // console.log(current.value); 
+                array[1] = 1;
+                // console.log(); 
+                // console.log(a[1]); 
                 that.checkCount++;
             }
             else if (current.checked == false && that.checkCount > 1) {
+                array[1] = 0;
                 that.checkCount--;
             }
             else {
+                // console.log("hello");
                 current.checked = true;
             }
             // console.log(that.checkCount); 
             // console.log(current.checked); 
-
             d3.select("#All_option_ID").property("checked", false);
+
+            // let value = age_map.get(current.value); 
+            // console.log(current.value); 
+            // console.log(value); 
+
+            that.updateAge(that.age_map);
         };
 
         document.getElementById("15-24 years_option_ID").onclick = function () {
@@ -199,7 +215,16 @@ class UI {
             //need to call updateAge here 
             if (this.checked == true) {
                 d3.selectAll(".age_input_options").property("checked", true);
+
+                // console.log("in ALl");
+                // console.log(that.age_map); 
+                for (let i of that.age_map.values()) {
+                    // console.log(i);
+                    i[1] = 1; 
+                }
+
                 that.checkCount = 5;
+                that.updateAge(that.age_map); 
             }
             else {
                 this.checked = false;

@@ -167,6 +167,7 @@ Promise.all([suiData, densityData, cellData, powerData, unemploymentData]).then(
         //param is a bool true for display 2 countries false for only 1.
         function UpdateDualCountryView(display2countries) {
             info.UpdateDualCountryView(display2countries);
+
         }
 
         //year is starting year, span is number of following years
@@ -177,10 +178,13 @@ Promise.all([suiData, densityData, cellData, powerData, unemploymentData]).then(
 
         //updates selected age groups
         function UpdateAge(ageGroups) {
+            console.log(ageGroups);
+           // graph()
         }
 
         //updates which sex is selected between male, female or both
         function UpdateSex(sex) {
+            console.log(sex);
         }
 
         //story integer
@@ -192,7 +196,7 @@ Promise.all([suiData, densityData, cellData, powerData, unemploymentData]).then(
         //console.log(data);
 
         let world = new World(oData, UpdateCountry, yearData);
-        let graph = new Graph(data[0]);
+        let graph = new Graph(data[0], "Albania", "female", "15-24 years"); //, 0, null, null, null);
         let ui = new UI(oData, UpdateYear, UpdateAge, UpdateSex, UpdateStory); 
         let info = new InfoPanel(suicideData, yearData, yearKeys, countryData, countryKeys, ageGroups);
 
