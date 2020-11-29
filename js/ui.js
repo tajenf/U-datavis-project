@@ -110,11 +110,21 @@ class UI {
 
         console.log("updated TItles was called");
         d3.select("#country1_name").text(country1);
+
+        let country2T = d3.select("#country2_title");
+        let country2Name = d3.select("#country2_name");
+
         if (compare == true) {
-            d3.select("#country2_title").classed("hidden", false);
-            let country2Name = d3.select("#country2_name");
+            country2T.classed("hidden", false);
             country2Name.text(country2)
+
             country2Name.classed("hidden", false);
+        }
+        else {
+            country2T.classed("hidden", true);
+            country2Name.text(country2)
+
+            country2Name.classed("hidden", true);
         }
     }
 
@@ -255,7 +265,9 @@ class UI {
         };
 
         //Compare feature 
-        d3.select("#compare_div").append("form")
+        let compare_div = d3.select("#compare_div");
+
+        compare_div.append("form")
             .text("Country Comparison ")
             .append("input")
             .attr("id", "input_compare")
@@ -269,6 +281,65 @@ class UI {
                 that.updateCompare(false);
             }
         };
+
+        compare_div.append("br");
+
+        let compare_data = ["1", "2"];
+
+        let compare_toggle = compare_div
+            .append("form")
+            .classed("hidden", true);
+
+        compare_toggle
+            .selectAll("g")
+            .data(compare_data)
+            .enter()
+            .append("g")
+            .append("input")
+            .attr("type", "radio")
+            .attr("name", "toggle")
+            .attr("id", function (d) {
+                if (d == 1) {
+                    return "toggle-on";
+                }
+                return "toggle-off";
+            })
+            .attr("class", function (d) {
+                if (d == 1) {
+                    return "toggle toggle-left compare_toggle";
+                }
+                return "toggle toggle-right compare_toggle";
+            })
+            .attr("value", function (d) {
+                if (d == 1) {
+                    return "false";
+                }
+                return "true";
+            })
+            .property("checked", function (d) {
+                if (d == 1) {
+                    return "true";
+                }
+                return "false";
+            })
+            ;
+
+        compare_toggle
+            .selectAll("g")
+            .append("label")
+            .attr("class", "btn")
+            .attr("for", function(d){
+                if (d == 1) {
+                    return "toggle-on";
+                }
+                return "toggle-off";
+            })
+            .text(function(d){
+                if (d == 1) {
+                    return "Selecting Country " + d;
+                }
+                return "Selecting Country " + d;
+            });
 
 
         let stories = ["intro", "story_1", "story_2", "story_3", "story_4"]; //, "deselect"];
