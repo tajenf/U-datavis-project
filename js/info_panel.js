@@ -390,9 +390,16 @@ class InfoPanel {
 
         switch (storyNum) {
             case 0:
-                title.text(titlebase + "introduction");
+                title.text(titlebase + "Introduction");
 
-                text.text("fill in later");
+                text.text("Suicides are problem in our world. Every year thousands of people take their own life.  According to NIH (National Institute of Mental Health)\n")
+                text.append('div').text("-\"Suicide was the tenth leading cause of death overall in the United States.\"")
+                text.append('div').text("-\"Suicide was the second leading cause of death among individuals between ages 10 and 34.\"\n")
+                text.append('div').text("-\"There were more than two and a half times as many suicides in the US as there were homicides.\"\n")
+                
+                text.append('div').text("Over 48,000 suicides in 2018 in the US alone.  While the US is bad in terms of number of suicides it is far from the worst of the countries we have records for." +
+                "  So we encourage you to take a look. explore the data we've collected and find something interesting.  Take a look at what we found and take a moment to think about how we can solve this together.");
+                text.append('div').text("https://www.nimh.nih.gov/health/statistics/suicide.shtml#:~:text=Suicide%20was%20the%20tenth%20leading,ages%20of%2035%20and%2054.");
                 break;
         
             default:
