@@ -49,7 +49,7 @@ class InfoPanel {
         let suiBreakdown2 = CountryBlock2.append('g');
         let suiBreakdown1 = CountryBlock1.append('g');
 
-        d3.select("#detail").append("div").text("Disclaimer:\n* uses ending population.\n** uses an average.\nSuicides as % is calculated using total suicides / ending pop").classed("disclaimer", true);
+        d3.select("#detail").append("div").text("Disclaimer: suicides per 100k is calculated by finding percentage of total populus that committed suicide times 100k").classed("disclaimer", true);
 
         this.initPopSui(suiBreakdown1);
         this.initPopSui(suiBreakdown2);
@@ -74,22 +74,19 @@ class InfoPanel {
         block.append("div").text("Suicides per 100k: ").classed("cat", true)
             .append("div").text("spk").attr('id', "suipk").classed("data", true);
 
-        block.append("div").text("Suicides as % of Pop*: ").classed("cat", true)
-            .append("div").text("%").attr('id', "percent").classed("data", true);
-
-        block.append("div").text("GDP**: ").classed("cat", true)
+        block.append("div").text("GDP: ").classed("cat", true)
             .append("div").text("curGDP").attr('id', "gdp").classed("data", true);
 
         block.append("div").text("Pop density (pop/km\u00B2)**: ").classed("cat", true)
             .append("div").text("density").attr('id', "density").classed("data", true);
 
-        block.append("div").text("Unemployment**: ").classed("cat", true)
+        block.append("div").text("Unemployment: ").classed("cat", true)
             .append("div").text("unemployment").attr('id', "unemployment").classed("data", true);
 
-        block.append("div").text("Power Consumption**: ").classed("cat", true)
+        block.append("div").text("Power Consumption: ").classed("cat", true)
             .append("div").text("I have the power").attr('id', "power").classed("data", true);
 
-        block.append("div").text("CellPhone**: ").classed("cat", true)
+        block.append("div").text("CellPhone: ").classed("cat", true)
             .append("div").text("This ain't my dad").attr('id', "cellphone").classed("data", true);
 
         //TODO add other data sets
@@ -306,10 +303,9 @@ class InfoPanel {
         let suipk = (percent * 100000).toFixed(2);
 
         if (!totPop || totPop <= 0) {
-            panel.select("#percent").text("N/A");
+            panel.select("#suipk").text("N/A");
         } else {
             panel.select("#suipk").text(new Intl.NumberFormat().format(suipk));
-            panel.select("#percent").text(`${(percent * 100).toFixed(3)}%`);
         }
 
         this.UpdateAgeSuicides(panelNum);
