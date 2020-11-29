@@ -398,7 +398,7 @@ class InfoPanel {
 
         let titlebase = "Story: ";
 
-        switch (storyNum) {
+        switch (parseInt(storyNum)) {
             case 0:
                 title.text(titlebase + "Introduction");
 
