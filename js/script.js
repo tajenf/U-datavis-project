@@ -97,7 +97,7 @@ Promise.all([suiData, densityData, cellData, powerData, unemploymentData]).then(
         ageGroups.add("a" + suiData.age.replace(" ", "_"));
     });
 
-    //console.log(data[1]);
+    //console.log(data[2]);
 
     data[1].forEach(denData => {
         //console.log(denData);
@@ -120,6 +120,27 @@ Promise.all([suiData, densityData, cellData, powerData, unemploymentData]).then(
         }
     });
 
+    data[2].forEach(denData => {
+        //console.log(denData);
+        //console.log(denData.Country);
+        let country = denData.Country;
+
+        if (yearData[country]) {
+            for (let year = 1985; year <= 2016; year++) {
+
+                if (denData[year]) {
+                    if(!yearData[country][year])
+                    {
+                        yearData[country][year] = {};
+                    }
+                    
+                    yearData[country][year]["cellphone"] = denData[year];
+                }
+
+            }
+        }
+    });
+
     yearKeys.add("gdp");
     yearKeys.add("malePop");
     yearKeys.add("femalePop");
@@ -128,6 +149,9 @@ Promise.all([suiData, densityData, cellData, powerData, unemploymentData]).then(
     yearKeys.add("femaleSui");
     yearKeys.add("totalSui");
     yearKeys.add("density");
+    yearKeys.add("cellphone");
+    yearKeys.add("unemployment");
+    yearKeys.add("power");
 
     years.forEach(year => {
 
