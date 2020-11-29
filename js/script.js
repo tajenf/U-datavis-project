@@ -104,9 +104,19 @@ Promise.all([suiData, densityData, cellData, powerData, unemploymentData]).then(
         //console.log(denData.Country);
         let country = denData.Country;
 
-        for (let year = 1985; year <= 2016; year++) {
-            //const element = array[year];
+        if (yearData[country]) {
+            for (let year = 1985; year <= 2016; year++) {
 
+                if (denData[year]) {
+                    if(!yearData[country][year])
+                    {
+                        yearData[country][year] = {};
+                    }
+                    
+                    yearData[country][year]["density"] = denData[year];
+                }
+
+            }
         }
     });
 
@@ -117,6 +127,7 @@ Promise.all([suiData, densityData, cellData, powerData, unemploymentData]).then(
     yearKeys.add("maleSui");
     yearKeys.add("femaleSui");
     yearKeys.add("totalSui");
+    yearKeys.add("density");
 
     years.forEach(year => {
 

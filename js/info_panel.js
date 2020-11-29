@@ -80,17 +80,17 @@ class InfoPanel {
         block.append("div").text("GDP**: ").classed("cat", true)
             .append("div").text("curGDP").attr('id', "gdp").classed("data", true);
 
-        block.append("div").text("Pop density**: ").classed("cat", true)
+        block.append("div").text("Pop density (pop/km\u00B2)**: ").classed("cat", true)
             .append("div").text("density").attr('id', "density").classed("data", true);
             
         block.append("div").text("Unemployment**: ").classed("cat", true)
-        .append("div").text("unemployment").attr('id', "unemployment").classed("data", true);
+            .append("div").text("unemployment").attr('id', "unemployment").classed("data", true);
         
         block.append("div").text("Power Consumption**: ").classed("cat", true)
             .append("div").text("I have the power").attr('id', "power").classed("data", true);
             
         block.append("div").text("CellPhone**: ").classed("cat", true)
-        .append("div").text("This ain't my dad").attr('id', "cellphone").classed("data", true);
+            .append("div").text("This ain't my dad").attr('id', "cellphone").classed("data", true);
 
             //TODO add other data sets
     }
