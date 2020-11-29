@@ -263,10 +263,10 @@ Promise.all([suiData, densityData, cellData, powerData, unemploymentData]).then(
     });
 
 
-    console.log(years); 
-    console.log(suicideData); 
-    console.log(yearData);
-    console.log(data[2]);
+    // console.log(years); 
+    // console.log(suicideData); 
+    // console.log(yearData);
+    // console.log(data[2]);
 
     //1 for primary country
     //2 for country that is only visible when comparing.
@@ -309,7 +309,7 @@ Promise.all([suiData, densityData, cellData, powerData, unemploymentData]).then(
     //console.log(data);
 
     let world = new World(oData, UpdateCountry, yearData);
-    let graph = new Graph(data[0], suicideData, "World", "both", "all"); //, 0, null, null, null);
+    let graph = new Graph(data[0], suicideData, "United States of America", "both", "all", false); //, 0, null, null, null);
     let ui = new UI(oData, UpdateYear, UpdateAge, UpdateSex, UpdateStory, UpdateDualCountryView);
     let info = new InfoPanel(suicideData, yearData, yearKeys, countryData, countryKeys, ageGroups);
 

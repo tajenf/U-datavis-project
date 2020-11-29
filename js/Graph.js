@@ -90,7 +90,7 @@ class Graph {
         this.updateGraph(data, data2, country_name, Gender, Age_group, compare);
     }
 
-    updateGraph(data, data2, country_name, Gender, Age_group) {//}, compare, country_name2, Gender2, Age_group2) {
+    updateGraph(data, data2, country_name, Gender, Age_group, compare) {//}, compare, country_name2, Gender2, Age_group2) {
 
         let filter_data = null;
 
@@ -105,7 +105,7 @@ class Graph {
         console.log(data2["World"]["female"]);
 
         // else if (country_name != "world" && Gender != "both" && Age_group != "all") {
-        filter_data = data.filter(d => ((d.country == "Albania") && (d.sex == "female") && (d.age == "5-14 years")));
+        filter_data = data.filter(d => ((d.country == country_name) && (d.sex == "female") && (d.age == "5-14 years")));
         // }
         // //will need more checkers 
         // console.log(data);
@@ -124,8 +124,8 @@ class Graph {
             .range([0, 500]);
 
         this.drawLegend();
-        this.drawLines(filter_data);
-        this.drawPoints(filter_data);
+        this.drawLines(filter_data, filter_data);
+        this.drawPoints(filter_data, filter_data);
     }
 
     drawLegend() {
@@ -152,7 +152,7 @@ class Graph {
             .call(d3.axisLeft(this.scaleY).ticks(10));
     }
 
-    drawLines(data) {
+    drawLines(data, data2) {
 
         let LineGenerator1 = d3
             .line()
@@ -175,7 +175,7 @@ class Graph {
             .attr("d", LineGenerator2(data));
     }
 
-    drawPoints(data) {
+    drawPoints(data, data2) {
 
         let that = this;
         let point_group1 = d3.select("#Hover_points1");

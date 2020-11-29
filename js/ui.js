@@ -18,6 +18,8 @@ class UI {
 
     drawItems() {
 
+        let that = this;
+
         let ui_div = d3.select("#ui");
 
         // let end = d3.select("#ui_svg").attr("width");//not sure if need yet 
@@ -28,6 +30,26 @@ class UI {
             .attr("id", "ui_svg")
             .attr("height", "220px")
             .attr("width", "1100px");
+
+        let ui_slider = ui_div
+            .append("div")
+            .attr("id", "slider_div")
+            .attr("class", "slider");
+
+        ui_slider.append("input")
+            .attr("type", "range")
+            .attr("id", "year_slider_id")
+            .attr("oninput", "rangevalue.value=value");
+
+        ui_slider.append("output")
+            .attr("id", "rangevalue")
+            .text(2016);
+
+
+        d3.select("#year_slider_id").on("input", function () {
+            // console.log(this);
+            // console.log(this.value); 
+        });
 
         let ui_gender_drop = ui_div
             .append("div")
@@ -79,14 +101,14 @@ class UI {
             .attr("class", "title")
             .classed("hidden", true);
 
+        this.year_slider(1985, 2016);
         this.ui_Titles_Update("World", "None", true);   ////////will need to reset 
         this.ui_Features();
-        this.year_slider();
     }
 
     ui_Titles_Update(country1, country2, compare) {
 
-        console.log("updated TItles was called"); 
+        console.log("updated TItles was called");
         d3.select("#country1_name").text(country1);
         if (compare == true) {
             d3.select("#country2_title").classed("hidden", false);
@@ -304,51 +326,62 @@ class UI {
             console.log(current.value);
             that.updateStory(current.value);
         };
+
+
+        document
     }
 
-    year_slider() {
-        let that = this;
+    year_slider(min, max) {
+        let slider = d3.select("#year_slider_id");
 
-        let range1 = d3.select("#range1");
-        let range2 = d3.select("#range2");
-
-        range1.attr("oninput", function () {
-            return "this.value=Math.min(this.value,this.parentNode.childNodes[5].value-1);" +
-                "var value=(100/(parseInt(this.max)-parseInt(this.min)))*parseInt(this.value)-(100/(parseInt(this.max)-parseInt(this.min)))*parseInt(this.min);" +
-                "var children = this.parentNode.childNodes[1].childNodes;" +
-                "children[1].style.width=value+'%';" +
-                "children[5].style.left=value+'%';" +
-                "children[7].style.left=value+'%';" +
-                "children[11].style.left=value+'%';" +
-                "children[11].childNodes[1].innerHTML= this.value;"
-
-        });
-
-        range2.attr("oninput", function () {
-            return ("this.value=Math.max(this.value,this.parentNode.childNodes[3].value-(-1));" +
-                "var value=(100/(parseInt(this.max)-parseInt(this.min)))*parseInt(this.value)-(100/(parseInt(this.max)-parseInt(this.min)))*parseInt(this.min);" +
-                "var children = this.parentNode.childNodes[1].childNodes;" +
-                "children[3].style.width=(100-value)+'%';" +
-                "children[5].style.right=(100-value)+'%'; " +
-                "children[9].style.left=value+'%'; " +
-                "children[13].style.left=value+'%'; " +
-                "children[13].childNodes[1].innerHTML=this.value-1;")
-        });
-
-        //UpdateYear function passing in the current starting year and the span of current start to current end. 
-        //Updates teh current startYear
-        range1.on("input", function () {
-            that.startYear = parseInt(this.value);
-            that.updateYear(that.startYear, (that.endYear - that.startYear));
-        });
-
-        //UpdateYear function passing in the current starting year and the span of current start to current end. 
-        //Updates the current endYear
-        range2.on("input", function () {
-            that.endYear = parseInt(this.value) - 1;
-            that.updateYear(that.startYear, that.endYear - that.startYear)
-        });
+        slider.attr("min", min);
+        slider.attr("max", max);
+        slider.attr("value", max);
     }
+
+    // year_slider() {
+    //     let that = this;
+
+    //     let range1 = d3.select("#range1");
+    //     let range2 = d3.select("#range2");
+
+    //     range1.attr("oninput", function () {
+    //         return "this.value=Math.min(this.value,this.parentNode.childNodes[5].value-1);" +
+    //             "var value=(100/(parseInt(this.max)-parseInt(this.min)))*parseInt(this.value)-(100/(parseInt(this.max)-parseInt(this.min)))*parseInt(this.min);" +
+    //             "var children = this.parentNode.childNodes[1].childNodes;" +
+    //             "children[1].style.width=value+'%';" +
+    //             "children[5].style.left=value+'%';" +
+    //             "children[7].style.left=value+'%';" +
+    //             "children[11].style.left=value+'%';" +
+    //             "children[11].childNodes[1].innerHTML= this.value;"
+
+    //     });
+
+    //     range2.attr("oninput", function () {
+    //         return ("this.value=Math.max(this.value,this.parentNode.childNodes[3].value-(-1));" +
+    //             "var value=(100/(parseInt(this.max)-parseInt(this.min)))*parseInt(this.value)-(100/(parseInt(this.max)-parseInt(this.min)))*parseInt(this.min);" +
+    //             "var children = this.parentNode.childNodes[1].childNodes;" +
+    //             "children[3].style.width=(100-value)+'%';" +
+    //             "children[5].style.right=(100-value)+'%'; " +
+    //             "children[9].style.left=value+'%'; " +
+    //             "children[13].style.left=value+'%'; " +
+    //             "children[13].childNodes[1].innerHTML=this.value-1;")
+    //     });
+
+    //     //UpdateYear function passing in the current starting year and the span of current start to current end. 
+    //     //Updates teh current startYear
+    //     range1.on("input", function () {
+    //         that.startYear = parseInt(this.value);
+    //         that.updateYear(that.startYear, (that.endYear - that.startYear));
+    //     });
+
+    //     //UpdateYear function passing in the current starting year and the span of current start to current end. 
+    //     //Updates the current endYear
+    //     range2.on("input", function () {
+    //         that.endYear = parseInt(this.value) - 1;
+    //         that.updateYear(that.startYear, that.endYear - that.startYear)
+    //     });
+    // }
 
 
 }
