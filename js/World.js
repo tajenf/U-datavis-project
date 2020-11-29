@@ -20,16 +20,16 @@ class World {
         this.updateCountry = updateCountry;
         
         this.maxlat = 83;
-        this.width = 700;
-        this.height = 600;
+        this.width = 900;
+        this.height = 700;
         this.rotate = 60;
         this.tlast = [0,0];
         this.slast = null;
 
         this.projection = d3.geoMercator()
             .rotate([this.rotate,0])
-            .translate([this.width/2, this.height/2])
-            .scale(1);
+            .scale(1)
+            .translate([this.width/2, this.height/2]);
 
         let max = 0;
         for (let i = 1985; i < 2017; i++)
@@ -97,8 +97,7 @@ class World {
         this.scaleExtent = [s, 10*s];
 
         this.slast = s;
-
-        this.projection.scale(this.scaleExtent[0]);
+        this.projection.scale(s);
 
         this.path = d3.geoPath().projection(this.projection);
 
@@ -122,7 +121,7 @@ class World {
                 that.redraw(d3.event);
             });
 
-        svg.call(zoom);
+        svg.call(zoom).call(zoom.transform, d3.zoomIdentity.scale(s));
     }
 
     //A lot of this is taken from http://bl.ocks.org/patricksurry/6621971 for a scrolling map with wraparound
@@ -132,6 +131,7 @@ class World {
         {
             var scale = event.transform.k;
             var t = [event.transform.x, event.transform.y];
+
 
             if (scale != this.slast) 
             {
