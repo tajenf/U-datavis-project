@@ -34,10 +34,9 @@ class World {
         let max = 0;
         for (let i = 1985; i < 2017; i++)
         {
-            let pot = d3.max(Object.values(yearData), d => (d[i] ? d[i].totalSui/d[i].totalPop : 0));
+            let pot = d3.max(Object.values(yearData), d => (d[i] && d[i].totalPop ? d[i].totalSui/(d[i].totalPop/100000) : 0));
             max = max > pot ? max : pot;
         }
-
         this.colorScale = d3.scaleLinear()
             .domain([0 , max])
             .range(["white", "red"]);
@@ -108,7 +107,7 @@ class World {
             .attr('class', 'boundary')
             .attr('align', 'center')
             .attr('id', d => d.name)
-            .attr('fill', d=> d.yearData ? (d.yearData[1985] ? this.colorScale(d.yearData[1985].totalSui/d.yearData[1985].totalPop) : 'grey') : 'grey')
+            .attr('fill', d=> d.yearData ? (d.yearData[2011] && d.yearData[2011].totalPop ? this.colorScale(d.yearData[2011].totalSui/(d.yearData[2011].totalPop/100000)) : 'grey') : 'grey')
             .on('click', function ()
             {
                 that.updateCountry(this.id);
