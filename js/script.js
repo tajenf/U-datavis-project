@@ -153,7 +153,8 @@ Promise.all([suiData, densityData, cellData, powerData, unemploymentData]).then(
     });
 
 
-    console.log(ageGroups); 
+    console.log(years); 
+    console.log(suicideData); 
     console.log(yearData); 
 
     //1 for primary country
@@ -165,7 +166,8 @@ Promise.all([suiData, densityData, cellData, powerData, unemploymentData]).then(
     //param is a bool true for display 2 countries false for only 1.
     function UpdateDualCountryView(display2countries) {
         info.UpdateDualCountryView(display2countries);
-
+        ui.ui_Titles_Update("World", "welp", true); 
+        graph.updateGraph(); 
     }
 
     //year is starting year, span is number of following years
@@ -196,7 +198,7 @@ Promise.all([suiData, densityData, cellData, powerData, unemploymentData]).then(
     //console.log(data);
 
     let world = new World(oData, UpdateCountry, yearData);
-    let graph = new Graph(data[0], "world", "both", "all"); //, 0, null, null, null);
+    let graph = new Graph(data[0], suicideData, "World", "both", "all"); //, 0, null, null, null);
     let ui = new UI(oData, UpdateYear, UpdateAge, UpdateSex, UpdateStory, UpdateDualCountryView);
     let info = new InfoPanel(suicideData, yearData, yearKeys, countryData, countryKeys, ageGroups);
 

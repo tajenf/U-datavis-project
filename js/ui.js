@@ -20,6 +20,8 @@ class UI {
 
         let ui_div = d3.select("#ui");
 
+        // let end = d3.select("#ui_svg").attr("width");//not sure if need yet 
+
         //Add div sections for UI features 
         let ui_svg = ui_div
             .append("svg")
@@ -43,30 +45,20 @@ class UI {
             .append("div")
             .attr("id", "compare_div");
 
-        this.ui_Titles();
-        this.ui_Features();
-        this.year_slider();
-    }
+        //Age Group Title 
+        ui_svg.append("text")
+            .text("Age Group")
+            .attr("transform", "translate(80, 60)")
+            .attr("id", "age_group_title");
 
-    ui_Titles() {
-        let ui_svg = d3.select("#ui_svg");
-        let end = d3.select("#ui_svg").attr("width");//not sure if need yet 
-
-        //Country Text
+        //Country1 Text
         ui_svg.append("text")
             .text("Country: ")
             .attr("transform", "translate(40, 30)")
             .attr("id", "country1_title")
             .attr("class", "title");
 
-        //Country Name Text 
-        ui_svg.append("text")
-            .text("World")
-            .attr("transform", "translate(140, 30)")
-            .attr("id", "country1_name")
-            .attr("class", "title");
-
-        //Country 2 Text
+        //Country2 Text
         ui_svg.append("text")
             .text("Country: ")
             .attr("transform", "translate(330, 30)")
@@ -74,19 +66,34 @@ class UI {
             .attr("class", "title")
             .classed("hidden", true);
 
-        //Country 2 Text
+        //Country1 Name Text 
         ui_svg.append("text")
-            .text("Country_name2")
+            .attr("transform", "translate(140, 30)")
+            .attr("id", "country1_name")
+            .attr("class", "title");
+
+        //Country2 name Text
+        ui_svg.append("text")
             .attr("transform", "translate(430, 30)")
             .attr("id", "country2_name")
             .attr("class", "title")
             .classed("hidden", true);
 
-        //Age Group Title 
-        ui_svg.append("text")
-            .text("Age Group")
-            .attr("transform", "translate(80, 60)")
-            .attr("id", "age_group_title");
+        this.ui_Titles_Update("World", "None", true);   ////////will need to reset 
+        this.ui_Features();
+        this.year_slider();
+    }
+
+    ui_Titles_Update(country1, country2, compare) {
+
+        console.log("updated TItles was called"); 
+        d3.select("#country1_name").text(country1);
+        if (compare == true) {
+            d3.select("#country2_title").classed("hidden", false);
+            let country2Name = d3.select("#country2_name");
+            country2Name.text(country2)
+            country2Name.classed("hidden", false);
+        }
     }
 
     ui_Features() {
@@ -242,7 +249,7 @@ class UI {
         };
 
 
-        let stories = ["Cellphone Use", "Population Density", "Power Consumption", "Total Unemployment"]; //, "deselect"];
+        let stories = ["intro", "story_1", "story_2", "story_3", "story_4"]; //, "deselect"];
 
         //Story feature 
         d3.select("#story_div").selectAll("input")
@@ -257,28 +264,45 @@ class UI {
                 return d + "_ID";
             })
             .attr("name", "Story_radio")
-            .attr("value", function (d) {       ///need to fix the values 
-                return d;
+            .attr("value", function (d) {
+                if (d == "intro") {
+                    return 0;
+                }
+                else if (d == "story_1") {
+                    return 1;
+                }
+                else if (d == "story_2") {
+                    return 2;
+                }
+                else if (d == "story_3") {
+                    return 3;
+                }
+                return 4;
             });
 
-        document.getElementById("Cellphone Use_ID").onclick = function () {
+        document.getElementById("intro_ID").onclick = function () {
             UpdateStorySection(this);
         };
 
-        document.getElementById("Population Density_ID").onclick = function () {
+        document.getElementById("story_1_ID").onclick = function () {
             UpdateStorySection(this);
         };
 
-        document.getElementById("Power Consumption_ID").onclick = function () {
+        document.getElementById("story_2_ID").onclick = function () {
             UpdateStorySection(this);
         };
 
-        document.getElementById("Total Unemployment_ID").onclick = function () {
+        document.getElementById("story_3_ID").onclick = function () {
+            UpdateStorySection(this);
+        };
+
+        document.getElementById("story_4_ID").onclick = function () {
             UpdateStorySection(this);
         };
 
         function UpdateStorySection(current) {
-            that.updateStory(current.value); 
+            console.log(current.value);
+            that.updateStory(current.value);
         };
     }
 
