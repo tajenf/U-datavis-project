@@ -148,34 +148,49 @@ Promise.all([suiData, densityData, cellData, powerData, unemploymentData]).then(
                     }
                 });
 
-                suicideData[country]["both"] = {};
-                suicideData[country]["both"]["all"] = {};
-                suicideData[country]["male"]["all"] = {};
-                suicideData[country]["female"]["all"] = {};
-
-                
                 let population = malePop + femalePop;
-                let suicides = maleSui + femaleSui;
-                
-                suicideData[country]["both"]["all"][year] = {population, suicides};
-                suicideData[country]["female"]["all"][year] = {};
-                suicideData[country]["male"]["all"][year] = {};
-                
-                suicideData[country]["female"]["all"][year]["population"] = femalePop;
-                suicideData[country]["male"]["all"][year]["population"] = malePop;
 
-                suicideData[country]["female"]["all"][year]["suicides"] = femaleSui;
-                suicideData[country]["male"]["all"][year]["suicides"] = maleSui;
-
-                yearData[country][year]["malePop"] = malePop;
-                yearData[country][year]["femalePop"] = femalePop;
-                yearData[country][year]["totalPop"] = population;
-
-                yearData[country][year]["maleSui"] = maleSui;
-                yearData[country][year]["femaleSui"] = femaleSui;
-                yearData[country][year]["totalSui"] = suicides;
+                if (population > 0) {
+                    if (!suicideData[country]["both"]) {
+                        suicideData[country]["both"] = {};
+                    }
+    
+                    if (!suicideData[country]["both"]["all"]) {
+                        suicideData[country]["both"]["all"] = {};
+                    }
+    
+                    if (!suicideData[country]["male"]["all"]) {
+                        suicideData[country]["male"]["all"] = {};
+                    }
+    
+                    if (!suicideData[country]["female"]["all"]) {
+                        suicideData[country]["female"]["all"] = {};
+                    }
+    
+                    
+                    
+                    let suicides = maleSui + femaleSui;
+                    
+    
+                    suicideData[country]["both"]["all"][year] = {population, suicides};
+                    suicideData[country]["female"]["all"][year] = {};
+                    suicideData[country]["male"]["all"][year] = {};
+                    
+                    suicideData[country]["female"]["all"][year]["population"] = femalePop;
+                    suicideData[country]["male"]["all"][year]["population"] = malePop;
+    
+                    suicideData[country]["female"]["all"][year]["suicides"] = femaleSui;
+                    suicideData[country]["male"]["all"][year]["suicides"] = maleSui;
+    
+                    yearData[country][year]["malePop"] = malePop;
+                    yearData[country][year]["femalePop"] = femalePop;
+                    yearData[country][year]["totalPop"] = population;
+    
+                    yearData[country][year]["maleSui"] = maleSui;
+                    yearData[country][year]["femaleSui"] = femaleSui;
+                    yearData[country][year]["totalSui"] = suicides;
+                }
             }
-
 
         });
     });
