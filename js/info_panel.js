@@ -68,8 +68,9 @@ class InfoPanel {
         block.append("div").text("Total Suicides: ").classed("cat", true)
             .append("div").text("curSuicides").attr('id', "totalSui").classed("data", true);
 
-        block.append("div").text("Population*: ").classed("cat", true)
-            .append("div").text("curPop").attr('id', "totalPop").classed("data", true);
+        let pop = block.append('g');
+        pop.append("div").text(`Population on ${this.year + this.yearSpan}: `).attr('id', "popYear").classed("cat", true)
+        pop.append("div").text("curPop").attr('id', "totalPop").classed("data", true);
 
         block.append("div").text("Suicides per 100k: ").classed("cat", true)
             .append("div").text("spk").attr('id', "suipk").classed("data", true);
@@ -273,6 +274,8 @@ class InfoPanel {
         let yearlabel = panel.select("#yearlabel")
         let year = panel.select("#year");
 
+        panel.select("#popYear").text(`Population on ${this.year + this.yearSpan}: `);
+
         let endyear = this.year + this.yearSpan;
 
         if (this.yearSpan == 0) {
@@ -344,7 +347,7 @@ class InfoPanel {
                         if (key == "totalPop") {
                             totPop = this.yearData[country][dataYear][key];
                         }
-                        
+
                         panel.select(`#${key}`).text(new Intl.NumberFormat().format(this.yearData[country][dataYear][key]));
                     } 
                 } else {
@@ -373,15 +376,13 @@ class InfoPanel {
             });
         }
 
-        let suipk = (totSui/100000).toFixed(2);
-
-        panel.select("#suipk").text(new Intl.NumberFormat().format(suipk));
-
+        let percent = totSui/totPop;
+        let suipk = (percent*100000).toFixed(2);
         
         if (!totPop || totPop <= 0) {
             panel.select("#percent").text("N/A");
         } else {
-            let percent = totSui/totPop;
+            panel.select("#suipk").text(new Intl.NumberFormat().format(suipk));
             panel.select("#percent").text(`${(percent * 100).toFixed(3)}%`);
         }
         
