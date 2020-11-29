@@ -141,6 +141,48 @@ Promise.all([suiData, densityData, cellData, powerData, unemploymentData]).then(
         }
     });
 
+    data[3].forEach(powData => {
+        //console.log(denData);
+        //console.log(denData.Country);
+        let country = powData.Country;
+
+        if (yearData[country]) {
+            for (let year = 1985; year <= 2016; year++) {
+
+                if (powData[year]) {
+                    if(!yearData[country][year])
+                    {
+                        yearData[country][year] = {};
+                    }
+                    
+                    yearData[country][year]["power"] = powData[year];
+                }
+
+            }
+        }
+    });
+
+    data[4].forEach(unEmploymentData => {
+        //console.log(denData);
+        //console.log(denData.Country);
+        let country = unEmploymentData.Country;
+
+        if (yearData[country]) {
+            for (let year = 1985; year <= 2016; year++) {
+
+                if (unEmploymentData[year]) {
+                    if(!yearData[country][year])
+                    {
+                        yearData[country][year] = {};
+                    }
+                    
+                    yearData[country][year]["unemployment"] = unEmploymentData[year];
+                }
+
+            }
+        }
+    });
+
     yearKeys.add("gdp");
     yearKeys.add("malePop");
     yearKeys.add("femalePop");
