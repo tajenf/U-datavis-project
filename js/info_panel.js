@@ -380,7 +380,7 @@ class InfoPanel {
             let ageDivM = male.select(`#${age.replace('+', '')}`);
             let ageDivF = female.select(`#${age.replace('+', '')}`);
 
-            if (!this.suicideData[country] && !this.suicideData[country]["male"][age] || !this.suicideData[country]["male"][age][this.year]) {  //May need to expand to check there is data for this year
+            if (!this.suicideData[country] || !this.suicideData[country]["male"][age] || !this.suicideData[country]["male"][age][this.year]) {  //May need to expand to check there is data for this year
                 ageDivM.text("N/A");
                 ageDivF.text("N/A");
 
