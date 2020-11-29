@@ -284,6 +284,7 @@ class InfoPanel {
         }
 
         let totSui = 0;
+        let totPop = 0;
 
         if (this.yearData[country] && this.yearData[country][endyear])
         {
@@ -340,6 +341,10 @@ class InfoPanel {
                         panel.select(`#${key}`).text("N/A");
                     } else  
                     {
+                        if (key == "totalPop") {
+                            totPop = this.yearData[country][dataYear][key];
+                        }
+                        
                         panel.select(`#${key}`).text(new Intl.NumberFormat().format(this.yearData[country][dataYear][key]));
                     } 
                 } else {
@@ -372,10 +377,14 @@ class InfoPanel {
 
         panel.select("#suipk").text(new Intl.NumberFormat().format(suipk));
 
-        let totPop = parseInt(panel.select("#totalPop").text().replaceAll(',',''));
-        let percent = totSui/totPop;
-        panel.select("#percent").text(`${(percent * 100).toFixed(3)}%`);
-
+        
+        if (!totPop || totPop <= 0) {
+            panel.select("#percent").text("N/A");
+        } else {
+            let percent = totSui/totPop;
+            panel.select("#percent").text(`${(percent * 100).toFixed(3)}%`);
+        }
+        
         this.UpdateAgeSuicides(panelNum);
     }
 
