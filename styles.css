@@ -42,7 +42,7 @@
 
 #map {
   height: 600px;
-  width: 60%;
+  width: 700px;
 }
 
 #map svg {
@@ -76,6 +76,15 @@ div.data {
   display: inline;
   font-size: 16px;
   font-weight: normal;
+}
+
+.map-border {
+  border-style: solid;
+  border-width: 5px;
+  border-color: black;
+  width: 700px;
+  height: 600px;
+  margin: auto;
 }
 
 .boundary {

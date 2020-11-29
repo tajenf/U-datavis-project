@@ -31,9 +31,16 @@ class World {
             .translate([this.width/2, this.height/2])
             .scale(1);
 
+        let max = 0;
+        for (let i = 1985; i < 2017; i++)
+        {
+            let pot = d3.max(Object.values(yearData), d => (d[i] ? d[i].totalSui/d[i].totalPop : 0));
+            max = max > pot ? max : pot;
+        }
+
         this.colorScale = d3.scaleLinear()
-            .domain([0 , d3.max(Object.values(yearData), d => (d[1985] ? d[1985].totalSui/d[1985].totalPop : 0))])
-            .range(["lightgray", "red"]);
+            .domain([0 , max])
+            .range(["white", "red"]);
     }
     
     mercatorBounds(projection, maxlat) 
@@ -80,6 +87,7 @@ class World {
             .attr('width', this.width)
             .attr('height', this.height);
 
+
         let that = this;
         
         svg.append("g").attr("id", "mapDrawing");
@@ -87,6 +95,8 @@ class World {
         var b = this.mercatorBounds(this.projection, this.maxlat);
         var s = this.width/(b[1][0]-b[0][0]);
         this.scaleExtent = [s, 10*s];
+
+        this.slast = s;
 
         this.projection.scale(this.scaleExtent[0]);
 
