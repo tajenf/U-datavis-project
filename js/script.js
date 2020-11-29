@@ -120,21 +120,21 @@ Promise.all([suiData, densityData, cellData, powerData, unemploymentData]).then(
         }
     });
 
-    data[2].forEach(denData => {
+    data[2].forEach(cellData => {
         //console.log(denData);
         //console.log(denData.Country);
-        let country = denData.Country;
+        let country = cellData.Country;
 
         if (yearData[country]) {
             for (let year = 1985; year <= 2016; year++) {
 
-                if (denData[year]) {
+                if (cellData[year]) {
                     if(!yearData[country][year])
                     {
                         yearData[country][year] = {};
                     }
                     
-                    yearData[country][year]["cellphone"] = denData[year];
+                    yearData[country][year]["cellphone"] = cellData[year];
                 }
 
             }
@@ -182,6 +182,7 @@ Promise.all([suiData, densityData, cellData, powerData, unemploymentData]).then(
             }
         }
     });
+
 
     yearKeys.add("gdp");
     yearKeys.add("malePop");
@@ -264,7 +265,8 @@ Promise.all([suiData, densityData, cellData, powerData, unemploymentData]).then(
 
     console.log(years); 
     console.log(suicideData); 
-    console.log(yearData); 
+    console.log(yearData);
+    console.log(data[2]);
 
     //1 for primary country
     //2 for country that is only visible when comparing.
