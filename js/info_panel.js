@@ -11,9 +11,11 @@ class InfoPanel {
 
         this.transitionTime = 100;
 
+        this.yearSpan = 0;
+
         this.initialPopulate();
 
-        this.UpdateYear(1985, 2);
+        this.UpdateYear(2011);
         this.UpdateCountry("World",1);
         this.UpdateCountry("World",2);
         this.UpdateStory(0);
@@ -230,10 +232,9 @@ class InfoPanel {
         this.UpdateAllInfo(panelNum);
     }
 
-    UpdateYear(year, span)
+    UpdateYear(year)
     {
         this.year = parseInt(year);
-        this.yearSpan = parseInt(span);
 
         this.UpdateYearInfo(1);
         this.UpdateYearInfo(2);
@@ -402,7 +403,7 @@ class InfoPanel {
             case 0:
                 title.text(titlebase + "Introduction");
 
-                text.text("Suicides are problem in our world. Every year thousands of people take their own life.  In regards to 2018 the NIH (National Institute of Mental Health) said the following.")
+                text.text("Suicides are problem in our world.  Our data set, which lacks many countries of the world, has 472,968 suicides worldwide in 2011. From 1985-2016 our data set has 13,496,840. Every year hundreds of thousands of people take their own life.  In regards to 2018 the NIH (National Institute of Mental Health) said the following.")
                 text.append('div').text("-\"Suicide was the tenth leading cause of death overall in the United States.\"-")
                 text.append('div').text("-\"Suicide was the second leading cause of death among individuals between ages 10 and 34 (in the US).\"-")
                 text.append('div').text("-\"There were more than two and a half times as many suicides in the US as there were homicides.\"-")
@@ -411,9 +412,29 @@ class InfoPanel {
                 "  So we encourage you to take a look. explore the data we've collected and find something interesting.  Take a look at what we found and take a moment to think about how we can solve this together.");
                 text.append('div').text("https://www.nimh.nih.gov/health/statistics/suicide.shtml#:~:text=Suicide%20was%20the%20tenth%20leading,ages%20of%2035%20and%2054.");
                 break;
-        
-            default:
+
+            case 1:
                 title.text(titlebase + "Introduction");
+                text.text("unimplemented story");
+                break;
+
+            case 2:
+                title.text(titlebase + "Unimplemented");
+                text.text("unimplemented story");
+                break;
+
+            case 3:
+                title.text(titlebase + "Unimplemented");
+                text.text("unimplemented story");
+                break;
+        
+            case 4:
+                title.text(titlebase + "Unimplemented");
+                text.text("unimplemented story");
+                break;
+
+            default:
+                title.text(titlebase + "Unimplemented");
                 text.text("unimplemented story");
                 break;
         }
