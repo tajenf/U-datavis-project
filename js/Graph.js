@@ -80,7 +80,9 @@ class Graph {
             .append("path")
             .attr("id", "graph_path3")
             .attr("fill", "none")
-            .attr("stroke", "black");
+            .attr("stroke", "blue")
+            .attr("stroke-width", 4);
+
 
         //Graph 3 Hover points 
         graph_svg2.append("g")
@@ -95,7 +97,8 @@ class Graph {
             .append("path")
             .attr("id", "graph_path4")
             .attr("fill", "none")
-            .attr("stroke", "black");
+            .attr("stroke", "green")
+            .attr("stroke-width", 4);
 
         //Graph 4 Hover points 
         graph_svg2.append("g")
@@ -144,7 +147,7 @@ class Graph {
         filter_data = data[this.country1_select][Gender][Age_group];
         filter_data2 = data[this.country2_select][Gender][Age_group];
 
-        console.log(filter_data2);
+        // console.log(filter_data2);
 
         filter_data = Object.entries(filter_data);
         filter_data2 = Object.entries(filter_data2);
@@ -185,9 +188,46 @@ class Graph {
     }
 
     updateGraph2(data2, data2Keys) {
-        console.log(data2);
-        console.log(data2Keys);
+        let filter_data;
+        let filter_data2;
+        let max_data;
+        let max_yr;
+        let min_yr;
 
+        // console.log(data2);
+
+        filter_data = data2[this.country1_select];
+        filter_data2 = data2[this.country2_select];
+
+
+        filter_data = Object.entries(filter_data);
+        filter_data2 = Object.entries(filter_data2);
+
+        let fill = filter_data.filter(d => d[1]["gdp"] != null);
+        let fill2 = filter_data2.filter(d => d[1]["gdp"] != null);
+
+        // console.log(fill);
+
+        min_yr = fill[0][0];
+        max_yr = fill[fill.length - 1][0];
+        max_data = d3.max(fill, function(d) { return +d[1]["gdp"] });
+
+        // console.log(min_yr);
+
+        // console.log(max_yr);
+        // console.log(max_data);
+
+        this.scaleY2 = d3.scaleLinear()
+            .domain([max_data, 0])
+            .range([0, 400]);
+
+        this.scaleX2 = d3.scaleLinear()
+            .domain([min_yr, max_yr])
+            .range([0, 500]);
+
+        this.drawLegend2();
+        this.drawLines2(fill, fill2, 1, 1);
+        this.drawPoints2(fill, fill2, 1);
     }
 
     drawLegend1() {
@@ -202,23 +242,22 @@ class Graph {
         svg1.append("g").attr("transform", "translate(120,20)")
             .call(d3.axisLeft(this.scaleY1).ticks(10));
 
+    }
+
+    drawLegend2() {
 
         let svg2 = d3.select("#graph_svg2");
 
         //x-axis
         svg2.append("g").attr("transform", "translate(120, 420)")
-            .call(d3.axisBottom(this.scaleX1).ticks().tickFormat(d3.format("d")));
+            .call(d3.axisBottom(this.scaleX2).ticks().tickFormat(d3.format("d")));
 
         //y-axis
         svg2.append("g").attr("transform", "translate(120,20)")
-            .call(d3.axisLeft(this.scaleY1).ticks(10));
+            .call(d3.axisLeft(this.scaleY2).ticks(10));
     }
 
     drawLines1(data, data2, graphN) {
-
-        console.log(data);
-        console.log(data2);
-
 
         let LineGenerator = d3
             .line()
@@ -234,19 +273,25 @@ class Graph {
             .data(data2)
             .transition().duration(2000)
             .attr("d", LineGenerator(data2));
-
-
-
-        // let LineGenerator2 = d3
-        //     .line()
-        //     .x(d => this.scaleX(d.year))
-        //     .y(d => this.scaleY(d.suicides_no));
-
-        // d3.select("#graph_path2")
-        //     .data(data)
-        //     .transition().duration(2000)
-        //     .attr("d", LineGenerator2(data));
     }
+
+    // drawLines2(data, data2, graphN, type) {
+
+    //     let LineGenerator = d3
+    //         .line()
+    //         .x(d => this.scaleX2(d[0]))
+    //         .y(d => this.scaleY2(d[1]["gdp"]));
+
+    //     d3.select("#graph_path3")
+    //         .data(data)
+    //         .transition().duration(2000)
+    //         .attr("d", LineGenerator(data));
+
+    //     d3.select("#graph_path4")
+    //         .data(data2)
+    //         .transition().duration(2000)
+    //         .attr("d", LineGenerator(data2));
+    // }
 
     drawPoints1(data, data2, graphN) {
 
@@ -326,6 +371,111 @@ class Graph {
                 current_title
                     .append("text")
                     .text("Number of Suicides: " + Math.round(that.scaleY1.invert(current.attr("cy"))) + "\n" + "Year: " + Math.round(that.scaleX1.invert(current.attr("cx"))));
+            })
+            .on("mouseout", function() {
+                let current = d3.select(this);
+                current.attr("class", null);
+                current.selectAll("title").remove();
+            });
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    drawLines2(data, data2, graphN, type) {
+
+        let LineGenerator = d3
+            .line()
+            .x(d => this.scaleX2(d[0]))
+            .y(d => this.scaleY2(d[1]["gdp"]));
+
+        d3.select("#graph_path3")
+            .data(data)
+            .transition().duration(2000)
+            .attr("d", LineGenerator(data));
+
+        d3.select("#graph_path4")
+            .data(data2)
+            .transition().duration(2000)
+            .attr("d", LineGenerator(data2));
+    }
+
+    drawPoints2(data, data2, graphN) {
+
+        let that = this;
+
+        let point_group = d3.select("#Hover_points3");
+
+        point_group.selectAll("circle")
+            .data(data)
+            .join(
+                enter => {
+                    enter
+                        .append("circle")
+                        .transition()
+                        .attr("r", "4")
+                        .attr("cx", d => this.scaleX2(d[0]))
+                        .attr("cy", d => this.scaleY2(d[1]["gdp"]))
+                },
+                update => {
+                    update.transition()
+                        .attr("r", "4")
+                        .attr("cx", d => this.scaleX2(d[0]))
+                        .attr("cy", d => this.scaleY2(d[1]["gdp"]))
+                },
+                exit => {
+                    exit.remove();
+                }
+            );
+
+        point_group.selectAll("circle")
+            .data(data)
+            .on("mouseover", function(d) {
+                let current = d3.select(this);
+                current.attr("class", "hovered");
+                let current_title = current.append("title");
+                current_title
+                    .append("text")
+                    .text("Number of Suicides: " + Math.round(that.scaleY2.invert(current.attr("cy"))) + "\n" + "Year: " + Math.round(that.scaleX2.invert(current.attr("cx"))));
+            })
+            .on("mouseout", function() {
+                let current = d3.select(this);
+                current.attr("class", null);
+                current.selectAll("title").remove();
+            });
+
+        point_group = d3.select("#Hover_points4");
+
+
+        point_group.selectAll("circle")
+            .data(data2)
+            .join(
+                enter => {
+                    enter
+                        .append("circle")
+                        .transition()
+                        .attr("r", "4")
+                        .attr("cx", d => this.scaleX2(d[0]))
+                        .attr("cy", d => this.scaleY2(d[1]["gdp"]))
+                },
+                update => {
+                    update.transition()
+                        .attr("r", "4")
+                        .attr("cx", d => this.scaleX2(d[0]))
+                        .attr("cy", d => this.scaleY2(d[1]["gdp"]))
+                },
+                exit => {
+                    exit.remove();
+                }
+            );
+
+        point_group.selectAll("circle")
+            .data(data2)
+            .on("mouseover", function(d) {
+                let current = d3.select(this);
+                current.attr("class", "hovered");
+                let current_title = current.append("title");
+                current_title
+                    .append("text")
+                    .text("Number of Suicides: " + Math.round(that.scaleY2.invert(current.attr("cy"))) + "\n" + "Year: " + Math.round(that.scaleX2.invert(current.attr("cx"))));
             })
             .on("mouseout", function() {
                 let current = d3.select(this);
