@@ -299,7 +299,6 @@ Promise.all([suiData, densityData, cellData, powerData, unemploymentData]).then(
     //updates selected age groups
     function UpdateAge(ageGroups) {
         world.update("age", ageGroups);
-        console.log(ageGroups);
         // graph()
         //graph.updateGraph(); //overload this? 
     }

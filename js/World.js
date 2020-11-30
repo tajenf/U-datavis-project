@@ -183,39 +183,45 @@ class World {
 
     update(type, param)
     {
-        console.log(param);
         let that = this;
 
         if (type == "sex")
         {
             this.sex = param;
         }
-        if (type == "age")
+        else if (type == "age")
         {
-            this.age = Object.values(param);
+            if (param == "all")
+                this.age = ["5-14 years", "15-24 years", "25-34 years", "35-54 years", "55-74 years", "75+ years"];
+            else
+            {
+                this.age = [];
+                for (let value of param)
+                {
+                    if (value[1][1] == 1)
+                        this.age.push(value[0]);
+                }
+            }
         }
-        if (type == "year")
+        else if (type == "year")
         {
             this.year = param;
         }
 
-        console.log(that.sex);
         d3.select("#mapDrawing").selectAll('path')
         .attr('fill', function(d)
-        {
+        {   
             let pop = 0;
             let sui = 0;
             for (let i = 0; i < that.age.length; i++)
             {
                 let a = that.age[i];
-
                 if (d.suicideData)
                 {
                     if (d.suicideData["male"] && d.suicideData["male"]["a" + a.replace(' ', '_')] && d.suicideData["female"]["a" + a.replace(' ', '_')][that.year])
                     {
                         if (that.sex == "both")
                         {
-                            console.log("in");
                             pop += d.suicideData["female"]["a" + a.replace(' ', '_')][that.year]['population'];
                             pop += d.suicideData["male"]["a" + a.replace(' ', '_')][that.year]['population'];
                             sui += d.suicideData["female"]["a" + a.replace(' ', '_')][that.year]['suicides'];
@@ -229,8 +235,6 @@ class World {
                     }
                 }
             }
-            console.log(pop);
-            console.log(sui);
             return pop != 0 ? that.colorScale(sui/(pop/100000)) : 'grey';
         });
     }
