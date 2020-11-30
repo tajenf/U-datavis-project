@@ -284,7 +284,6 @@ Promise.all([suiData, densityData, cellData, powerData, unemploymentData]).then(
     function UpdateDualCountryView(display2countries) {
         // console.log(display2countries);
         info.UpdateDualCountryView(display2countries);
-        graph.update2lines(ui.country_selected_1, ui.country_selected_2, display2countries);
 
     }
 
@@ -310,12 +309,12 @@ Promise.all([suiData, densityData, cellData, powerData, unemploymentData]).then(
     function UpdateStory(storyNum) {
         info.UpdateStory(storyNum);
     }
-    //the difference between the two data sets
-    //console.log(oData);
-    //console.log(data);
+
+    console.log(yearData);
+    console.log(yearKeys);
 
     let world = new World(oData, UpdateCountry, yearData, suicideData);
-    let graph = new Graph(data, suicideData, "United States of America", "both", "all");
+    let graph = new Graph(suicideData, yearData, yearKeys, "both", "all");
     let info = new InfoPanel(suicideData, yearData, yearKeys, countryData, countryKeys, ageGroups);
     let ui = new UI(oData, UpdateYear, UpdateAge, UpdateSex, UpdateStory, UpdateDualCountryView);
 
