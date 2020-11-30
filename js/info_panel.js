@@ -49,7 +49,11 @@ class InfoPanel {
         let suiBreakdown2 = CountryBlock2.append('g');
         let suiBreakdown1 = CountryBlock1.append('g');
 
-        d3.select("#detail").append("div").text("Disclaimer: suicides per 100k is calculated by finding percentage of total populus that committed suicide times 100k").classed("disclaimer", true);
+        let disclaimer = d3.select("#detail").append('div').classed("disclaimer", true);
+        disclaimer.append("div").text("Disclaimer: suicides per 100k is calculated by finding percentage of total populus that committed suicide times 100k");
+        disclaimer.append("div").text("Links to Data Sources:");
+        disclaimer.append("div").html("<a href='https://www.kaggle.com/russellyates88/suicide-rates-overview-1985-to-2016'>Suicide, population & GDP data</a>");
+        disclaimer.append("div").html("<a href='https://data.worldbank.org/'>Rest of data found here</a>");
 
         this.initPopSui(suiBreakdown1);
         this.initPopSui(suiBreakdown2);
@@ -68,7 +72,7 @@ class InfoPanel {
             .append("div").text("curSuicides").attr('id', "totalSui").classed("data", true);
 
         let pop = block.append('g');
-        pop.append("div").text(`Population on ${this.year}: `).attr('id', "popYear").classed("cat", true)
+        pop.append("div").text(`Population: `).attr('id', "popYear").classed("cat", true).style('display', 'inline');
         pop.append("div").text("curPop").attr('id', "totalPop").classed("data", true);
 
         block.append("div").text("Suicides per 100k: ").classed("cat", true)
@@ -77,16 +81,16 @@ class InfoPanel {
         block.append("div").text("GDP: ").classed("cat", true)
             .append("div").text("curGDP").attr('id', "gdp").classed("data", true);
 
-        block.append("div").text("Pop density (pop/km\u00B2)**: ").classed("cat", true)
-            .append("div").text("density").attr('id', "density").classed("data", true);
-
         block.append("div").text("Unemployment: ").classed("cat", true)
             .append("div").text("unemployment").attr('id', "unemployment").classed("data", true);
+
+        block.append("div").text("Pop density: ").classed("cat", true)
+            .append("div").text("density").attr('id', "density").classed("data", true);
 
         block.append("div").text("Power Consumption: ").classed("cat", true)
             .append("div").text("I have the power").attr('id', "power").classed("data", true);
 
-        block.append("div").text("CellPhone: ").classed("cat", true)
+        block.append("div").text("Cellular Subscriptions: ").classed("cat", true)
             .append("div").text("This ain't my dad").attr('id', "cellphone").classed("data", true);
 
         //TODO add other data sets
@@ -260,8 +264,6 @@ class InfoPanel {
 
         let year = panel.select("#year");
 
-        panel.select("#popYear").text(`Population on ${this.year}: `);
-
         year.text(this.year);
 
 
@@ -271,13 +273,34 @@ class InfoPanel {
         if (this.yearData[country] && this.yearData[country][this.year]) {
 
             this.yearKeys.forEach(key => {
+                let unit = "";
+                let fixVal = 0;
 
-                if (key == "totalSui") {
-                    totSui = this.yearData[country][this.year][key];
-                }
+                switch (key) {
+                    case "totalSui":
+                        totSui = this.yearData[country][this.year][key];
+                        break;
 
-                if (key == "totalPop") {
-                    totPop = this.yearData[country][this.year][key];
+                    case "totalPop":
+                        totPop = this.yearData[country][this.year][key];
+                        break;
+
+                    case "power":
+                        unit = " (kw/capita)";
+                        fixVal = 2;
+                        break;
+                        
+                    case "density":
+                        unit = " (people/km\u00B2)";
+                        fixVal = 2;
+                        break;
+                        
+                    case "unemployment":
+                        unit = "% of labor force";
+                        break;
+                
+                    default:
+                        break;
                 }
                 //if the key doesn't need to sum over a span do the following
 
@@ -286,10 +309,19 @@ class InfoPanel {
                     panel.select(`#${key}`).text("N/A");
 
                 } else {
-                    if (key == "totalPop") {
-                        totPop = this.yearData[country][this.year][key];
-                    }
-                    panel.select(`#${key}`).text(new Intl.NumberFormat().format(this.yearData[country][this.year][key]));
+                    //transitional numbers are bugged out
+                    /*curDiv.transition()
+                        .duration(5000)
+                        .textTween(d => {
+                            console.log(this._current);
+                            const i = d3.interpolate(this._current, this.yearData[country][this.year][key]);
+                            return t => {
+                                console.log(key);
+                                console.log(this._current);
+                                return (new Intl.NumberFormat().format(this._current = parseInt(i(t)).toFixed(fixVal))) + unit;
+                            }
+                        });*/
+                    panel.select(`#${key}`).text( (new Intl.NumberFormat().format(this.yearData[country][this.year][key])) + unit);
                 }
 
             });
@@ -323,23 +355,23 @@ class InfoPanel {
             case 0:
                 title.text(titlebase + "Introduction");
 
-                text.text("Suicides are problem in our world.  Our data set, which lacks many countries of the world, has 472,968 suicides worldwide in 2011. From 1985-2016 our data set has 13,496,840. Every year hundreds of thousands of people take their own life.  In regards to 2018 the NIH (National Institute of Mental Health) said the following.")
+                text.text("Suicides are problem in our world.  Our data set, which lacks many countries of the world, has 236,484 suicides worldwide in 2011. From 1985-2016 our data set has 13,496,840. Every year hundreds of thousands of people take their own life.  In regards to 2018 the NIH (National Institute of Mental Health) said the following.")
                 text.append('div').text("-\"Suicide was the tenth leading cause of death overall in the United States.\"-")
                 text.append('div').text("-\"Suicide was the second leading cause of death among individuals between ages 10 and 34 (in the US).\"-")
                 text.append('div').text("-\"There were more than two and a half times as many suicides in the US as there were homicides.\"-")
 
                 text.append('div').text("Over 48,000 suicides in 2018 in the US alone.  While the US is bad in terms of number of suicides it is far from the worst of the countries we have records for." +
                     "  So we encourage you to take a look. explore the data we've collected and find something interesting.  Take a look at what we found and take a moment to think about how we can solve this together.");
-                text.append('div').text("https://www.nimh.nih.gov/health/statistics/suicide.shtml#:~:text=Suicide%20was%20the%20tenth%20leading,ages%20of%2035%20and%2054.");
+                text.append('div').html("<a href='https://www.nimh.nih.gov/health/statistics/suicide.shtml#:~:text=Suicide%20was%20the%20tenth%20leading,ages%20of%2035%20and%2054.'>NIH article</a>");
                 break;
 
             case 1:
-                title.text(titlebase + "Introduction");
-                text.text("unimplemented story");
+                title.text(titlebase + "Male to Female Ratio");
+                text.text("unimplemented story - consistantly a significant difference with more men committing suicide than women. Occupation");
                 break;
 
             case 2:
-                title.text(titlebase + "Unimplemented");
+                title.text(titlebase + "Economy and Suicide");
                 text.text("unimplemented story");
                 break;
 
