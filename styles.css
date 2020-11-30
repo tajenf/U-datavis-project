@@ -41,6 +41,13 @@
     grid-template-columns: 1fr 1fr;
 }
 
+.hidden {
+    /* visibility: hidden; */
+    opacity: 0;
+    /* visibility: collapse; */
+    /* display: none; */
+}
+
 #map {
     height: 700px;
     width: 900px;
@@ -245,6 +252,9 @@ input[type="radio"]:focus {
 .compare_toggle:checked+label:after {
     left: 0;
 }
+
+
+/* magnificode https://codepen.io/magnificode/pen/ojYJJP */
 
 
 /*Year Slider*/

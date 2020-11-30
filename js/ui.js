@@ -1,14 +1,17 @@
 class UI {
 
     constructor(data, updateYear, updateAge, updateGender, updateStory, updateCompare) {
+
+
+        this.country_selected_1 = "United States of America";
+        this.country_selected_2 = "None";
+
         this.updateYear = updateYear;
         this.updateAge = updateAge;
         this.updateGender = updateGender;
         this.updateStory = updateStory;
         this.updateCompare = updateCompare;
 
-        this.startYear = 1985;
-        this.endYear = 2016;
         this.checkCount = 1;
 
         this.age_map = new Map([
@@ -91,51 +94,31 @@ class UI {
             .attr("id", "country1_title")
             .attr("class", "title");
 
-        //Country2 Text
-        ui_svg.append("text")
-            .text("Country: ")
-            .attr("transform", "translate(330, 30)")
-            .attr("id", "country2_title")
-            .attr("class", "title")
-            .classed("hidden", true);
-
         //Country1 Name Text 
         ui_svg.append("text")
+            .text(this.country_selected_1)
             .attr("transform", "translate(140, 30)")
             .attr("id", "country1_name")
             .attr("class", "title");
 
-        //Country2 name Text
+        //Country2 Text
         ui_svg.append("text")
-            .attr("transform", "translate(430, 30)")
-            .attr("id", "country2_name")
+            .text("Country: ")
+            .attr("transform", "translate(450, 30)")
+            .attr("id", "country2_title")
             .attr("class", "title")
             .classed("hidden", true);
 
+        //Country2 name Text
+        ui_svg.append("text")
+            .text(this.country_selected_2)
+            .attr("transform", "translate(550, 30)")
+            .attr("id", "country2_name")
+            .attr("class", "title")
+            .classed('hidden', true);
+
         this.year_slider(1985, 2016);
-        this.ui_Titles_Update("World", "None", true); ////////will need to reset 
         this.ui_Features();
-    }
-
-    ui_Titles_Update(country1, country2, compare) {
-
-        console.log("updated TItles was called");
-        d3.select("#country1_name").text(country1);
-
-        let country2T = d3.select("#country2_title");
-        let country2Name = d3.select("#country2_name");
-
-        if (compare == true) {
-            country2T.classed("hidden", false);
-            country2Name.text(country2)
-
-            country2Name.classed("hidden", false);
-        } else {
-            country2T.classed("hidden", true);
-            country2Name.text(country2)
-
-            country2Name.classed("hidden", true);
-        }
     }
 
     ui_Features() {
@@ -188,9 +171,7 @@ class UI {
         age_form.selectAll("g")
             .append("input")
             .attr("type", "checkbox")
-            .property("checked", function(d) {
-                return true;
-            })
+            .property("checked", true)
             .attr("name", "age_options")
             .attr("value", function(d) {
                 return d;
@@ -280,23 +261,26 @@ class UI {
             .attr("id", "input_compare")
             .attr("type", "checkbox");
 
+        //Toggle and updated UI feature visibillity 
         document.getElementById("input_compare").onchange = function() {
             if (this.checked == true) {
                 that.updateCompare(true);
+                d3.select("#country2_title").classed("hidden", false);
+                d3.select("#country2_name").classed("hidden", false);
+                d3.select("#compareToggle_div").classed("hidden", false);
             } else {
                 that.updateCompare(false);
+
+                d3.select("#country2_title").classed("hidden", true);
+                d3.select("#country2_name").classed("hidden", true);
+                d3.select("#compareToggle_div").classed("hidden", true);
             }
         };
 
-        // compare_div.append("br");
-
-        let compare_toggle = d3.select("#compareToggle_div");
+        let compare_toggle = d3.select("#compareToggle_div")
+            .classed("hidden", true);
 
         let compare_data = ["1", "2"];
-
-        compare_toggle
-            .append("form")
-            .classed("hidden", true);
 
         compare_toggle
             .selectAll("g")
@@ -320,15 +304,16 @@ class UI {
             })
             .attr("value", function(d) {
                 if (d == 1) {
-                    return "false";
+                    return 1;
                 }
-                return "true";
+                return 2;
             })
             .property("checked", function(d) {
                 if (d == 1) {
-                    return "true";
+                    return true;
                 }
-                return "false";
+                return false;
+
             });
 
         compare_toggle
@@ -347,6 +332,18 @@ class UI {
                 }
                 return "Select Country " + d;
             });
+
+        document.getElementById("toggle-on").onclick = function() {
+            console.log(this);
+            console.log(this.value);
+            // updateCompare();
+        }
+
+        document.getElementById("toggle-off").onclick = function() {
+            console.log(this);
+            console.log(this.value);
+            // updateCompare();
+        }
 
 
         let stories = ["intro", "story_1", "story_2", "story_3", "story_4"]; //, "deselect"];
@@ -402,8 +399,6 @@ class UI {
             that.updateStory(current.value);
         };
 
-
-        document
     }
 
     year_slider(min, max) {
