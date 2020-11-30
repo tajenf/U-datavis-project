@@ -254,7 +254,7 @@ Promise.all([suiData, densityData, cellData, powerData, unemploymentData]).then(
                     yearData[country][year]["maleSui"] = maleSui;
                     yearData[country][year]["femaleSui"] = femaleSui;
                     yearData[country][year]["totalSui"] = suicides;
-                    
+
                     let ratio = (parseInt(maleSui) / parseInt(suicides) * 100).toFixed(1);
 
                     yearData[country][year]["ratio"] = ratio;
@@ -284,8 +284,8 @@ Promise.all([suiData, densityData, cellData, powerData, unemploymentData]).then(
     function UpdateDualCountryView(display2countries) {
         // console.log(display2countries);
         info.UpdateDualCountryView(display2countries);
-        // ui.ui_Titles_Update("World", "welp", true); 
-        //graph.updateGraph(); 
+        graph.update2lines(ui.country_selected_1, ui.country_selected_2, display2countries);
+
     }
 
     //year is starting year, span is number of following years
@@ -315,7 +315,7 @@ Promise.all([suiData, densityData, cellData, powerData, unemploymentData]).then(
     //console.log(data);
 
     let world = new World(oData, UpdateCountry, yearData, suicideData);
-    let graph = new Graph(data[0], suicideData, "United States of America", "both", "all");
+    let graph = new Graph(data, suicideData, "United States of America", "both", "all");
     let info = new InfoPanel(suicideData, yearData, yearKeys, countryData, countryKeys, ageGroups);
     let ui = new UI(oData, UpdateYear, UpdateAge, UpdateSex, UpdateStory, UpdateDualCountryView);
 

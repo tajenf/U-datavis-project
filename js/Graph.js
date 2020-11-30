@@ -2,8 +2,12 @@ class Graph {
 
     constructor(data, data2, country_name, Gender, Age_group) {
 
-        this.country1_select;
-        this.country2_select;
+        this.country1_select = "United States of America";
+        this.country2_select = "United Kingdom";
+
+
+
+        // console.log(data);
 
         let graph_svg1 = d3.select('#graph')
             .append("svg")
@@ -90,44 +94,52 @@ class Graph {
         //     .text("Country: " + country_name + ",  Gender: " + Gender + ",  Age: " + Age_group);
 
 
-        this.updateGraph(data, data2, country_name, Gender, Age_group);
+        this.updateGraph(data, data2, Gender, Age_group);
     }
 
-    update2lines() {
+    update2lines(c1, c2, c) {
+        // console.log(c1);
+        // console.log(c2);
+        // console.log(c);
+
 
     }
 
 
-    updateGraph(data, data2, country_name, Gender, Age_group) {
+    updateGraph(data, data2, Gender, Age_group) {
 
         let filter_data;
         let max_sui;
         let max_yr;
         let min_yr;
 
-        console.log(data);
-        console.log(data2);
+        // console.log(data);
+        // console.log(data2);
 
         // if (country_name != null && Gender == "both" && Age_group == "all") {
-        let filtata = data2[country_name][Gender][Age_group];
+        filter_data = data2[this.country1_select][Gender][Age_group];
 
 
+        filter_data = Object.entries(filter_data);
+        min_yr = filter_data[0][0];
+        max_yr = filter_data[filter_data.length - 1][0];
+        max_sui = d3.max(filter_data, function(d) { return +d[1].suicides });
 
-
-
-        console.log(filtata);
-        let a = Object.entries(filtata);
-        console.log(a);
-        console.log(a[0][0]);
-        console.log(a[a.length - 1][0]);
+        // console.log(filtata);
+        // let a = Object.entries(filtata);
+        // console.log(a);
+        // console.log(a[0][0]);
+        // console.log(a[a.length - 1][0]);
+        // let max = d3.max(a, function(d) { return +d[1].suicides });
+        // console.log(max);
 
 
         // } else if (Gender != "both" && Age_group != "all") {
-        filter_data = data.filter(d => ((d.country == country_name) && (d.sex == "female") && (d.age == "5-14 years")));
+        // filter_data = data.filter(d => ((d.country == country_name) && (d.sex == "female") && (d.age == "5-14 years")));
 
-        max_sui = d3.max(filter_data, function(d) { return +d.suicides_no });
-        max_yr = d3.max(filter_data, function(d) { return d.year });
-        min_yr = d3.min(filter_data, function(d) { return d.year });
+        // max_sui = d3.max(filter_data, function(d) { return +d.suicides_no });
+        // max_yr = d3.max(filter_data, function(d) { return d.year });
+        // min_yr = d3.min(filter_data, function(d) { return d.year });
         // }
 
         this.scaleY = d3.scaleLinear()
@@ -139,8 +151,8 @@ class Graph {
             .range([0, 500]);
 
         this.drawLegend();
-        this.drawLines(filter_data, filter_data);
-        this.drawPoints(filter_data, filter_data);
+        this.drawLines(filter_data);
+        this.drawPoints(filter_data);
     }
 
     drawLegend() {
@@ -167,12 +179,12 @@ class Graph {
         //     .call(d3.axisLeft(this.scaleY).ticks(10));
     }
 
-    drawLines(data, data2) {
+    drawLines(data, graphN) {
 
         let LineGenerator1 = d3
             .line()
-            .x(d => this.scaleX(d.year))
-            .y(d => this.scaleY(d.suicides_no));
+            .x(d => this.scaleX(d[0]))
+            .y(d => this.scaleY(d[1].suicides));
 
         d3.select("#graph_path1")
             .data(data)
@@ -190,32 +202,40 @@ class Graph {
         //     .attr("d", LineGenerator2(data));
     }
 
-    drawPoints(data, data2) {
+    drawPoints(data, graphN) {
 
         let that = this;
-        let point_group1 = d3.select("#Hover_points1");
 
-        point_group1.selectAll("circle")
+
+        let point_group = d3.select("#Hover_points1");
+
+        if (graphN == 2) {
+            point_group = d3.select("#Hover_points2");
+        }
+
+        point_group.selectAll("circle")
             .data(data)
             .join(
                 enter => {
-                    enter.append("circle")
+                    enter
+                        .append("circle")
+                        .transition()
                         .attr("r", "4")
-                        .attr("cx", d => this.scaleX(d.year))
-                        .attr("cy", d => this.scaleY(d.suicides_no))
+                        .attr("cx", d => this.scaleX(d[0]))
+                        .attr("cy", d => this.scaleY(d[1].suicides))
                 },
                 update => {
                     update.transition()
                         .attr("r", "4")
-                        .attr("cx", d => this.scaleX(d.year))
-                        .attr("cy", d => this.scaleY(d.suicides_no))
+                        .attr("cx", d => this.scaleX(d[0]))
+                        .attr("cy", d => this.scaleY(d[1].suicides))
                 },
                 exit => {
                     exit.remove();
                 }
             );
 
-        point_group1.selectAll("circle")
+        point_group.selectAll("circle")
             .data(data)
             .on("mouseover", function(d) {
                 let current = d3.select(this);
