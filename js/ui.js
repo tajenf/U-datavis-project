@@ -11,7 +11,14 @@ class UI {
         this.endYear = 2016;
         this.checkCount = 1;
 
-        this.age_map = new Map([["5-14 years", ["5-14 years", 1]], ["15-24 years", ["15-24 years", 1]], ["25-34 years", ["25-34 years", 1]], ["35-54 years", ["35-54 years", 1]], ["55-74 years", ["55-74 years", 1]], ["75+ years", ["75+ years", 1]]]);
+        this.age_map = new Map([
+            ["5-14 years", ["5-14 years", 1]],
+            ["15-24 years", ["15-24 years", 1]],
+            ["25-34 years", ["25-34 years", 1]],
+            ["35-54 years", ["35-54 years", 1]],
+            ["55-74 years", ["55-74 years", 1]],
+            ["75+ years", ["75+ years", 1]]
+        ]);
 
         this.drawItems();
     }
@@ -46,7 +53,7 @@ class UI {
             .text(2016);
 
 
-        d3.select("#year_slider_id").on("input", function () {
+        d3.select("#year_slider_id").on("input", function() {
             // console.log(this);
             // console.log(this.value); 
         });
@@ -63,9 +70,13 @@ class UI {
             .append("div")
             .attr("id", "story_div");
 
-        let ui_compare_toggle = ui_div
+        let ui_compare_div = ui_div
             .append("div")
             .attr("id", "compare_div");
+
+        let ui_compare_Toggle = ui_div
+            .append("div")
+            .attr("id", "compareToggle_div");
 
         //Age Group Title 
         ui_svg.append("text")
@@ -102,7 +113,7 @@ class UI {
             .classed("hidden", true);
 
         this.year_slider(1985, 2016);
-        this.ui_Titles_Update("World", "None", true);   ////////will need to reset 
+        this.ui_Titles_Update("World", "None", true); ////////will need to reset 
         this.ui_Features();
     }
 
@@ -119,8 +130,7 @@ class UI {
             country2Name.text(country2)
 
             country2Name.classed("hidden", false);
-        }
-        else {
+        } else {
             country2T.classed("hidden", true);
             country2Name.text(country2)
 
@@ -149,14 +159,14 @@ class UI {
             .data(gender_options)
             .enter()
             .append("option")
-            .attr("value", function (d) {
+            .attr("value", function(d) {
                 return d;
             })
-            .text(function (d) {
+            .text(function(d) {
                 return d;
             });
 
-        document.getElementById("gender_select").onchange = function () {
+        document.getElementById("gender_select").onchange = function() {
             that.updateGender(this.value.toLowerCase());
         };
 
@@ -178,14 +188,14 @@ class UI {
         age_form.selectAll("g")
             .append("input")
             .attr("type", "checkbox")
-            .property("checked", function (d) {
+            .property("checked", function(d) {
                 return true;
             })
             .attr("name", "age_options")
-            .attr("value", function (d) {
+            .attr("value", function(d) {
                 return d;
             })
-            .attr("id", function (d) {
+            .attr("id", function(d) {
                 return d + "_option_ID";
             })
             .attr("class", "age_input_options")
@@ -193,10 +203,10 @@ class UI {
 
         age_form.selectAll("g")
             .append("label")
-            .attr("for", function (d) {
+            .attr("for", function(d) {
                 return d;
             })
-            .text(function (d) {
+            .text(function(d) {
                 return d;
             });
 
@@ -209,12 +219,10 @@ class UI {
             if (current.checked == true) {
                 array[1] = 1;
                 that.checkCount++;
-            }
-            else if (current.checked == false && that.checkCount > 1) {
+            } else if (current.checked == false && that.checkCount > 1) {
                 array[1] = 0;
                 that.checkCount--;
-            }
-            else {
+            } else {
                 current.checked = true;
             }
             d3.select("#All_option_ID").property("checked", false);
@@ -223,31 +231,31 @@ class UI {
         };
 
         //Apply Age selection update age function
-        document.getElementById("5-14 years_option_ID").onclick = function () {
+        document.getElementById("5-14 years_option_ID").onclick = function() {
             UpdateAgeOption(this);
         };
 
-        document.getElementById("15-24 years_option_ID").onclick = function () {
+        document.getElementById("15-24 years_option_ID").onclick = function() {
             UpdateAgeOption(this);
         };
 
-        document.getElementById("25-34 years_option_ID").onclick = function () {
+        document.getElementById("25-34 years_option_ID").onclick = function() {
             UpdateAgeOption(this);
         };
 
-        document.getElementById("35-54 years_option_ID").onclick = function () {
+        document.getElementById("35-54 years_option_ID").onclick = function() {
             UpdateAgeOption(this);
         };
 
-        document.getElementById("55-74 years_option_ID").onclick = function () {
+        document.getElementById("55-74 years_option_ID").onclick = function() {
             UpdateAgeOption(this);
         };
 
-        document.getElementById("75+ years_option_ID").onclick = function () {
+        document.getElementById("75+ years_option_ID").onclick = function() {
             UpdateAgeOption(this);
         };
 
-        document.getElementById("All_option_ID").onclick = function () {
+        document.getElementById("All_option_ID").onclick = function() {
             //need to call updateAge here 
             if (this.checked == true) {
                 d3.selectAll(".age_input_options").property("checked", true);
@@ -258,8 +266,7 @@ class UI {
 
                 that.checkCount = 6;
                 that.updateAge(that.age_map);
-            }
-            else {
+            } else {
                 this.checked = false;
             }
         };
@@ -273,20 +280,21 @@ class UI {
             .attr("id", "input_compare")
             .attr("type", "checkbox");
 
-        document.getElementById("input_compare").onchange = function () {
+        document.getElementById("input_compare").onchange = function() {
             if (this.checked == true) {
                 that.updateCompare(true);
-            }
-            else {
+            } else {
                 that.updateCompare(false);
             }
         };
 
-        compare_div.append("br");
+        // compare_div.append("br");
+
+        let compare_toggle = d3.select("#compareToggle_div");
 
         let compare_data = ["1", "2"];
 
-        let compare_toggle = compare_div
+        compare_toggle
             .append("form")
             .classed("hidden", true);
 
@@ -298,47 +306,46 @@ class UI {
             .append("input")
             .attr("type", "radio")
             .attr("name", "toggle")
-            .attr("id", function (d) {
+            .attr("id", function(d) {
                 if (d == 1) {
                     return "toggle-on";
                 }
                 return "toggle-off";
             })
-            .attr("class", function (d) {
+            .attr("class", function(d) {
                 if (d == 1) {
                     return "toggle toggle-left compare_toggle";
                 }
                 return "toggle toggle-right compare_toggle";
             })
-            .attr("value", function (d) {
+            .attr("value", function(d) {
                 if (d == 1) {
                     return "false";
                 }
                 return "true";
             })
-            .property("checked", function (d) {
+            .property("checked", function(d) {
                 if (d == 1) {
                     return "true";
                 }
                 return "false";
-            })
-            ;
+            });
 
         compare_toggle
             .selectAll("g")
             .append("label")
             .attr("class", "btn")
-            .attr("for", function(d){
+            .attr("for", function(d) {
                 if (d == 1) {
                     return "toggle-on";
                 }
                 return "toggle-off";
             })
-            .text(function(d){
+            .text(function(d) {
                 if (d == 1) {
-                    return "Selecting Country " + d;
+                    return "Select Country " + d;
                 }
-                return "Selecting Country " + d;
+                return "Select Country " + d;
             });
 
 
@@ -353,43 +360,40 @@ class UI {
             // .attr("class", function (d) {
             //     return d + "class";
             // })
-            .attr("id", function (d) {
+            .attr("id", function(d) {
                 return d + "_ID";
             })
             .attr("name", "Story_radio")
-            .attr("value", function (d) {
+            .attr("value", function(d) {
                 if (d == "intro") {
                     return 0;
-                }
-                else if (d == "story_1") {
+                } else if (d == "story_1") {
                     return 1;
-                }
-                else if (d == "story_2") {
+                } else if (d == "story_2") {
                     return 2;
-                }
-                else if (d == "story_3") {
+                } else if (d == "story_3") {
                     return 3;
                 }
                 return 4;
             });
 
-        document.getElementById("intro_ID").onclick = function () {
+        document.getElementById("intro_ID").onclick = function() {
             UpdateStorySection(this);
         };
 
-        document.getElementById("story_1_ID").onclick = function () {
+        document.getElementById("story_1_ID").onclick = function() {
             UpdateStorySection(this);
         };
 
-        document.getElementById("story_2_ID").onclick = function () {
+        document.getElementById("story_2_ID").onclick = function() {
             UpdateStorySection(this);
         };
 
-        document.getElementById("story_3_ID").onclick = function () {
+        document.getElementById("story_3_ID").onclick = function() {
             UpdateStorySection(this);
         };
 
-        document.getElementById("story_4_ID").onclick = function () {
+        document.getElementById("story_4_ID").onclick = function() {
             UpdateStorySection(this);
         };
 
