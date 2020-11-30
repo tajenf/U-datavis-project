@@ -108,11 +108,10 @@ Promise.all([suiData, densityData, cellData, powerData, unemploymentData]).then(
             for (let year = 1985; year <= 2016; year++) {
 
                 if (denData[year]) {
-                    if(!yearData[country][year])
-                    {
+                    if (!yearData[country][year]) {
                         yearData[country][year] = {};
                     }
-                    
+
                     yearData[country][year]["density"] = denData[year];
                 }
 
@@ -129,11 +128,10 @@ Promise.all([suiData, densityData, cellData, powerData, unemploymentData]).then(
             for (let year = 1985; year <= 2016; year++) {
 
                 if (cellData[year]) {
-                    if(!yearData[country][year])
-                    {
+                    if (!yearData[country][year]) {
                         yearData[country][year] = {};
                     }
-                    
+
                     yearData[country][year]["cellphone"] = cellData[year];
                 }
 
@@ -150,11 +148,10 @@ Promise.all([suiData, densityData, cellData, powerData, unemploymentData]).then(
             for (let year = 1985; year <= 2016; year++) {
 
                 if (powData[year]) {
-                    if(!yearData[country][year])
-                    {
+                    if (!yearData[country][year]) {
                         yearData[country][year] = {};
                     }
-                    
+
                     yearData[country][year]["power"] = powData[year];
                 }
 
@@ -171,11 +168,10 @@ Promise.all([suiData, densityData, cellData, powerData, unemploymentData]).then(
             for (let year = 1985; year <= 2016; year++) {
 
                 if (unEmploymentData[year]) {
-                    if(!yearData[country][year])
-                    {
+                    if (!yearData[country][year]) {
                         yearData[country][year] = {};
                     }
-                    
+
                     yearData[country][year]["unemployment"] = unEmploymentData[year];
                 }
 
@@ -222,38 +218,38 @@ Promise.all([suiData, densityData, cellData, powerData, unemploymentData]).then(
                     if (!suicideData[country]["both"]) {
                         suicideData[country]["both"] = {};
                     }
-    
+
                     if (!suicideData[country]["both"]["all"]) {
                         suicideData[country]["both"]["all"] = {};
                     }
-    
+
                     if (!suicideData[country]["male"]["all"]) {
                         suicideData[country]["male"]["all"] = {};
                     }
-    
+
                     if (!suicideData[country]["female"]["all"]) {
                         suicideData[country]["female"]["all"] = {};
                     }
-    
-                    
-                    
+
+
+
                     let suicides = maleSui + femaleSui;
-                    
-    
-                    suicideData[country]["both"]["all"][year] = {population, suicides};
+
+
+                    suicideData[country]["both"]["all"][year] = { population, suicides };
                     suicideData[country]["female"]["all"][year] = {};
                     suicideData[country]["male"]["all"][year] = {};
-                    
+
                     suicideData[country]["female"]["all"][year]["population"] = femalePop;
                     suicideData[country]["male"]["all"][year]["population"] = malePop;
-    
+
                     suicideData[country]["female"]["all"][year]["suicides"] = femaleSui;
                     suicideData[country]["male"]["all"][year]["suicides"] = maleSui;
-    
+
                     yearData[country][year]["malePop"] = malePop;
                     yearData[country][year]["femalePop"] = femalePop;
                     yearData[country][year]["totalPop"] = population;
-    
+
                     yearData[country][year]["maleSui"] = maleSui;
                     yearData[country][year]["femaleSui"] = femaleSui;
                     yearData[country][year]["totalSui"] = suicides;
@@ -287,8 +283,9 @@ Promise.all([suiData, densityData, cellData, powerData, unemploymentData]).then(
 
     //param is a bool true for display 2 countries false for only 1.
     function UpdateDualCountryView(display2countries) {
+        // console.log(display2countries);
         info.UpdateDualCountryView(display2countries);
-        ui.ui_Titles_Update("World", "welp", true); 
+        // ui.ui_Titles_Update("World", "welp", true); 
         //graph.updateGraph(); 
     }
 

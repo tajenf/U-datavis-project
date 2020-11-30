@@ -90,19 +90,16 @@ class Graph {
         this.updateGraph(data, data2, country_name, Gender, Age_group, compare);
     }
 
-    updateGraph(data, data2, country_name, Gender, Age_group, compare) {//}, compare, country_name2, Gender2, Age_group2) {
+    updateGraph(data, data2, country_name, Gender, Age_group, compare) { //}, compare, country_name2, Gender2, Age_group2) {
 
         let filter_data = null;
 
         // if (country_name == "World" && Gender == "both" && Age_group == "all") {
 
         // }
-        // let w = data2["World"];
-        // console.log(w);
-        // console.log(Object.entries(w)[0][1]["totalSui"]) ; 
-        // console.log(w["1985"]); 
-        console.log(data2);
-        console.log(data2["World"]["female"]);
+
+        // console.log(data2);
+        // console.log(data2["World"]["female"]);
 
         // else if (country_name != "world" && Gender != "both" && Age_group != "all") {
         filter_data = data.filter(d => ((d.country == country_name) && (d.sex == "female") && (d.age == "5-14 years")));
@@ -111,9 +108,9 @@ class Graph {
         // console.log(data);
         // console.log(filter_data);
 
-        let max_sui = d3.max(filter_data, function (d) { return +d.suicides_no });
-        let max_yr = d3.max(filter_data, function (d) { return d.year });
-        let min_yr = d3.min(filter_data, function (d) { return d.year });
+        let max_sui = d3.max(filter_data, function(d) { return +d.suicides_no });
+        let max_yr = d3.max(filter_data, function(d) { return d.year });
+        let min_yr = d3.min(filter_data, function(d) { return d.year });
 
         this.scaleY = d3.scaleLinear()
             .domain([max_sui, 0])
@@ -202,7 +199,7 @@ class Graph {
 
         point_group1.selectAll("circle")
             .data(data)
-            .on("mouseover", function (d) {
+            .on("mouseover", function(d) {
                 let current = d3.select(this);
                 current.attr("class", "hovered");
                 let current_title = current.append("title");
@@ -210,7 +207,7 @@ class Graph {
                     .append("text")
                     .text("Number of Suicides: " + Math.round(that.scaleY.invert(current.attr("cy"))) + "\n" + "Year: " + Math.round(that.scaleX.invert(current.attr("cx"))));
             })
-            .on("mouseout", function () {
+            .on("mouseout", function() {
                 let current = d3.select(this);
                 current.attr("class", null);
                 current.selectAll("title").remove();
@@ -245,7 +242,7 @@ class Graph {
 
         point_group2.selectAll("circle")
             .data(data)
-            .on("mouseover", function (d) {
+            .on("mouseover", function(d) {
                 let current = d3.select(this);
                 current.attr("class", "hovered");
                 let current_title = current.append("title");
@@ -253,7 +250,7 @@ class Graph {
                     .append("text")
                     .text("Number of Suicides: " + Math.round(that.scaleY.invert(current.attr("cy"))) + "\n" + "Year: " + Math.round(that.scaleX.invert(current.attr("cx"))));
             })
-            .on("mouseout", function () {
+            .on("mouseout", function() {
                 let current = d3.select(this);
                 current.attr("class", null);
                 current.selectAll("title").remove();
