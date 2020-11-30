@@ -195,6 +195,7 @@ Promise.all([suiData, densityData, cellData, powerData, unemploymentData]).then(
     yearKeys.add("cellphone");
     yearKeys.add("unemployment");
     yearKeys.add("power");
+    yearKeys.add("ratio");
 
     years.forEach(year => {
 
@@ -256,6 +257,7 @@ Promise.all([suiData, densityData, cellData, powerData, unemploymentData]).then(
                     yearData[country][year]["maleSui"] = maleSui;
                     yearData[country][year]["femaleSui"] = femaleSui;
                     yearData[country][year]["totalSui"] = suicides;
+                    yearData[country][year]["ratio"] = (parseInt(maleSui) / parseInt(suicides) * 100).toFixed(1);
                 }
             }
 

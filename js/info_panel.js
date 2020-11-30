@@ -75,6 +75,9 @@ class InfoPanel {
         pop.append("div").text(`Population: `).attr('id', "popYear").classed("cat", true).style('display', 'inline');
         pop.append("div").text("curPop").attr('id', "totalPop").classed("data", true);
 
+        block.append("div").text("Male/Female Ratio: ").classed("cat", true)
+            .append("div").text("M/F").attr('id', "ratio").classed("data", true);
+
         block.append("div").text("Suicides per 100k: ").classed("cat", true)
             .append("div").text("spk").attr('id', "suipk").classed("data", true);
 
@@ -321,7 +324,13 @@ class InfoPanel {
                                 return (new Intl.NumberFormat().format(this._current = parseInt(i(t)).toFixed(fixVal))) + unit;
                             }
                         });*/
-                    panel.select(`#${key}`).text( (new Intl.NumberFormat().format(this.yearData[country][this.year][key])) + unit);
+                    if (key == "ratio") {
+                        let male = this.yearData[country][this.year][key];
+                        let female = (100 - male).toFixed(1);
+                        panel.select(`#${key}`).text( `${male}% / ${female}%`);
+                    } else {
+                        panel.select(`#${key}`).text( (new Intl.NumberFormat().format(this.yearData[country][this.year][key])) + unit);
+                    }
                 }
 
             });
