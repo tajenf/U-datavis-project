@@ -12,7 +12,7 @@ class UI {
         this.updateStory = updateStory;
         this.updateCompare = updateCompare;
 
-        this.checkCount = 1;
+        this.checkCount = 6;
 
         this.age_map = new Map([
             ["5-14 years", ["5-14 years", 1]],
@@ -26,8 +26,7 @@ class UI {
         this.drawItems();
     }
 
-    initiallizePage()
-    {
+    initiallizePage() {
         this.updateCompare(false);
         this.updateYear(2011);
         this.updateAge("all");
@@ -355,7 +354,7 @@ class UI {
         }
 
 
-        let stories = ["intro", "story_1", "story_2", "story_3", "story_4"]; //, "deselect"];
+        let stories = ["intro", "story_1", "story_2", "story_3", "story_4"];
 
         //Story feature 
         d3.select("#story_div").selectAll("input")
