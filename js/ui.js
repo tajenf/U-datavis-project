@@ -159,6 +159,10 @@ class UI {
             that.updateGender(this.value.toLowerCase());
         };
 
+        document.getElementById("year_slider_id").onchange = function() {
+            that.setYear(this.value);
+        };
+
         //Age Group feature  
         let age_group_options = ["5-14 years", "15-24 years", "25-34 years", "35-54 years", "55-74 years", "75+ years", "All"];
 
