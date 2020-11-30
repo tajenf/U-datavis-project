@@ -274,11 +274,6 @@ Promise.all([suiData, densityData, cellData, powerData, unemploymentData]).then(
     console.log(totSui);
     */
 
-    // console.log(years); 
-    // console.log(suicideData); 
-    // console.log(yearData);
-    // console.log(data[2]);
-
     //1 for primary country
     //2 for country that is only visible when comparing.
     function UpdateCountry(country, countryNum) {
@@ -303,15 +298,12 @@ Promise.all([suiData, densityData, cellData, powerData, unemploymentData]).then(
     //updates selected age groups
     function UpdateAge(ageGroups) {
         world.update("age", ageGroups);
-        // graph()
-        //graph.updateGraph(); //overload this? 
     }
 
     //updates which sex is selected between male, female or both
     function UpdateSex(sex) {
-        // console.log(sex);
         world.update("sex", sex);
-       // graph.updateGraph();
+        // graph.updateGraph();
     }
 
     //story integer
@@ -323,7 +315,7 @@ Promise.all([suiData, densityData, cellData, powerData, unemploymentData]).then(
     //console.log(data);
 
     let world = new World(oData, UpdateCountry, yearData, suicideData);
-    let graph = new Graph(data[0], suicideData, "United States of America", "both", "all", false); //, 0, null, null, null);
+    let graph = new Graph(data[0], suicideData, "United States of America", "both", "all");
     let info = new InfoPanel(suicideData, yearData, yearKeys, countryData, countryKeys, ageGroups);
     let ui = new UI(oData, UpdateYear, UpdateAge, UpdateSex, UpdateStory, UpdateDualCountryView);
 
