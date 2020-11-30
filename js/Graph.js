@@ -2,6 +2,9 @@ class Graph {
 
     constructor(data, data2, country_name, Gender, Age_group) {
 
+        this.country1_select;
+        this.country2_select;
+
         let graph_svg1 = d3.select('#graph')
             .append("svg")
             .attr("id", "graph_svg1")
@@ -89,6 +92,11 @@ class Graph {
 
         this.updateGraph(data, data2, country_name, Gender, Age_group);
     }
+
+    update2lines() {
+
+    }
+
 
     updateGraph(data, data2, country_name, Gender, Age_group) {
 
