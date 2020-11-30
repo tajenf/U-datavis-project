@@ -264,6 +264,15 @@ Promise.all([suiData, densityData, cellData, powerData, unemploymentData]).then(
         });
     });
 
+    //quick code for data analysis
+    /*
+    let totSui = 0;
+    Object.keys(yearData["World"]).forEach(year => {
+        totSui += yearData["World"][year]["totalSui"];
+    });
+    console.log("tot sui");
+    console.log(totSui);
+    */
 
     // console.log(years); 
     // console.log(suicideData); 
