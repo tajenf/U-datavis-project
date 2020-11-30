@@ -26,6 +26,15 @@ class UI {
         this.drawItems();
     }
 
+    initiallizePage()
+    {
+        this.updateCompare(false);
+        this.updateYear(2011);
+        this.updateAge("all");
+        this.updateGender("both");
+        this.updateStory("0");
+    }
+
     drawItems() {
 
         let that = this;
@@ -53,7 +62,7 @@ class UI {
 
         ui_slider.append("output")
             .attr("id", "rangevalue")
-            .text(2016);
+            .text(2011);
 
 
         d3.select("#year_slider_id").on("input", function() {
@@ -406,7 +415,7 @@ class UI {
 
         slider.attr("min", min);
         slider.attr("max", max);
-        slider.attr("value", max);
+        slider.attr("value", 2011);
     }
 
     // year_slider() {

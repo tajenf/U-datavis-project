@@ -285,27 +285,27 @@ Promise.all([suiData, densityData, cellData, powerData, unemploymentData]).then(
     function UpdateDualCountryView(display2countries) {
         // console.log(display2countries);
         info.UpdateDualCountryView(display2countries);
-        // ui.ui_Titles_Update(); 
-        // graph.updateGraph();
+        // ui.ui_Titles_Update("World", "welp", true); 
+        //graph.updateGraph(); 
     }
 
     //year is starting year, span is number of following years
     //span = 0 means we are only looking at the year in question
-    function UpdateYear(year, span) {
-        info.UpdateYear(year, span);
+    function UpdateYear(year) {
+        info.UpdateYear(year);
     }
 
     //updates selected age groups
     function UpdateAge(ageGroups) {
         console.log(ageGroups);
         // graph()
-        graph.updateGraph(); //overload this? 
+        //graph.updateGraph(); //overload this? 
     }
 
     //updates which sex is selected between male, female or both
     function UpdateSex(sex) {
         // console.log(sex);
-        graph.updateGraph();
+        //graph.updateGraph();
     }
 
     //story integer
@@ -316,13 +316,13 @@ Promise.all([suiData, densityData, cellData, powerData, unemploymentData]).then(
     //console.log(oData);
     //console.log(data);
 
-    let world = new World(oData, UpdateCountry, yearData);
     let graph = new Graph(data[0], suicideData, "United States of America", "both", "all", false); //, 0, null, null, null);
-    let ui = new UI(oData, UpdateYear, UpdateAge, UpdateSex, UpdateStory, UpdateDualCountryView);
     let info = new InfoPanel(suicideData, yearData, yearKeys, countryData, countryKeys, ageGroups);
+    let world = new World(oData, UpdateCountry, yearData);
+    let ui = new UI(oData, UpdateYear, UpdateAge, UpdateSex, UpdateStory, UpdateDualCountryView);
 
-    // console.log(ui.country_selected_2);
-
+    ui.initiallizePage();
+    UpdateCountry("United States of America");
 
     d3.json('./data/countriestopo.json').then(map => { world.drawWorld(map) });
 
