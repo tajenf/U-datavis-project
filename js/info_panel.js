@@ -26,6 +26,10 @@ class InfoPanel {
 
         StoryBlock.append('br');
 
+        StoryBlock.append("div").attr("id", "story_div").classed('story', true);
+
+        StoryBlock.append('br');
+
         StoryBlock.append('div').text("Story: ").classed("story-title", true).attr('id', "title");
 
         StoryBlock.append('div').classed("story", true).attr('id', "story");
@@ -65,7 +69,7 @@ class InfoPanel {
             .append("div").text("curCountry").attr('id', "country").classed("data", true);
 
         let year = block.append('g');
-        year.append("div").text("year: ").attr('id', "yearlabel").classed("cat", true).style('display', 'inline');
+        year.append("div").text("Year: ").attr('id', "yearlabel").classed("cat", true).style('display', 'inline');
         year.append("div").text("curYear").attr('id', "year").classed("data", true);
 
         block.append("div").text("Total Suicides: ").classed("cat", true)
