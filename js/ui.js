@@ -2,7 +2,6 @@ class UI {
 
     constructor(data, updateYear, updateAge, updateGender, updateStory, updateCompare) {
 
-
         this.country_selected_1 = "United States of America";
         this.country_selected_2 = "None";
 
@@ -343,14 +342,12 @@ class UI {
 
         document.getElementById("toggle-on").onclick = function() {
             console.log(this);
-            console.log(this.value);
-            // updateCompare();
+            d3.select("#country1_name").text("ayyy"); ////////////////////////////////////////////////////////
         }
 
         document.getElementById("toggle-off").onclick = function() {
             console.log(this);
-            console.log(this.value);
-            // updateCompare();
+            d3.select("#country2_name").text(this.country_selected_2);
         }
 
 
@@ -362,9 +359,6 @@ class UI {
             .enter()
             .append("input")
             .attr("type", "radio")
-            // .attr("class", function (d) {
-            //     return d + "class";
-            // })
             .attr("id", function(d) {
                 return d + "_ID";
             })
@@ -416,50 +410,4 @@ class UI {
         slider.attr("max", max);
         slider.attr("value", 2011);
     }
-
-    // year_slider() {
-    //     let that = this;
-
-    //     let range1 = d3.select("#range1");
-    //     let range2 = d3.select("#range2");
-
-    //     range1.attr("oninput", function () {
-    //         return "this.value=Math.min(this.value,this.parentNode.childNodes[5].value-1);" +
-    //             "var value=(100/(parseInt(this.max)-parseInt(this.min)))*parseInt(this.value)-(100/(parseInt(this.max)-parseInt(this.min)))*parseInt(this.min);" +
-    //             "var children = this.parentNode.childNodes[1].childNodes;" +
-    //             "children[1].style.width=value+'%';" +
-    //             "children[5].style.left=value+'%';" +
-    //             "children[7].style.left=value+'%';" +
-    //             "children[11].style.left=value+'%';" +
-    //             "children[11].childNodes[1].innerHTML= this.value;"
-
-    //     });
-
-    //     range2.attr("oninput", function () {
-    //         return ("this.value=Math.max(this.value,this.parentNode.childNodes[3].value-(-1));" +
-    //             "var value=(100/(parseInt(this.max)-parseInt(this.min)))*parseInt(this.value)-(100/(parseInt(this.max)-parseInt(this.min)))*parseInt(this.min);" +
-    //             "var children = this.parentNode.childNodes[1].childNodes;" +
-    //             "children[3].style.width=(100-value)+'%';" +
-    //             "children[5].style.right=(100-value)+'%'; " +
-    //             "children[9].style.left=value+'%'; " +
-    //             "children[13].style.left=value+'%'; " +
-    //             "children[13].childNodes[1].innerHTML=this.value-1;")
-    //     });
-
-    //     //UpdateYear function passing in the current starting year and the span of current start to current end. 
-    //     //Updates teh current startYear
-    //     range1.on("input", function () {
-    //         that.startYear = parseInt(this.value);
-    //         that.updateYear(that.startYear, (that.endYear - that.startYear));
-    //     });
-
-    //     //UpdateYear function passing in the current starting year and the span of current start to current end. 
-    //     //Updates the current endYear
-    //     range2.on("input", function () {
-    //         that.endYear = parseInt(this.value) - 1;
-    //         that.updateYear(that.startYear, that.endYear - that.startYear)
-    //     });
-    // }
-
-
 }
