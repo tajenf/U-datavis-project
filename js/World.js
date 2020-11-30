@@ -1,23 +1,25 @@
 
 class CountryData {
 
-    constructor(type, name, data, geometry, yearData) {
+    constructor(type, name, data, geometry, yearData, suicideData) {
         this.type = type
         this.name = name;
         this.data = data;
         this.yearData = yearData;
         this.geometry = geometry;
+        this.suicideData = suicideData;
     }
 }
 
 
 class World {
 
-    constructor(data, updateCountry, yearData)
+    constructor(data, updateCountry, yearData, suicideData)
     {
         this.data = data;
         this.yearData = yearData;
         this.updateCountry = updateCountry;
+        this.suicideData = suicideData;
         
         this.maxlat = 83;
         this.width = 900;
@@ -25,6 +27,9 @@ class World {
         this.rotate = 60;
         this.tlast = [0,0];
         this.slast = null;
+        this.year = 2011;
+        this.sex = "Both";
+        this.age = ["5-14 years", "15-24 years", "25-34 years", "35-54 years", "55-74 years", "75+ years"];
 
         this.projection = d3.geoMercator()
             .rotate([this.rotate,0])
@@ -57,6 +62,7 @@ class World {
         world = topojson.feature(world, world.objects['countriesold']);
         console.log(this.yearData);
         console.log(this.data);
+        console.log(this.suicideData);
 
         let countries = [];
         let i,j;
@@ -68,7 +74,14 @@ class World {
 
                 if (this.data[j]["key"] == world.features[i].properties.ADMIN)
                 {
-                    countries.push(new CountryData(world.features[i].type, world.features[i].properties.ADMIN, this.data[j]["value"], world.features[i].geometry, this.yearData[world.features[i].properties.ADMIN]));
+                    countries.push(new CountryData(
+                        world.features[i].type, 
+                        world.features[i].properties.ADMIN, 
+                        this.data[j]["value"], 
+                        world.features[i].geometry, 
+                        this.yearData[world.features[i].properties.ADMIN], 
+                        this.suicideData[world.features[i].properties.ADMIN]));
+            
                     found = true;
                     break;
                 }
@@ -76,7 +89,7 @@ class World {
 
             if (!found)
             {
-                countries.push(new CountryData(world.features[i].type, world.features[i].properties.ADMIN, undefined, world.features[i].geometry, undefined));
+                countries.push(new CountryData(world.features[i].type, world.features[i].properties.ADMIN, undefined, world.features[i].geometry, undefined, undefined));
             }
         }
 
@@ -168,19 +181,57 @@ class World {
 
     }
 
-    drawData()
+    update(type, param)
     {
-        
-    }
+        console.log(param);
+        let that = this;
 
-    toggleHighlight()
-    {
+        if (type == "sex")
+        {
+            this.sex = param;
+        }
+        if (type == "age")
+        {
+            this.age = Object.values(param);
+        }
+        if (type == "year")
+        {
+            this.year = param;
+        }
 
-    }
+        console.log(that.sex);
+        d3.select("#mapDrawing").selectAll('path')
+        .attr('fill', function(d)
+        {
+            let pop = 0;
+            let sui = 0;
+            for (let i = 0; i < that.age.length; i++)
+            {
+                let a = that.age[i];
 
-    //don't know if we need this or not, just blocking out some code
-    toggleStory()
-    {
-
+                if (d.suicideData)
+                {
+                    if (d.suicideData["male"] && d.suicideData["male"]["a" + a.replace(' ', '_')] && d.suicideData["female"]["a" + a.replace(' ', '_')][that.year])
+                    {
+                        if (that.sex == "both")
+                        {
+                            console.log("in");
+                            pop += d.suicideData["female"]["a" + a.replace(' ', '_')][that.year]['population'];
+                            pop += d.suicideData["male"]["a" + a.replace(' ', '_')][that.year]['population'];
+                            sui += d.suicideData["female"]["a" + a.replace(' ', '_')][that.year]['suicides'];
+                            sui += d.suicideData["male"]["a" + a.replace(' ', '_')][that.year]['suicides'];
+                        }
+                        else
+                        {
+                            pop += d.suicideData[that.sex]["a" + a.replace(' ', '_')][that.year]['population'];
+                            sui += d.suicideData[that.sex]["a" + a.replace(' ', '_')][that.year]['suicides'];
+                        }
+                    }
+                }
+            }
+            console.log(pop);
+            console.log(sui);
+            return pop != 0 ? that.colorScale(sui/(pop/100000)) : 'grey';
+        });
     }
 }

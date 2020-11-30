@@ -294,12 +294,14 @@ Promise.all([suiData, densityData, cellData, powerData, unemploymentData]).then(
 
     //year is starting year, span is number of following years
     //span = 0 means we are only looking at the year in question
-    function UpdateYear(year) {
-        info.UpdateYear(year);
+    function UpdateYear(year, span) {
+        world.update("year", year);
+        info.UpdateYear(year, span);
     }
 
     //updates selected age groups
     function UpdateAge(ageGroups) {
+        world.update("age", ageGroups);
         console.log(ageGroups);
         // graph()
         //graph.updateGraph(); //overload this? 
@@ -308,7 +310,8 @@ Promise.all([suiData, densityData, cellData, powerData, unemploymentData]).then(
     //updates which sex is selected between male, female or both
     function UpdateSex(sex) {
         // console.log(sex);
-        //graph.updateGraph();
+        world.update("sex", sex);
+       // graph.updateGraph();
     }
 
     //story integer
@@ -319,9 +322,9 @@ Promise.all([suiData, densityData, cellData, powerData, unemploymentData]).then(
     //console.log(oData);
     //console.log(data);
 
+    let world = new World(oData, UpdateCountry, yearData, suicideData);
     let graph = new Graph(data[0], suicideData, "United States of America", "both", "all", false); //, 0, null, null, null);
     let info = new InfoPanel(suicideData, yearData, yearKeys, countryData, countryKeys, ageGroups);
-    let world = new World(oData, UpdateCountry, yearData);
     let ui = new UI(oData, UpdateYear, UpdateAge, UpdateSex, UpdateStory, UpdateDualCountryView);
 
     ui.initiallizePage();
