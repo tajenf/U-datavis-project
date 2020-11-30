@@ -316,7 +316,7 @@ Promise.all([suiData, densityData, cellData, powerData, unemploymentData]).then(
     let world = new World(oData, UpdateCountry, yearData, suicideData);
     let graph = new Graph(suicideData, yearData, yearKeys, "both", "all");
     let info = new InfoPanel(suicideData, yearData, yearKeys, countryData, countryKeys, ageGroups);
-    let ui = new UI(oData, UpdateYear, UpdateAge, UpdateSex, UpdateStory, UpdateDualCountryView);
+    let ui = new UI(oData, UpdateYear, UpdateAge, UpdateSex, UpdateStory, UpdateDualCountryView, UpdateCountry);
 
     ui.initiallizePage();
     UpdateCountry("United States of America");

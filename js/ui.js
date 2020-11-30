@@ -1,10 +1,11 @@
 class UI {
 
-    constructor(data, updateYear, updateAge, updateGender, updateStory, updateCompare) {
+    constructor(data, updateYear, updateAge, updateGender, updateStory, updateCompare, updateCountry) {
 
         this.country_selected_1 = "United States of America";
         this.country_selected_2 = "None";
 
+        this.updateCountry = updateCountry;
         this.updateYear = updateYear;
         this.updateAge = updateAge;
         this.updateGender = updateGender;
@@ -31,6 +32,7 @@ class UI {
         this.updateAge("all");
         this.updateGender("both");
         this.updateStory("0");
+        this.updateCountry("United States of America");
     }
 
     drawItems() {
@@ -74,10 +76,6 @@ class UI {
         let ui_age_drop = ui_div
             .append("div")
             .attr("id", "age_div");
-
-        let ui_story = ui_div
-            .append("div")
-            .attr("id", "story_div");
 
         let ui_compare_div = ui_div
             .append("div")
@@ -428,13 +426,14 @@ class UI {
             switch (parseInt(current.value)) {
                 case 0:
                     //USA 2011
-                    that.setYear(2011)
+                    that.setYear(2011);
+                    this.updateCountry("United States of America");
                     break;
 
                 case 1:
                     //Japan 1989
-                    that.setYear(1989)
-
+                    that.setYear(1989);
+                    this.updateCountry("Japan");
                     break;
 
                 case 2:
@@ -446,7 +445,7 @@ class UI {
                     break;
 
                 case 4:
-                    //tbd
+                    that.story4(1985);
                     break;
                 default:
                     break;
@@ -455,6 +454,17 @@ class UI {
             that.updateStory(current.value);
         };
 
+    }
+
+    story4(year)
+    {
+        this.setYear(year);
+
+        if (year < 2015) {
+            setTimeout(() => {
+                this.story4(year + 1)
+            }, 300);
+        }
     }
 
     setYear(newYear) {
