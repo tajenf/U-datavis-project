@@ -62,7 +62,6 @@ class UI {
             .attr("id", "rangevalue")
             .text(2011);
 
-
         d3.select("#year_slider_id").on("input", function() {
             // console.log(this);
             // console.log(this.value); 
@@ -124,7 +123,7 @@ class UI {
             .attr("class", "title")
             .classed('hidden', true);
 
-        this.year_slider(1985, 2016);
+        this.year_slider(1985, 2015); ///////////////////////////starting years 
         this.ui_Features();
     }
 
