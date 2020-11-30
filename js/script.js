@@ -314,7 +314,7 @@ Promise.all([suiData, densityData, cellData, powerData, unemploymentData]).then(
     // console.log(yearKeys);
 
     let world = new World(oData, UpdateCountry, yearData, suicideData);
-    let graph = new Graph(suicideData, yearData, yearKeys, "both", "all");
+    let graph = new Graph(suicideData, yearData, yearKeys, "both", "all", "gdp");
     let info = new InfoPanel(suicideData, yearData, yearKeys, countryData, countryKeys, ageGroups);
     let ui = new UI(oData, UpdateYear, UpdateAge, UpdateSex, UpdateStory, UpdateDualCountryView, UpdateCountry);
 
