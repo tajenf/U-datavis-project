@@ -133,6 +133,12 @@ div.data {
     right: 50px;
 }
 
+#compareToggle_div {
+    position: absolute;
+    top: 280px;
+    right: 50px;
+}
+
 #story_div {
     position: absolute;
     top: 300px;
@@ -181,7 +187,7 @@ input[type="radio"]:focus {
 /* Custom Radio CSS provided by https://codepen.io/jringenberg/pen/oDcpq/ - Joe Ringenberg */
 
 .btn {
-    border: 3px solid #1a1a1a;
+    /* border: 3px solid #00ffbf; */
     display: inline-block;
     padding: 10px;
     position: relative;
@@ -200,15 +206,15 @@ input[type="radio"]:focus {
 
 .compare_toggle+label:hover {
     background: none;
-    color: #1a1a1a;
+    color: #000000;
 }
 
 .compare_toggle+label:after {
-    background: #1a1a1a;
+    background: #000000;
     content: "";
-    height: 102%;
+    height: 100%;
+    top: 0px;
     position: absolute;
-    top: 0;
     transition: 200ms;
     width: 100%;
     z-index: -1;
