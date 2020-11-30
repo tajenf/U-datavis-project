@@ -376,7 +376,12 @@ class InfoPanel {
 
             case 1:
                 title.text(titlebase + "Male to Female Ratio");
-                text.text("unimplemented story - consistantly a significant difference with more men committing suicide than women. Occupation");
+                text.text("Across aboard males consistently commit suicide more often than females." + 
+                "  In our data set there are 7 instances where females match or exceed the number of male suicides." +
+                "  Of those non of them take place on the same year or in the same country and in all cases females have at most 1 more suicide than males." +
+                "  Japan 1989 has the smallest ratio of male to female suicides with atleast 10,000 at males accounting for 61.1% of the suicides." + 
+                "  There are many theories on what can cause this.  Suicides related to male dominated occupations and the ideal male behavior to name two.");
+                text.append('div').html("<a href='https://www.researchgate.net/publication/259114970_Suicide_by_occupation_Systematic_review_and_meta-analysis'>Suicide by Occupation article</a>");
                 break;
 
             case 2:

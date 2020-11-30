@@ -28,7 +28,7 @@ class UI {
 
     initiallizePage() {
         this.updateCompare(false);
-        this.updateYear(2011);
+        this.setYear(2011);
         this.updateAge("all");
         this.updateGender("both");
         this.updateStory("0");
@@ -404,9 +404,48 @@ class UI {
 
         function UpdateStorySection(current) {
             console.log(current.value);
+            
+
+            switch (parseInt(current.value)) {
+                case 0:
+                    //USA 2011
+                    that.setYear(2011)
+                    break;
+            
+                case 1:
+                    //Japan 1989
+                    that.setYear(1989)
+                    
+                    break;
+            
+                case 2:
+                    //tbd
+                    break;
+            
+                case 3:
+                    //tbd
+                    break;
+            
+                case 4:
+                    //tbd
+                    break;
+                default:
+                    break;
+            }
+
             that.updateStory(current.value);
         };
 
+    }
+
+    setYear(newYear)
+    {
+        let slider = d3.select("#year_slider_id");
+        let yearLabel = d3.select("#rangevalue")
+
+        slider.attr("value", newYear);
+        yearLabel.text(newYear);
+        this.updateYear(newYear);
     }
 
     year_slider(min, max) {
