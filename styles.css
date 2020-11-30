@@ -42,10 +42,17 @@
 }
 
 .hidden {
-    /* visibility: hidden; */
+    visibility: hidden;
     opacity: 0;
-    /* visibility: collapse; */
-    /* display: none; */
+    transition: visibility 0s linear 300ms, opacity 300ms;
+    /* visibility code provided by https://css-tricks.com/snippets/css/toggle-visibility-when-hiding-elements/ */
+}
+
+.visible {
+    visibility: visible;
+    opacity: 1;
+    transition: visibility 0s linear 0s, opacity 300ms;
+    /* visibility code provided by https://css-tricks.com/snippets/css/toggle-visibility-when-hiding-elements/ */
 }
 
 #map {

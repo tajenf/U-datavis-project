@@ -113,7 +113,8 @@ class UI {
             .attr("transform", "translate(450, 30)")
             .attr("id", "country2_title")
             .attr("class", "title")
-            .classed("hidden", true);
+            .classed("hidden", true)
+            .classed("visible", false);
 
         //Country2 name Text
         ui_svg.append("text")
@@ -121,7 +122,9 @@ class UI {
             .attr("transform", "translate(550, 30)")
             .attr("id", "country2_name")
             .attr("class", "title")
-            .classed('hidden', true);
+            .classed('hidden', true)
+            .classed("visible", false);
+
 
         this.year_slider(1985, 2015); ///////////////////////////starting years 
         this.ui_Features();
@@ -271,15 +274,34 @@ class UI {
         document.getElementById("input_compare").onchange = function() {
             if (this.checked == true) {
                 that.updateCompare(true);
-                d3.select("#country2_title").classed("hidden", false);
-                d3.select("#country2_name").classed("hidden", false);
-                d3.select("#compareToggle_div").classed("hidden", false);
+
+                d3.select("#country2_title")
+                    .classed("hidden", false)
+                    .classed("visible", true);
+
+                d3.select("#country2_name")
+                    .classed("hidden", false)
+                    .classed("visible", true);
+
+                d3.select("#compareToggle_div")
+                    .classed("hidden", false)
+                    .classed("visible", true);
+
             } else {
                 that.updateCompare(false);
 
-                d3.select("#country2_title").classed("hidden", true);
-                d3.select("#country2_name").classed("hidden", true);
-                d3.select("#compareToggle_div").classed("hidden", true);
+                d3.select("#country2_title")
+                    .classed("hidden", true)
+                    .classed("visible", false);
+
+                d3.select("#country2_name")
+                    .classed("hidden", true)
+                    .classed("visible", false);
+
+                d3.select("#compareToggle_div")
+                    .classed("hidden", true)
+                    .classed("visible", false);
+
             }
         };
 
@@ -397,28 +419,28 @@ class UI {
 
         function UpdateStorySection(current) {
             console.log(current.value);
-            
+
 
             switch (parseInt(current.value)) {
                 case 0:
                     //USA 2011
                     that.setYear(2011)
                     break;
-            
+
                 case 1:
                     //Japan 1989
                     that.setYear(1989)
-                    
+
                     break;
-            
+
                 case 2:
                     //tbd
                     break;
-            
+
                 case 3:
                     //tbd
                     break;
-            
+
                 case 4:
                     //tbd
                     break;
@@ -431,8 +453,7 @@ class UI {
 
     }
 
-    setYear(newYear)
-    {
+    setYear(newYear) {
         let slider = d3.select("#year_slider_id");
         let yearLabel = d3.select("#rangevalue")
 
