@@ -22,7 +22,7 @@ class InfoPanel {
     }
 
     initialPopulate() {
-        let StoryBlock = d3.select("#detail").append('g');
+        let StoryBlock = d3.select("#detail").append('p').classed("storyBlock", true);
 
         StoryBlock.append('br');
 
@@ -43,8 +43,8 @@ class InfoPanel {
         detailPanel.classed("info-wrapper", true);
 
 
-        let CountryBlock2 = detailPanel.append('g').attr('id', "country2");
-        let CountryBlock1 = detailPanel.append('g').attr('id', "country1");
+        let CountryBlock2 = detailPanel.append('p').attr('id', "country2");
+        let CountryBlock1 = detailPanel.append('p').attr('id', "country1");
 
         this.initCountryBlock(CountryBlock1);
         this.initCountryBlock(CountryBlock2);
@@ -399,8 +399,9 @@ class InfoPanel {
                 break;
 
             case 4:
-                title.text(titlebase + "Unimplemented");
-                text.text("unimplemented story");
+                title.text(titlebase + "Explore!");
+                text.text("Press this button and you'll slide through the years until you reach 2015.  Go ahead and select different countries and " +
+                "look at all their stats change and try to find something interesting.");
                 break;
 
             default:

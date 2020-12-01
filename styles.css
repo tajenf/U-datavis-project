@@ -31,6 +31,14 @@
     /*https://developer.mozilla.org/en-US/docs/Web/CSS/grid-template-columns */
 }
 
+.storyBlock {
+    min-height: 250px;
+}
+
+.countryBlock {
+    min-width: 330px;
+}
+
 .breakdown-Grid {
     display: grid;
     grid-template-columns: 1fr 1fr;

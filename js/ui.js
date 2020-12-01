@@ -398,6 +398,8 @@ class UI {
                 }
                 return 4;
             });
+            
+        d3.select("#intro_ID").attr('checked', "checked");
 
         document.getElementById("intro_ID").onclick = function() {
             UpdateStorySection(this);
@@ -427,13 +429,13 @@ class UI {
                 case 0:
                     //USA 2011
                     that.setYear(2011);
-                    this.updateCountry("United States of America");
+                    that.updateCountry("United States of America");
                     break;
 
                 case 1:
                     //Japan 1989
                     that.setYear(1989);
-                    this.updateCountry("Japan");
+                    that.updateCountry("Japan");
                     break;
 
                 case 2:
@@ -445,6 +447,7 @@ class UI {
                     break;
 
                 case 4:
+                    //ADVENTURE TIME!!!
                     that.story4(1985);
                     break;
                 default:
