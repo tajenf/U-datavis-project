@@ -145,6 +145,7 @@ class Graph {
         //     .attr("transform", "translate(330, 490)")
         //     .style("text-anchor", "middle")
         //     .text("Country: " + country_name + ",  Gender: " + Gender + ",  Age: " + Age_group);
+        this.drawLegend1();
 
 
         this.updateGraph2(data2, data2Keys, type);
@@ -153,7 +154,7 @@ class Graph {
 
     updateGraph(type, value) {
 
-        console.log("update graph was called");
+        let that = this;
 
         if (type == "age" && value != "all") {
             this.age_map = value;
@@ -177,65 +178,33 @@ class Graph {
         let val6 = this.age_map.get("75+ years")[1];
 
         if (this.Gender == "both" && val1 == 1 && val2 == 1 && val3 == 1 && val4 == 1 && val5 == 1 && val6 == 1) {
-            // console.log("in here boy");
             filter_data = Object.entries(this.data[this.country1_select][this.Gender]["all"]);
             filter_data2 = Object.entries(this.data[this.country2_select][this.Gender]["all"]);
-        }
-        // else if (this.Gender == "both") {
-        //     let subData1 = this.data[this.country1_select];
-        //     let subData1f = subData1["female"];
-        //     let subData1m = subData1["male"];
-
-
-        //     console.log(subData1);
-        //     console.log(subData1f);
-        //     console.log(subData1m);
-
-        // } 
-        else {
-
-            // console.log(this.age_group);
-            // console.log(this.age_map);
-            // console.log(this.age_map);
-
-
-            console.log(this.data);
-            console.log(this.country1_select);
-            console.log(this.Gender);
-
+        } else {
 
             let subData1 = this.data[this.country1_select][this.Gender];
+            let subData2 = this.data[this.country2_select][this.Gender];
 
-            console.log(subData1);
+            let added1 = {};
+            let added2 = {};
 
-            let added = {};
-
-            // console.log(d);
+            added1 = recalc(subData1, added1);
+            added2 = recalc(subData2, added2);
 
             // for (let value of this.age_map.values()) {
             //     if (value[1] == 1) {
-            //         // let a = "a" + value[0].replace(' ', '_');
+            //         let a = "a" + value[0].replace(' ', '_');
 
-            //         console.log(value);
-            //         console.log(d);
-            //         // console.log(a);
-            //         // console.log(d[a]);
-
-
-            //         // let entries = Object.entries(d[a]);
-
-            //         let entries = Object.entries(d);
-
-            //         console.log(entries);
+            //         let entries = Object.entries(subData1[a]);
 
             //         for (let cur of entries.values()) {
-
-            //             if (added[cur[0]] == null) {
+            //             if (added[cur[0]] == undefined) {
             //                 let num = cur[1].suicides;
+            //                 // console.log(num);
             //                 added[cur[0]] = { suicides: num };
             //             } else {
             //                 let sum = added[cur[0]].suicides;
-            //                 sum += cur[1].suicides;
+            //                 sum += parseInt(cur[1].suicides);
             //                 added[cur[0]] = { suicides: sum };
             //             }
             //         }
@@ -243,60 +212,72 @@ class Graph {
             //     }
             // }
 
-
-
-
-            //     filter_data = Object.entries(added);
+            // console.log(added);
+            filter_data = Object.entries(added1);
+            filter_data2 = Object.entries(added2)
         }
 
 
-        // filter_data = data[this.country1_select][Gender][Age_group];
-        // filter_data2 = data[this.country2_select][Gender][Age_group];
-        //}
-        // filter_data = Object.entries(filter_data);
-        // filter_data2 = Object.entries(filter_data2);
+        min_yr = filter_data[0][0];
+        max_yr = filter_data[filter_data.length - 1][0];
+        max_sui = d3.max(filter_data, function(d) { return +d[1].suicides });
 
-        // console.log(filter_data);
+        this.scaleY1 = d3.scaleLinear()
+            .domain([max_sui, 0])
+            .range([0, 400]);
 
-        // min_yr = filter_data[0][0];
-        // max_yr = filter_data[filter_data.length - 1][0];
-        // max_sui = d3.max(filter_data, function(d) { return +d[1].suicides });
-
-        // } else if (Gender != "both" && Age_group != "all") {
-        // filter_data = data.filter(d => ((d.country == country_name) && (d.sex == "female") && (d.age == "5-14 years")));
-
-        // max_sui = d3.max(filter_data, function(d) { return +d.suicides_no });
-        // max_yr = d3.max(filter_data, function(d) { return d.year });
-        // min_yr = d3.min(filter_data, function(d) { return d.year });
-        // }
-
-        // this.scaleY1 = d3.scaleLinear()
-        //     .domain([max_sui, 0])
-        //     .range([0, 400]);
-
-        // this.scaleX1 = d3.scaleLinear()
-        //     .domain([min_yr, max_yr])
-        //     .range([0, 500]);
+        this.scaleX1 = d3.scaleLinear()
+            .domain([min_yr, max_yr])
+            .range([0, 500]);
 
         // this.drawLegend1();
 
-        // this.drawLines1(filter_data, "#graph_path1");
-        // this.drawLines1(filter_data2, "#graph_path2");
+        this.updateLegend1();
 
-        // this.drawPoints1(filter_data, "#Hover_points1");
-        // this.drawPoints1(filter_data2, "#Hover_points2");
+        this.drawLines1(filter_data, "#graph_path1");
+        this.drawLines1(filter_data2, "#graph_path2");
+
+        this.drawPoints1(filter_data, "#Hover_points1");
+        this.drawPoints1(filter_data2, "#Hover_points2");
+
+
+        function recalc(data, map) {
+            for (let value of that.age_map.values()) {
+                if (value[1] == 1) {
+                    let a = "a" + value[0].replace(' ', '_');
+
+                    let entries = Object.entries(data[a]);
+
+                    for (let cur of entries.values()) {
+                        if (map[cur[0]] == undefined) {
+                            let num = cur[1].suicides;
+                            map[cur[0]] = { suicides: num };
+                        } else {
+                            let sum = map[cur[0]].suicides;
+                            sum += parseInt(cur[1].suicides);
+                            map[cur[0]] = { suicides: sum };
+                        }
+                    }
+
+                }
+            }
+            return map;
+        }
     }
 
     drawLegend1() {
         let svg1 = d3.select("#graph_svg1");
 
         //x-axis
-        svg1.append("g").attr("transform", "translate(120, 420)")
-            .call(d3.axisBottom(this.scaleX1).ticks().tickFormat(d3.format("d")));
+        svg1.append("g").attr("id", "g1x-axis").attr("transform", "translate(120, 420)");
 
         //y-axis
-        svg1.append("g").attr("transform", "translate(120,20)")
-            .call(d3.axisLeft(this.scaleY1).ticks(10));
+        svg1.append("g").attr("id", "g1y-axis").attr("transform", "translate(120,20)");
+    }
+
+    updateLegend1() {
+        d3.select("#g1x-axis").call(d3.axisBottom(this.scaleX1).ticks().tickFormat(d3.format("d")));
+        d3.select("#g1y-axis").call(d3.axisLeft(this.scaleY1).ticks(10));
     }
 
     drawLines1(data, selectID) {

@@ -254,22 +254,23 @@ Promise.all([suiData, densityData, cellData, powerData, unemploymentData]).then(
                     }
 
                     if (!suicideData[country]["both"]["a5-14_years"][year]) {
-                        suicideData[country]["both"]["a5-14_years"][year] = bothages["a5-14_years"];
+                        suicideData[country]["both"]["a5-14_years"][year] = { suicides: bothages["a5-14_years"] };
                     }
+
                     if (!suicideData[country]["both"]["a15-24_years"][year]) {
-                        suicideData[country]["both"]["a15-24_years"][year] = bothages["a15-24_years"];
+                        suicideData[country]["both"]["a15-24_years"][year] = { suicides: bothages["a15-24_years"] };
                     }
                     if (!suicideData[country]["both"]["a25-34_years"][year]) {
-                        suicideData[country]["both"]["a25-34_years"][year] = bothages["a25-34_years"];
+                        suicideData[country]["both"]["a25-34_years"][year] = { suicides: bothages["a25-34_years"] };
                     }
                     if (!suicideData[country]["both"]["a35-54_years"][year]) {
-                        suicideData[country]["both"]["a35-54_years"][year] = bothages["a35-54_years"];
+                        suicideData[country]["both"]["a35-54_years"][year] = { suicides: bothages["a35-54_years"] };
                     }
                     if (!suicideData[country]["both"]["a55-74_years"][year]) {
-                        suicideData[country]["both"]["a55-74_years"][year] = bothages["a55-74_years"];
+                        suicideData[country]["both"]["a55-74_years"][year] = { suicides: bothages["a55-74_years"] };
                     }
                     if (!suicideData[country]["both"]["a75+_years"][year]) {
-                        suicideData[country]["both"]["a75+_years"][year] = bothages["a75+_years"];
+                        suicideData[country]["both"]["a75+_years"][year] = { suicides: bothages["a75+_years"] };
                     }
 
 
