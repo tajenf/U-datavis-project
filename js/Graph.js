@@ -5,6 +5,17 @@ class Graph {
         this.country1_select = "United States of America";
         this.country2_select = "United Kingdom";
 
+
+        ///Testing stuff 
+        this.age_map = new Map([
+            ["5-14 years", ["5-14 years", 1]],
+            ["15-24 years", ["15-24 years", 1]],
+            ["25-34 years", ["25-34 years", 0]],
+            ["35-54 years", ["35-54 years", 0]],
+            ["55-74 years", ["55-74 years", 0]],
+            ["75+ years", ["75+ years", 0]]
+        ]);
+
         this.story;
 
         ///////////////////////////////////////////////////Graph 1/////////////////////////////////
@@ -16,6 +27,7 @@ class Graph {
 
         //Graph 1 Line
         graph_svg1.append("g")
+            .attr("id", "path_group1")
             .attr("transform", "translate(120,20)")
             .append("path")
             .attr("id", "graph_path1")
@@ -30,7 +42,9 @@ class Graph {
 
         //Graph 2 Line
         graph_svg1.append("g")
+            .attr("id", "path_group2")
             .classed("hidden", false)
+            .classed("visible", false)
             .attr("transform", "translate(120,20)")
             .append("path")
             .attr("id", "graph_path2")
@@ -41,6 +55,7 @@ class Graph {
         //Graph 2 Hover points 
         graph_svg1.append("g")
             .classed("hidden", false)
+            .classed("visible", false)
             .attr("transform", "translate(120,20)")
             .attr("id", "Hover_points2");
 
@@ -76,6 +91,7 @@ class Graph {
 
         //Graph 3 Line
         graph_svg2.append("g")
+            .attr("id", "path_group3")
             .attr("transform", "translate(120,20)")
             .append("path")
             .attr("id", "graph_path3")
@@ -83,16 +99,16 @@ class Graph {
             .attr("stroke", "blue")
             .attr("stroke-width", 4);
 
-
         //Graph 3 Hover points 
         graph_svg2.append("g")
             .attr("transform", "translate(120,20)")
             .attr("id", "Hover_points3");
 
-
         //Graph 4 Line
         graph_svg2.append("g")
+            .attr("id", "path_group4")
             .classed("hidden", false)
+            .classed("visible", false)
             .attr("transform", "translate(120,20)")
             .append("path")
             .attr("id", "graph_path4")
@@ -103,6 +119,7 @@ class Graph {
         //Graph 4 Hover points 
         graph_svg2.append("g")
             .classed("hidden", false)
+            .classed("visible", false)
             .attr("transform", "translate(120,20)")
             .attr("id", "Hover_points4");
 
@@ -135,6 +152,57 @@ class Graph {
         this.updateGraph2(data2, data2Keys, type);
     }
 
+
+
+
+
+    // update(type, param) {
+    //     let that = this;
+
+    //     if (type == "sex") {
+    //         this.sex = param;
+    //     } else if (type == "age") {
+    //         if (param == "all")
+    //             this.age = ["5-14 years", "15-24 years", "25-34 years", "35-54 years", "55-74 years", "75+ years"];
+    //         else {
+    //             this.age = [];
+    //             for (let value of param) {
+    //                 if (value[1][1] == 1)
+    //                     this.age.push(value[0]);
+    //             }
+    //         }
+    //     } else if (type == "year") {
+    //         this.year = param;
+    //     }
+
+    //     d3.select("#mapDrawing").selectAll('path')
+    //         .attr('fill', function(d) {
+    //             let pop = 0;
+    //             let sui = 0;
+    //             for (let i = 0; i < that.age.length; i++) {
+    //                 let a = that.age[i];
+    //                 if (d.suicideData) {
+    //                     if (d.suicideData["male"] && d.suicideData["male"]["a" + a.replace(' ', '_')] && d.suicideData["female"]["a" + a.replace(' ', '_')][that.year]) {
+    //                         if (that.sex == "both") {
+    //                             pop += d.suicideData["female"]["a" + a.replace(' ', '_')][that.year]['population'];
+    //                             pop += d.suicideData["male"]["a" + a.replace(' ', '_')][that.year]['population'];
+    //                             sui += d.suicideData["female"]["a" + a.replace(' ', '_')][that.year]['suicides'];
+    //                             sui += d.suicideData["male"]["a" + a.replace(' ', '_')][that.year]['suicides'];
+    //                         } else {
+    //                             pop += d.suicideData[that.sex]["a" + a.replace(' ', '_')][that.year]['population'];
+    //                             sui += d.suicideData[that.sex]["a" + a.replace(' ', '_')][that.year]['suicides'];
+    //                         }
+    //                     }
+    //                 }
+    //             }
+    //             return pop; //!= 0 ? that.colorScale(sui / (pop / 100000)) : 'grey';
+    //         });
+    // }
+
+
+
+
+
     updateGraph(data, Gender, Age_group) {
 
         let filter_data;
@@ -143,15 +211,47 @@ class Graph {
         let max_yr;
         let min_yr;
 
-        // if (country_name != null && Gender == "both" && Age_group == "all") {
-        filter_data = data[this.country1_select][Gender][Age_group];
-        filter_data2 = data[this.country2_select][Gender][Age_group];
+        console.log(data);
 
-        // console.log(filter_data2);
+        let d = Object.entries(data[this.country1_select][Gender]);
+        console.log(d);
+        console.log(d.length);
+        // console.log(d[0][1].both);
+        // console.log(d[0][1]["both"]);
 
-        filter_data = Object.entries(filter_data);
-        filter_data2 = Object.entries(filter_data2);
 
+        if (Age_group == "all") {
+            filter_data = Object.entries(data[this.country1_select][Gender][Age_group]);
+            filter_data2 = Object.entries(data[this.country2_select][Gender][Age_group]);
+        }
+        //else {
+
+        for (let i of d.values()) {
+
+            console.log();
+        }
+
+
+        // for (let i of this.age_map.values()) {
+
+        //     if (i[1] == 1) {
+        //         console.log("ayy");
+        //     }
+        // }
+
+
+
+
+
+
+
+        // filter_data = data[this.country1_select][Gender][Age_group];
+        // filter_data2 = data[this.country2_select][Gender][Age_group];
+        //}
+        // filter_data = Object.entries(filter_data);
+        // filter_data2 = Object.entries(filter_data2);
+
+        console.log(filter_data);
 
         min_yr = filter_data[0][0];
         max_yr = filter_data[filter_data.length - 1][0];
@@ -189,7 +289,6 @@ class Graph {
 
         this.drawPoints1(filter_data, "#Hover_points1");
         this.drawPoints1(filter_data2, "#Hover_points2");
-
     }
 
     drawLegend1() {
@@ -264,14 +363,33 @@ class Graph {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     updateGraph2(data2, data2Keys, type) {
         let filter_data;
         let filter_data2;
         let max_data;
         let max_yr;
         let min_yr;
-
-        // console.log(data2);
 
         filter_data = data2[this.country1_select];
         filter_data2 = data2[this.country2_select];

@@ -65,10 +65,10 @@ class UI {
             .attr("id", "rangevalue")
             .text(2011);
 
-        d3.select("#year_slider_id").on("input", function() {
-            // console.log(this);
-            // console.log(this.value); 
-        });
+        // d3.select("#year_slider_id").on("input", function() {
+        //     // console.log(this);
+        //     // console.log(this.value); 
+        // });
 
         let ui_gender_drop = ui_div
             .append("div")
@@ -275,36 +275,78 @@ class UI {
 
         //Toggle and updated UI feature visibillity 
         document.getElementById("input_compare").onchange = function() {
+
+            let title = d3.select("#country2_title");
+            let name = d3.select("#country2_name");
+            let compareTog = d3.select("#compareToggle_div");
+
+            let path2 = d3.select("#path_group2");
+            let hov2 = d3.select("#Hover_points2");
+
+            let path4 = d3.select("#path_group4");
+            let hov4 = d3.select("#Hover_points4");
+
             if (this.checked == true) {
                 that.updateCompare(true);
 
-                d3.select("#country2_title")
+                title
                     .classed("hidden", false)
                     .classed("visible", true);
 
-                d3.select("#country2_name")
+                name
                     .classed("hidden", false)
                     .classed("visible", true);
 
-                d3.select("#compareToggle_div")
+                compareTog
+                    .classed("hidden", false)
+                    .classed("visible", true);
+
+                path2
+                    .classed("hidden", false)
+                    .classed("visible", true);
+
+                hov2
+                    .classed("hidden", false)
+                    .classed("visible", true);
+
+                path4
+                    .classed("hidden", false)
+                    .classed("visible", true);
+
+                hov4
                     .classed("hidden", false)
                     .classed("visible", true);
 
             } else {
                 that.updateCompare(false);
 
-                d3.select("#country2_title")
+                title
                     .classed("hidden", true)
                     .classed("visible", false);
 
-                d3.select("#country2_name")
+                name
                     .classed("hidden", true)
                     .classed("visible", false);
 
-                d3.select("#compareToggle_div")
+                compareTog
                     .classed("hidden", true)
                     .classed("visible", false);
 
+                path2
+                    .classed("hidden", true)
+                    .classed("visible", false);
+
+                hov2
+                    .classed("hidden", true)
+                    .classed("visible", false);
+
+                path4
+                    .classed("hidden", true)
+                    .classed("visible", false);
+
+                hov4
+                    .classed("hidden", true)
+                    .classed("visible", false);
             }
         };
 
@@ -460,8 +502,7 @@ class UI {
 
     }
 
-    story4(year)
-    {
+    story4(year) {
         this.setYear(year);
 
         if (year < 2015) {
