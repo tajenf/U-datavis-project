@@ -48,7 +48,7 @@ class Graph {
             .append("path")
             .attr("id", "graph_path2")
             .attr("fill", "none")
-            .attr("stroke", "blue")
+            .attr("stroke", "purple")
             .attr("stroke-width", 4);
 
         //Graph 2 Hover points 
@@ -87,7 +87,7 @@ class Graph {
             .append("path")
             .attr("id", "graph_path3")
             .attr("fill", "none")
-            .attr("stroke", "blue")
+            .attr("stroke", "red")
             .attr("stroke-width", 4);
 
         //Graph 3 Hover points 
@@ -104,7 +104,7 @@ class Graph {
             .append("path")
             .attr("id", "graph_path4")
             .attr("fill", "none")
-            .attr("stroke", "green")
+            .attr("stroke", "purple")
             .attr("stroke-width", 4);
 
         //Graph 4 Hover points 
@@ -207,8 +207,8 @@ class Graph {
         this.drawLines1(filter_data, "#graph_path1");
         this.drawLines1(filter_data2, "#graph_path2");
 
-        this.drawPoints1(filter_data, "#Hover_points1");
-        this.drawPoints1(filter_data2, "#Hover_points2");
+        this.drawPoints1(filter_data, this.country1_select, "#Hover_points1");
+        this.drawPoints1(filter_data2, this.country2_select, "#Hover_points2");
 
 
         function recalc(data, map) {
@@ -262,7 +262,7 @@ class Graph {
             .attr("d", LineGenerator(data));
     }
 
-    drawPoints1(data, selectID) {
+    drawPoints1(data, countryN, selectID) {
 
         let that = this;
 
@@ -275,15 +275,21 @@ class Graph {
                     enter
                         .append("circle")
                         .transition()
-                        .attr("r", "4")
+                        .attr("r", "3")
                         .attr("cx", d => this.scaleX1(d[0]))
                         .attr("cy", d => this.scaleY1(d[1].suicides))
+                        .attr("fill", "white")
+                        .attr("stroke", "black")
+                        .attr("stroke-width", 2);
                 },
                 update => {
                     update.transition()
-                        .attr("r", "4")
+                        .attr("r", "3")
                         .attr("cx", d => this.scaleX1(d[0]))
                         .attr("cy", d => this.scaleY1(d[1].suicides))
+                        .attr("fill", "white")
+                        .attr("stroke", "black")
+                        .attr("stroke-width", 2);
                 },
                 exit => {
                     exit.remove();
@@ -298,7 +304,7 @@ class Graph {
                 let current_title = current.append("title");
                 current_title
                     .append("text")
-                    .text("Number of Suicides: " + Math.round(that.scaleY1.invert(current.attr("cy"))) + "\n" + "Year: " + Math.round(that.scaleX1.invert(current.attr("cx"))));
+                    .text(countryN + ": " + "\n" + "Number of Suicides: " + Math.round(that.scaleY1.invert(current.attr("cy"))) + "\n" + "Year: " + Math.round(that.scaleX1.invert(current.attr("cx"))));
             })
             .on("mouseout", function() {
                 let current = d3.select(this);
@@ -387,15 +393,21 @@ class Graph {
                     enter
                         .append("circle")
                         .transition()
-                        .attr("r", "4")
+                        .attr("r", "3")
                         .attr("cx", d => this.scaleX2(d[0]))
                         .attr("cy", d => this.scaleY2(d[1][type]))
+                        .attr("fill", "white")
+                        .attr("stroke", "black")
+                        .attr("stroke-width", 2);
                 },
                 update => {
                     update.transition()
-                        .attr("r", "4")
+                        .attr("r", "3")
                         .attr("cx", d => this.scaleX2(d[0]))
                         .attr("cy", d => this.scaleY2(d[1][type]))
+                        .attr("fill", "white")
+                        .attr("stroke", "black")
+                        .attr("stroke-width", 2);
                 },
                 exit => {
                     exit.remove();
