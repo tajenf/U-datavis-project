@@ -146,26 +146,26 @@ div.data {
 
 #gender_div {
     position: absolute;
-    top: 240px;
+    top: 170px;
     left: 340px;
 }
 
 #age_div {
     position: absolute;
-    top: 265px;
+    top: 200px;
     left: 60px;
 }
 
 #compare_div {
     position: absolute;
-    top: 210px;
+    top: 170px;
     right: 50px;
 }
 
 #compareToggle_div {
     position: absolute;
-    top: 280px;
-    right: 50px;
+    top: 163px;
+    right: 250px;
 }
 
 /* Radio input css */
