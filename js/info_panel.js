@@ -291,7 +291,7 @@ class InfoPanel {
 
                     case "power":
                         unit = " (kw/capita)";
-                        fixVal = 2;
+                        fixVal = 1;
                         break;
                         
                     case "density":
@@ -330,7 +330,7 @@ class InfoPanel {
                         let female = (100 - male).toFixed(1);
                         panel.select(`#${key}`).text( `${male}% / ${female}%`);
                     } else {
-                        panel.select(`#${key}`).text( (new Intl.NumberFormat().format(this.yearData[country][this.year][key])) + unit);
+                        panel.select(`#${key}`).text( (new Intl.NumberFormat().format(parseFloat(this.yearData[country][this.year][key]).toFixed(fixVal))) + unit);
                     }
                 }
 
