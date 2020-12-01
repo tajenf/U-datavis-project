@@ -437,7 +437,7 @@ class UI {
                     that.updateCompare(true);
                     document.getElementById("input_compare").checked = true;
                     that.OnCompare(true);
-                    that.updateCountry("England", 1);
+                    that.updateCountry("United Kingdom", 1);
                     that.updateCountry("Cuba", 2);
                     break;
 
