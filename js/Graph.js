@@ -1,6 +1,6 @@
 class Graph {
 
-    constructor(data, data2, data2Keys, Gender, Age_group) {
+    constructor(data, data2, data2Keys, Gender, Age_group, type) {
 
         this.country1_select = "United States of America";
         this.country2_select = "United Kingdom";
@@ -80,7 +80,9 @@ class Graph {
             .append("path")
             .attr("id", "graph_path3")
             .attr("fill", "none")
-            .attr("stroke", "black");
+            .attr("stroke", "blue")
+            .attr("stroke-width", 4);
+
 
         //Graph 3 Hover points 
         graph_svg2.append("g")
@@ -95,7 +97,8 @@ class Graph {
             .append("path")
             .attr("id", "graph_path4")
             .attr("fill", "none")
-            .attr("stroke", "black");
+            .attr("stroke", "green")
+            .attr("stroke-width", 4);
 
         //Graph 4 Hover points 
         graph_svg2.append("g")
@@ -129,7 +132,7 @@ class Graph {
 
 
         this.updateGraph(data, Gender, Age_group);
-        this.updateGraph2(data2, data2Keys);
+        this.updateGraph2(data2, data2Keys, type);
     }
 
     updateGraph(data, Gender, Age_group) {
@@ -144,7 +147,7 @@ class Graph {
         filter_data = data[this.country1_select][Gender][Age_group];
         filter_data2 = data[this.country2_select][Gender][Age_group];
 
-        console.log(filter_data2);
+        // console.log(filter_data2);
 
         filter_data = Object.entries(filter_data);
         filter_data2 = Object.entries(filter_data2);
@@ -180,18 +183,16 @@ class Graph {
             .range([0, 500]);
 
         this.drawLegend1();
-        this.drawLines1(filter_data, filter_data2, 1);
-        this.drawPoints1(filter_data, filter_data2, 1);
-    }
 
-    updateGraph2(data2, data2Keys) {
-        console.log(data2);
-        console.log(data2Keys);
+        this.drawLines1(filter_data, "#graph_path1");
+        this.drawLines1(filter_data2, "#graph_path2");
+
+        this.drawPoints1(filter_data, "#Hover_points1");
+        this.drawPoints1(filter_data2, "#Hover_points2");
 
     }
 
     drawLegend1() {
-
         let svg1 = d3.select("#graph_svg1");
 
         //x-axis
@@ -201,58 +202,25 @@ class Graph {
         //y-axis
         svg1.append("g").attr("transform", "translate(120,20)")
             .call(d3.axisLeft(this.scaleY1).ticks(10));
-
-
-        let svg2 = d3.select("#graph_svg2");
-
-        //x-axis
-        svg2.append("g").attr("transform", "translate(120, 420)")
-            .call(d3.axisBottom(this.scaleX1).ticks().tickFormat(d3.format("d")));
-
-        //y-axis
-        svg2.append("g").attr("transform", "translate(120,20)")
-            .call(d3.axisLeft(this.scaleY1).ticks(10));
     }
 
-    drawLines1(data, data2, graphN) {
-
-        console.log(data);
-        console.log(data2);
-
-
+    drawLines1(data, selectID) {
         let LineGenerator = d3
             .line()
             .x(d => this.scaleX1(d[0]))
             .y(d => this.scaleY1(d[1].suicides));
 
-        d3.select("#graph_path1")
+        d3.select(selectID)
             .data(data)
             .transition().duration(2000)
             .attr("d", LineGenerator(data));
-
-        d3.select("#graph_path2")
-            .data(data2)
-            .transition().duration(2000)
-            .attr("d", LineGenerator(data2));
-
-
-
-        // let LineGenerator2 = d3
-        //     .line()
-        //     .x(d => this.scaleX(d.year))
-        //     .y(d => this.scaleY(d.suicides_no));
-
-        // d3.select("#graph_path2")
-        //     .data(data)
-        //     .transition().duration(2000)
-        //     .attr("d", LineGenerator2(data));
     }
 
-    drawPoints1(data, data2, graphN) {
+    drawPoints1(data, selectID) {
 
         let that = this;
 
-        let point_group = d3.select("#Hover_points1");
+        let point_group = d3.select(selectID);
 
         point_group.selectAll("circle")
             .data(data)
@@ -291,26 +259,97 @@ class Graph {
                 current.attr("class", null);
                 current.selectAll("title").remove();
             });
+    }
 
-        point_group = d3.select("#Hover_points2");
 
+
+
+    updateGraph2(data2, data2Keys, type) {
+        let filter_data;
+        let filter_data2;
+        let max_data;
+        let max_yr;
+        let min_yr;
+
+        // console.log(data2);
+
+        filter_data = data2[this.country1_select];
+        filter_data2 = data2[this.country2_select];
+
+
+        filter_data = Object.entries(filter_data);
+        filter_data2 = Object.entries(filter_data2);
+
+        let fill = filter_data.filter(d => d[1][type] != null);
+        let fill2 = filter_data2.filter(d => d[1][type] != null);
+
+        min_yr = fill[0][0];
+        max_yr = fill[fill.length - 1][0];
+        max_data = d3.max(fill, function(d) { return +d[1][type] });
+
+        this.scaleY2 = d3.scaleLinear()
+            .domain([max_data, 0])
+            .range([0, 400]);
+
+        this.scaleX2 = d3.scaleLinear()
+            .domain([min_yr, max_yr])
+            .range([0, 500]);
+
+        this.drawLegend2();
+        this.drawLines2(fill, "#graph_path3", type);
+        this.drawLines2(fill2, "#graph_path4", type);
+        this.drawPoints2(fill, "#Hover_points3", type);
+        this.drawPoints2(fill2, "#Hover_points4", type);
+    }
+
+    drawLegend2() {
+
+        let svg2 = d3.select("#graph_svg2");
+
+        //x-axis
+        svg2.append("g").attr("transform", "translate(120, 420)")
+            .call(d3.axisBottom(this.scaleX2).ticks().tickFormat(d3.format("d")));
+
+        //y-axis
+        svg2.append("g").attr("transform", "translate(120,20)")
+            .call(d3.axisLeft(this.scaleY2).ticks(10));
+    }
+
+    drawLines2(data, selectID, type) {
+
+        let LineGenerator = d3
+            .line()
+            .x(d => this.scaleX2(d[0]))
+            .y(d => this.scaleY2(d[1][type]));
+
+        d3.select(selectID)
+            .data(data)
+            .transition().duration(2000)
+            .attr("d", LineGenerator(data));
+    }
+
+    drawPoints2(data, selectID, type) {
+
+        let that = this;
+
+        let point_group = d3.select(selectID);
 
         point_group.selectAll("circle")
-            .data(data2)
+            .data(data)
             .join(
                 enter => {
                     enter
                         .append("circle")
                         .transition()
                         .attr("r", "4")
-                        .attr("cx", d => this.scaleX1(d[0]))
-                        .attr("cy", d => this.scaleY1(d[1].suicides))
+                        .attr("cx", d => this.scaleX2(d[0]))
+                        .attr("cy", d => this.scaleY2(d[1][type]))
                 },
                 update => {
                     update.transition()
                         .attr("r", "4")
-                        .attr("cx", d => this.scaleX1(d[0]))
-                        .attr("cy", d => this.scaleY1(d[1].suicides))
+                        .attr("cx", d => this.scaleX2(d[0]))
+                        .attr("cy", d => this.scaleY2(d[1][type]))
                 },
                 exit => {
                     exit.remove();
@@ -318,14 +357,14 @@ class Graph {
             );
 
         point_group.selectAll("circle")
-            .data(data2)
+            .data(data)
             .on("mouseover", function(d) {
                 let current = d3.select(this);
                 current.attr("class", "hovered");
                 let current_title = current.append("title");
                 current_title
-                    .append("text")
-                    .text("Number of Suicides: " + Math.round(that.scaleY1.invert(current.attr("cy"))) + "\n" + "Year: " + Math.round(that.scaleX1.invert(current.attr("cx"))));
+                    .append("text") /////////////////////////////////////////////////////////need to change the text of the hover points 
+                    .text("Number of Suicides: " + Math.round(that.scaleY2.invert(current.attr("cy"))) + "\n" + "Year: " + Math.round(that.scaleX2.invert(current.attr("cx"))));
             })
             .on("mouseout", function() {
                 let current = d3.select(this);
