@@ -402,7 +402,7 @@ class UI {
         };
 
         function UpdateStorySection(current) {
-            console.log(current.value);
+            // console.log(current.value);
 
 
             switch (parseInt(current.value)) {
@@ -455,7 +455,7 @@ class UI {
     }
 
     OnCompare(checked) {
-        console.log(checked);
+        // console.log(checked);
 
         let compareTog = d3.select("#compareToggle_div");
 

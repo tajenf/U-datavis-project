@@ -127,7 +127,7 @@ Promise.all([suiData, densityData, cellData, powerData, unemploymentData]).then(
         }
     });
 
-    console.log(densityInfo);
+    // console.log(densityInfo);
 
     data[2].forEach(cellData => {
         //console.log(denData);

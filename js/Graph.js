@@ -139,16 +139,20 @@ class Graph {
 
 
     updateGraph(type, value) {
-
-        console.log(type);
+        console.log("i was called");
+        console.log(type + " " + value);
 
         let that = this;
 
         if (type == "country1") {
+            console.log("in c1 if");
             this.country1_select = value;
+            console.log(this.country1_select);
+            console.log(this.country2_select);
         }
 
-        if (type == "country1") {
+        if (type == "country2") {
+            console.log("in c222222222 if");
             this.country2_select = value;
         }
 
