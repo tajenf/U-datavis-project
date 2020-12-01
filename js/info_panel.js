@@ -14,10 +14,7 @@ class InfoPanel {
 
         this.initialPopulate();
 
-        this.UpdateYear(2011);
-        this.UpdateCountry("World", 1);
-        this.UpdateCountry("World", 2);
-        this.UpdateStory(0);
+        this.UpdateCountry("Jamaica", 2);
         this.UpdateDualCountryView(false);
     }
 

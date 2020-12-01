@@ -20,6 +20,9 @@ class World {
         this.yearData = yearData;
         this.updateCountry = updateCountry;
         this.suicideData = suicideData;
+
+        this.selectCountryNum = 1;
+        this.compareEnabled = false;
         
         this.maxlat = 83;
         this.width = 900;
@@ -45,6 +48,16 @@ class World {
         this.colorScale = d3.scaleLinear()
             .domain([0 , max])
             .range(["white", "red"]);
+    }
+
+    changeCountrySelect(num)
+    {
+        this.selectCountryNum = parseInt(num);
+    }
+
+    switchChangeEnabled(bool)
+    {
+        this.compareEnabled = bool;
     }
     
     mercatorBounds(projection, maxlat) 
@@ -123,7 +136,12 @@ class World {
             .attr('fill', d=> d.yearData ? (d.yearData[2011] && d.yearData[2011].totalPop ? this.colorScale(d.yearData[2011].totalSui/(d.yearData[2011].totalPop/100000)) : 'grey') : 'grey')
             .on('click', function ()
             {
-                that.updateCountry(this.id);
+                if (that.switchChangeEnabled) {
+                    that.updateCountry(this.id, that.selectCountryNum);
+                } else {
+                    that.updateCountry(this.id, 1);
+                }
+                
             });
 
         

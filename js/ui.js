@@ -1,6 +1,6 @@
 class UI {
 
-    constructor(data, updateYear, updateAge, updateGender, updateStory, updateCompare, updateCountry) {
+    constructor(data, updateYear, updateAge, updateGender, updateStory, updateCompare, updateCountry, UpdateCountrySelecting) {
 
         this.country_selected_1 = "United States of America";
         this.country_selected_2 = "None";
@@ -11,6 +11,7 @@ class UI {
         this.updateGender = updateGender;
         this.updateStory = updateStory;
         this.updateCompare = updateCompare;
+        this.updateCountrySelecting = UpdateCountrySelecting;
 
         this.checkCount = 6;
 
@@ -364,12 +365,12 @@ class UI {
             });
 
         document.getElementById("toggle-on").onclick = function() {
-            console.log(this);
+            that.updateCountrySelecting(this.value);
             d3.select("#country1_name").text("ayyy"); ////////////////////////////////////////////////////////
         }
 
         document.getElementById("toggle-off").onclick = function() {
-            console.log(this);
+            that.updateCountrySelecting(this.value);
             d3.select("#country2_name").text(this.country_selected_2);
         }
 

@@ -280,11 +280,15 @@ Promise.all([suiData, densityData, cellData, powerData, unemploymentData]).then(
         info.UpdateCountry(country, countryNum);
     }
 
+    function UpdateCountrySelecting(countryNum) {
+        world.changeCountrySelect(countryNum);
+    }
+
     //param is a bool true for display 2 countries false for only 1.
     function UpdateDualCountryView(display2countries) {
         // console.log(display2countries);
         info.UpdateDualCountryView(display2countries);
-
+        world.switchChangeEnabled(display2countries);
     }
 
     //year is starting year, span is number of following years
@@ -316,7 +320,7 @@ Promise.all([suiData, densityData, cellData, powerData, unemploymentData]).then(
     let world = new World(oData, UpdateCountry, yearData, suicideData);
     let graph = new Graph(suicideData, yearData, yearKeys, "both", "all", "gdp");
     let info = new InfoPanel(suicideData, yearData, yearKeys, countryData, countryKeys, ageGroups);
-    let ui = new UI(oData, UpdateYear, UpdateAge, UpdateSex, UpdateStory, UpdateDualCountryView, UpdateCountry);
+    let ui = new UI(oData, UpdateYear, UpdateAge, UpdateSex, UpdateStory, UpdateDualCountryView, UpdateCountry, UpdateCountrySelecting);
 
     ui.initiallizePage();
     UpdateCountry("United States of America");
