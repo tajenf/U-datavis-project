@@ -230,6 +230,19 @@ class World {
             .attr('font-weight', 'bold')
             .text('Suicides per 100,000');
 
+        svg.append('rect')
+            .attr('x', 75)
+            .attr('y', 55)
+            .attr('width', 10)
+            .attr('height', 10)
+            .attr('fill', 'grey');
+        
+        svg.append('text')
+            .attr('x', 10)
+            .attr('y', 65)
+            .attr('font-weight', 'bold')
+            .text('No data:');
+
     }
 
     update(type, param)
