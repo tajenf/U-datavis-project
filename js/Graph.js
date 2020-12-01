@@ -1,22 +1,21 @@
 class Graph {
 
-    constructor(data, data2, data2Keys, Gender, Age_group, type) {
+    constructor(data, data2, data2Keys, Gender, type) {
 
+        this.data = data;
         this.country1_select = "United States of America";
         this.country2_select = "United Kingdom";
+        this.Gender = Gender;
+        // this.age_group = Age_group;
 
-
-        ///Testing stuff 
         this.age_map = new Map([
             ["5-14 years", ["5-14 years", 1]],
             ["15-24 years", ["15-24 years", 1]],
-            ["25-34 years", ["25-34 years", 0]],
-            ["35-54 years", ["35-54 years", 0]],
-            ["55-74 years", ["55-74 years", 0]],
-            ["75+ years", ["75+ years", 0]]
+            ["25-34 years", ["25-34 years", 1]],
+            ["35-54 years", ["35-54 years", 1]],
+            ["55-74 years", ["55-74 years", 1]],
+            ["75+ years", ["75+ years", 1]]
         ]);
-
-        this.story;
 
         ///////////////////////////////////////////////////Graph 1/////////////////////////////////
         let graph_svg1 = d3.select('#graph')
@@ -148,62 +147,21 @@ class Graph {
         //     .text("Country: " + country_name + ",  Gender: " + Gender + ",  Age: " + Age_group);
 
 
-        this.updateGraph(data, Gender, Age_group);
         this.updateGraph2(data2, data2Keys, type);
     }
 
 
+    updateGraph(type, value) {
 
+        console.log("update graph was called");
 
+        if (type == "age" && value != "all") {
+            this.age_map = value;
+        }
 
-    // update(type, param) {
-    //     let that = this;
-
-    //     if (type == "sex") {
-    //         this.sex = param;
-    //     } else if (type == "age") {
-    //         if (param == "all")
-    //             this.age = ["5-14 years", "15-24 years", "25-34 years", "35-54 years", "55-74 years", "75+ years"];
-    //         else {
-    //             this.age = [];
-    //             for (let value of param) {
-    //                 if (value[1][1] == 1)
-    //                     this.age.push(value[0]);
-    //             }
-    //         }
-    //     } else if (type == "year") {
-    //         this.year = param;
-    //     }
-
-    //     d3.select("#mapDrawing").selectAll('path')
-    //         .attr('fill', function(d) {
-    //             let pop = 0;
-    //             let sui = 0;
-    //             for (let i = 0; i < that.age.length; i++) {
-    //                 let a = that.age[i];
-    //                 if (d.suicideData) {
-    //                     if (d.suicideData["male"] && d.suicideData["male"]["a" + a.replace(' ', '_')] && d.suicideData["female"]["a" + a.replace(' ', '_')][that.year]) {
-    //                         if (that.sex == "both") {
-    //                             pop += d.suicideData["female"]["a" + a.replace(' ', '_')][that.year]['population'];
-    //                             pop += d.suicideData["male"]["a" + a.replace(' ', '_')][that.year]['population'];
-    //                             sui += d.suicideData["female"]["a" + a.replace(' ', '_')][that.year]['suicides'];
-    //                             sui += d.suicideData["male"]["a" + a.replace(' ', '_')][that.year]['suicides'];
-    //                         } else {
-    //                             pop += d.suicideData[that.sex]["a" + a.replace(' ', '_')][that.year]['population'];
-    //                             sui += d.suicideData[that.sex]["a" + a.replace(' ', '_')][that.year]['suicides'];
-    //                         }
-    //                     }
-    //                 }
-    //             }
-    //             return pop; //!= 0 ? that.colorScale(sui / (pop / 100000)) : 'grey';
-    //         });
-    // }
-
-
-
-
-
-    updateGraph(data, Gender, Age_group) {
+        if (type == "sex") {
+            this.Gender = value;
+        }
 
         let filter_data;
         let filter_data2;
@@ -211,38 +169,85 @@ class Graph {
         let max_yr;
         let min_yr;
 
-        console.log(data);
+        let val1 = this.age_map.get("5-14 years")[1];
+        let val2 = this.age_map.get("15-24 years")[1];
+        let val3 = this.age_map.get("25-34 years")[1];
+        let val4 = this.age_map.get("35-54 years")[1];
+        let val5 = this.age_map.get("55-74 years")[1];
+        let val6 = this.age_map.get("75+ years")[1];
 
-        let d = Object.entries(data[this.country1_select][Gender]);
-        console.log(d);
-        console.log(d.length);
-        // console.log(d[0][1].both);
-        // console.log(d[0][1]["both"]);
-
-
-        if (Age_group == "all") {
-            filter_data = Object.entries(data[this.country1_select][Gender][Age_group]);
-            filter_data2 = Object.entries(data[this.country2_select][Gender][Age_group]);
+        if (this.Gender == "both" && val1 == 1 && val2 == 1 && val3 == 1 && val4 == 1 && val5 == 1 && val6 == 1) {
+            // console.log("in here boy");
+            filter_data = Object.entries(this.data[this.country1_select][this.Gender]["all"]);
+            filter_data2 = Object.entries(this.data[this.country2_select][this.Gender]["all"]);
         }
-        //else {
+        // else if (this.Gender == "both") {
+        //     let subData1 = this.data[this.country1_select];
+        //     let subData1f = subData1["female"];
+        //     let subData1m = subData1["male"];
 
-        for (let i of d.values()) {
 
-            console.log();
+        //     console.log(subData1);
+        //     console.log(subData1f);
+        //     console.log(subData1m);
+
+        // } 
+        else {
+
+            // console.log(this.age_group);
+            // console.log(this.age_map);
+            // console.log(this.age_map);
+
+
+            console.log(this.data);
+            console.log(this.country1_select);
+            console.log(this.Gender);
+
+
+            let subData1 = this.data[this.country1_select][this.Gender];
+
+            console.log(subData1);
+
+            let added = {};
+
+            // console.log(d);
+
+            // for (let value of this.age_map.values()) {
+            //     if (value[1] == 1) {
+            //         // let a = "a" + value[0].replace(' ', '_');
+
+            //         console.log(value);
+            //         console.log(d);
+            //         // console.log(a);
+            //         // console.log(d[a]);
+
+
+            //         // let entries = Object.entries(d[a]);
+
+            //         let entries = Object.entries(d);
+
+            //         console.log(entries);
+
+            //         for (let cur of entries.values()) {
+
+            //             if (added[cur[0]] == null) {
+            //                 let num = cur[1].suicides;
+            //                 added[cur[0]] = { suicides: num };
+            //             } else {
+            //                 let sum = added[cur[0]].suicides;
+            //                 sum += cur[1].suicides;
+            //                 added[cur[0]] = { suicides: sum };
+            //             }
+            //         }
+
+            //     }
+            // }
+
+
+
+
+            //     filter_data = Object.entries(added);
         }
-
-
-        // for (let i of this.age_map.values()) {
-
-        //     if (i[1] == 1) {
-        //         console.log("ayy");
-        //     }
-        // }
-
-
-
-
-
 
 
         // filter_data = data[this.country1_select][Gender][Age_group];
@@ -251,20 +256,11 @@ class Graph {
         // filter_data = Object.entries(filter_data);
         // filter_data2 = Object.entries(filter_data2);
 
-        console.log(filter_data);
+        // console.log(filter_data);
 
-        min_yr = filter_data[0][0];
-        max_yr = filter_data[filter_data.length - 1][0];
-        max_sui = d3.max(filter_data, function(d) { return +d[1].suicides });
-
-        // console.log(filtata);
-        // let a = Object.entries(filtata);
-        // console.log(a);
-        // console.log(a[0][0]);
-        // console.log(a[a.length - 1][0]);
-        // let max = d3.max(a, function(d) { return +d[1].suicides });
-        // console.log(max);
-
+        // min_yr = filter_data[0][0];
+        // max_yr = filter_data[filter_data.length - 1][0];
+        // max_sui = d3.max(filter_data, function(d) { return +d[1].suicides });
 
         // } else if (Gender != "both" && Age_group != "all") {
         // filter_data = data.filter(d => ((d.country == country_name) && (d.sex == "female") && (d.age == "5-14 years")));
@@ -274,21 +270,21 @@ class Graph {
         // min_yr = d3.min(filter_data, function(d) { return d.year });
         // }
 
-        this.scaleY1 = d3.scaleLinear()
-            .domain([max_sui, 0])
-            .range([0, 400]);
+        // this.scaleY1 = d3.scaleLinear()
+        //     .domain([max_sui, 0])
+        //     .range([0, 400]);
 
-        this.scaleX1 = d3.scaleLinear()
-            .domain([min_yr, max_yr])
-            .range([0, 500]);
+        // this.scaleX1 = d3.scaleLinear()
+        //     .domain([min_yr, max_yr])
+        //     .range([0, 500]);
 
-        this.drawLegend1();
+        // this.drawLegend1();
 
-        this.drawLines1(filter_data, "#graph_path1");
-        this.drawLines1(filter_data2, "#graph_path2");
+        // this.drawLines1(filter_data, "#graph_path1");
+        // this.drawLines1(filter_data2, "#graph_path2");
 
-        this.drawPoints1(filter_data, "#Hover_points1");
-        this.drawPoints1(filter_data2, "#Hover_points2");
+        // this.drawPoints1(filter_data, "#Hover_points1");
+        // this.drawPoints1(filter_data2, "#Hover_points2");
     }
 
     drawLegend1() {
