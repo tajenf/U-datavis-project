@@ -6,7 +6,7 @@ class Graph {
         this.data2 = data2;
         this.type = type;
         this.country1_select = "United States of America";
-        this.country2_select = "United Kingdom";
+        this.country2_select = "Jamaica";
         this.Gender = Gender;
         // this.age_group = Age_group;
 
@@ -44,7 +44,7 @@ class Graph {
         //Graph 2 Line
         graph_svg1.append("g")
             .attr("id", "path_group2")
-            .classed("hidden", false)
+            .classed("hidden", true)
             .classed("visible", false)
             .attr("transform", "translate(120,20)")
             .append("path")
@@ -55,7 +55,7 @@ class Graph {
 
         //Graph 2 Hover points 
         graph_svg1.append("g")
-            .classed("hidden", false)
+            .classed("hidden", true)
             .classed("visible", false)
             .attr("transform", "translate(120,20)")
             .attr("id", "Hover_points2");
@@ -100,7 +100,7 @@ class Graph {
         //Graph 4 Line
         graph_svg2.append("g")
             .attr("id", "path_group4")
-            .classed("hidden", false)
+            .classed("hidden", true)
             .classed("visible", false)
             .attr("transform", "translate(120,20)")
             .append("path")
@@ -111,7 +111,7 @@ class Graph {
 
         //Graph 4 Hover points 
         graph_svg2.append("g")
-            .classed("hidden", false)
+            .classed("hidden", true)
             .classed("visible", false)
             .attr("transform", "translate(120,20)")
             .attr("id", "Hover_points4");
