@@ -365,7 +365,8 @@ class InfoPanel {
             case 0:
                 title.text(titlebase + "Introduction");
 
-                text.text("Suicides are problem in our world.  Our data set, which lacks many countries of the world, has 236,484 suicides worldwide in 2011. From 1985-2016 our data set has 6,748,420. Every year hundreds of thousands of people take their own life.  In regards to 2018 the NIH (National Institute of Mental Health) said the following.")
+                text.text("Suicides are problem in our world.  Our data set, which lacks many countries of the world, has 236,484 suicides worldwide in 2011. " +
+                "From 1985-2016 our data set has 6,748,420. Every year hundreds of thousands of people take their own life.  In regards to 2018 the NIH (National Institute of Mental Health) said the following.")
                 text.append('div').text("-\"Suicide was the tenth leading cause of death overall in the United States.\"-")
                 text.append('div').text("-\"Suicide was the second leading cause of death among individuals between ages 10 and 34 (in the US).\"-")
                 text.append('div').text("-\"There were more than two and a half times as many suicides in the US as there were homicides.\"-")
@@ -391,8 +392,16 @@ class InfoPanel {
                 break;
 
             case 3:
-                title.text(titlebase + "Unimplemented");
-                text.text("unimplemented story");
+                title.text(titlebase + "Suicide, a First World Problem?");
+                text.text("Looking at the data we have it seems like the answer is yes but there is a lot of grey area." +
+                "  First the definition of a \"First World Country\".  Originally the term was used in the cold war to describe countries aligned with NATO/USA " +
+                "and opposed the Soviet Union.  Now the definition has shifted to highly developed or politically stable countries, which is wildly subjective.  " +
+                "Now looking at the data we have even with this vague definition there are still countries that come to mind; US, Canada, South Korea, and England to name four.  " +
+                "We can also think of a few 3rd world countries; Guatemala, Thailand, Jaimaca and Cuba, to name four more.  Looking at most of these the argument for suicide being " +
+                "a first world problem is strong however, lets look at Cuba and England.  These seem to be outliers to the rule.  Cuba in particular has a very bad suicide rate, doing worse than most of the mentioned first world countries," +
+                " but it's been steadily dropping over the years.  England is on the upper end of par compared to most 3rd world countries which is pretty good.  All of this is made moot by the fact that developping countries are notorious " +
+                "for under-reporting.  With this in mind along with the problems listed above its hard to truly say \"Suicide is a First World Problem\".");
+                text.append('div').html("<a href='https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1414701/'>Suicide in Developing countries</a>");
                 break;
 
             case 4:
