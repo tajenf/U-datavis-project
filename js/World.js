@@ -46,7 +46,7 @@ class World {
             max = max > pot ? max : pot;
         }
         this.colorScale = d3.scaleLinear()
-            .domain([0 , max])
+            .domain([0 , 60])
             .range(["white", "red"]);
     }
 
@@ -152,6 +152,8 @@ class World {
             });
 
         svg.call(zoom).call(zoom.transform, d3.zoomIdentity.scale(s));
+
+        this.drawLegend()
     }
 
     //A lot of this is taken from http://bl.ocks.org/patricksurry/6621971 for a scrolling map with wraparound
@@ -196,6 +198,37 @@ class World {
 
     drawLegend()
     {
+        let svg = d3.select("#map-legend").append("svg")
+            .attr('width', this.width)
+            .attr('height', 100);
+        
+        
+        svg.selectAll('rect').data(this.colorScale.ticks(60))
+            .enter()
+            .append('rect')
+            .attr('x', (d, i) => i*15)
+            .attr('y', 10)
+            .attr('width', 15)
+            .attr('height', 20)
+            .attr('fill', d => this.colorScale(d));
+
+        console.log(svg.selectAll('rect').data());    
+
+        svg.selectAll('text').data(this.colorScale.ticks(30))
+            .enter()
+            .append('text')
+            .attr('x', (d, i) => i*30)
+            .attr('y', 45)
+            .text(d => d);
+
+        console.log(svg.selectAll('text').data());
+
+        svg.append('text')
+            .attr('x', 360)
+            .attr('y', 70)
+            .attr('font-size', 20)
+            .attr('font-weight', 'bold')
+            .text('Suicides per 100,000');
 
     }
 

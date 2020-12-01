@@ -112,6 +112,12 @@ div.data {
     margin: auto;
 }
 
+.map-legend {
+    width: 900px;
+    height: 80px;
+    margin: auto;
+}
+
 .boundary {
     stroke: black;
     stroke-width: .8px;
