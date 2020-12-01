@@ -83,12 +83,15 @@ class UI {
             .append("div")
             .attr("id", "compareToggle_div");
 
+        let type_toggle = ui_div
+            .append("div")
+            .attr("id", "type_toggle_div");
+
         //Age Group Title 
         ui_svg.append("text")
             .text("Age Group")
             .attr("transform", "translate(80, 60)")
             .attr("id", "age_group_title");
-
 
         this.year_slider(1985, 2015); ///////////////////////////starting years 
         this.ui_Features();
@@ -241,7 +244,7 @@ class UI {
         //Toggle and updated UI feature visibillity 
         document.getElementById("input_compare").onchange = function() {
             that.OnCompare(this.checked);
-            
+
         };
 
         let compare_toggle = d3.select("#compareToggle_div")
@@ -309,6 +312,24 @@ class UI {
         }
 
 
+        let types = ["gdp", "cell"];
+
+        d3.select("#type_toggle_div").selectAll()
+            .data(types)
+            .enter()
+            .append("input")
+            .attr("type", "radio")
+            .attr("id", function(d) {
+                return d + "_TID";
+            })
+            .attr("name", "type_radio")
+            .attr("value", function(d) {
+                return 0;
+            });
+
+        //add similar functionality as story 
+
+
         let stories = ["intro", "story_1", "story_2", "story_3", "story_4"];
 
         //Story feature 
@@ -333,7 +354,7 @@ class UI {
                 }
                 return 4;
             });
-            
+
         d3.select("#intro_ID").attr('checked', "checked");
 
         document.getElementById("intro_ID").onclick = function() {
@@ -409,64 +430,63 @@ class UI {
 
     }
 
-    OnCompare(checked)
-    {
+    OnCompare(checked) {
         console.log(checked);
 
         let compareTog = d3.select("#compareToggle_div");
 
-            let path2 = d3.select("#path_group2");
-            let hov2 = d3.select("#Hover_points2");
+        let path2 = d3.select("#path_group2");
+        let hov2 = d3.select("#Hover_points2");
 
-            let path4 = d3.select("#path_group4");
-            let hov4 = d3.select("#Hover_points4");
+        let path4 = d3.select("#path_group4");
+        let hov4 = d3.select("#Hover_points4");
 
-            if (checked) {
-                this.updateCompare(true);
+        if (checked) {
+            this.updateCompare(true);
 
-                compareTog
-                    .classed("hidden", false)
-                    .classed("visible", true);
+            compareTog
+                .classed("hidden", false)
+                .classed("visible", true);
 
-                path2
-                    .classed("hidden", false)
-                    .classed("visible", true);
+            path2
+                .classed("hidden", false)
+                .classed("visible", true);
 
-                hov2
-                    .classed("hidden", false)
-                    .classed("visible", true);
+            hov2
+                .classed("hidden", false)
+                .classed("visible", true);
 
-                path4
-                    .classed("hidden", false)
-                    .classed("visible", true);
+            path4
+                .classed("hidden", false)
+                .classed("visible", true);
 
-                hov4
-                    .classed("hidden", false)
-                    .classed("visible", true);
+            hov4
+                .classed("hidden", false)
+                .classed("visible", true);
 
-            } else {
-                this.updateCompare(false);
+        } else {
+            this.updateCompare(false);
 
-                compareTog
-                    .classed("hidden", true)
-                    .classed("visible", false);
+            compareTog
+                .classed("hidden", true)
+                .classed("visible", false);
 
-                path2
-                    .classed("hidden", true)
-                    .classed("visible", false);
+            path2
+                .classed("hidden", true)
+                .classed("visible", false);
 
-                hov2
-                    .classed("hidden", true)
-                    .classed("visible", false);
+            hov2
+                .classed("hidden", true)
+                .classed("visible", false);
 
-                path4
-                    .classed("hidden", true)
-                    .classed("visible", false);
+            path4
+                .classed("hidden", true)
+                .classed("visible", false);
 
-                hov4
-                    .classed("hidden", true)
-                    .classed("visible", false);
-            }
+            hov4
+                .classed("hidden", true)
+                .classed("visible", false);
+        }
     }
 
     story4(year) {

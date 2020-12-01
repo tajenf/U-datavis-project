@@ -64,22 +64,14 @@ class Graph {
             .attr("id", "axis-label-y1")
             .attr("transform", "translate(40, 200), rotate(-90)")
             .style("text-anchor", "middle")
-            .text("Suicide Count");
+            .text("SUICIDE COUNT");
 
         //Graph 1 x-axis 
         graph_svg1.append("text")
             .attr("id", "axis-label-x1")
-            .attr("transform", "translate(330, 470)")
+            .attr("transform", "translate(370, 470)")
             .style("text-anchor", "middle")
-            .text("Years");
-
-        // //Display 
-        // graph_svg1.append("g")
-        //     .attr("id", "Graph-Info_1")
-        //     .append("text")
-        //     .attr("transform", "translate(330, 490)")
-        //     .style("text-anchor", "middle")
-        //     .text("Country: " + country_name + ",  Gender: " + Gender + ",  Age: " + Age_group);
+            .text("YEARS");
 
         ///////////////////////////////////////////////Graph2 ///////////////////////////////////////////////////////////////////////
         let graph_svg2 = d3.select('#graph')
@@ -129,24 +121,16 @@ class Graph {
             .attr("id", "axis-label-y2")
             .attr("transform", "translate(40, 200), rotate(-90)")
             .style("text-anchor", "middle")
-            .text("placeholder");
+            .text(type.toUpperCase());
 
         //Graph 2 x-axis 
         graph_svg2.append("text")
             .attr("id", "axis-label-x2")
-            .attr("transform", "translate(330, 470)")
+            .attr("transform", "translate(370, 470)")
             .style("text-anchor", "middle")
-            .text("Years");
+            .text("YEARS");
 
-        // //Display 
-        // graph_svg2.append("g")
-        //     .attr("id", "Graph-Info_2")
-        //     .append("text")
-        //     .attr("transform", "translate(330, 490)")
-        //     .style("text-anchor", "middle")
-        //     .text("Country: " + country_name + ",  Gender: " + Gender + ",  Age: " + Age_group);
         this.drawLegend1();
-
 
         this.updateGraph2(data2, data2Keys, type);
     }
@@ -191,28 +175,6 @@ class Graph {
             added1 = recalc(subData1, added1);
             added2 = recalc(subData2, added2);
 
-            // for (let value of this.age_map.values()) {
-            //     if (value[1] == 1) {
-            //         let a = "a" + value[0].replace(' ', '_');
-
-            //         let entries = Object.entries(subData1[a]);
-
-            //         for (let cur of entries.values()) {
-            //             if (added[cur[0]] == undefined) {
-            //                 let num = cur[1].suicides;
-            //                 // console.log(num);
-            //                 added[cur[0]] = { suicides: num };
-            //             } else {
-            //                 let sum = added[cur[0]].suicides;
-            //                 sum += parseInt(cur[1].suicides);
-            //                 added[cur[0]] = { suicides: sum };
-            //             }
-            //         }
-
-            //     }
-            // }
-
-            // console.log(added);
             filter_data = Object.entries(added1);
             filter_data2 = Object.entries(added2)
         }
@@ -229,8 +191,6 @@ class Graph {
         this.scaleX1 = d3.scaleLinear()
             .domain([min_yr, max_yr])
             .range([0, 500]);
-
-        // this.drawLegend1();
 
         this.updateLegend1();
 
@@ -342,25 +302,6 @@ class Graph {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     updateGraph2(data2, data2Keys, type) {
         let filter_data;
         let filter_data2;
@@ -458,8 +399,8 @@ class Graph {
                 current.attr("class", "hovered");
                 let current_title = current.append("title");
                 current_title
-                    .append("text") /////////////////////////////////////////////////////////need to change the text of the hover points 
-                    .text("Number of Suicides: " + Math.round(that.scaleY2.invert(current.attr("cy"))) + "\n" + "Year: " + Math.round(that.scaleX2.invert(current.attr("cx"))));
+                    .append("text")
+                    .text(type.toUpperCase() + ": " + Math.round(that.scaleY2.invert(current.attr("cy"))) + "\n" + "Year: " + Math.round(that.scaleX2.invert(current.attr("cx"))));
             })
             .on("mouseout", function() {
                 let current = d3.select(this);

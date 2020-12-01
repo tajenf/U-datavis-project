@@ -169,6 +169,13 @@ div.data {
     right: 250px;
 }
 
+#type_toggle_div {
+    position: absolute;
+    bottom: 10px;
+    right: 250px;
+}
+
+
 /* Radio input css */
 
 input[type="radio"] {
