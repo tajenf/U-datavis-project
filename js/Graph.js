@@ -66,7 +66,7 @@ class Graph {
             .attr("id", "axis-label-y1")
             .attr("transform", "translate(40, 200), rotate(-90)")
             .style("text-anchor", "middle")
-            .text("SUICIDE COUNT");
+            .text("SUICIDE PER 100K");
 
         //Graph 1 x-axis 
         graph_svg1.append("text")
@@ -219,7 +219,7 @@ class Graph {
 
         min_yr = Math.min(filter_data[0][0], filter_data2[0][0]);
         max_yr = Math.max(filter_data[filter_data.length - 1][0], filter_data2[filter_data2.length - 1][0]);
-        max_sui = Math.max(d3.max(filter_data, function(d) { return +d[1].suicides }), d3.max(filter_data2, function(d) { return +d[1].suicides }));
+        max_sui = Math.max(d3.max(filter_data, function(d) { return (100000 * d[1].suicides / d[1].population) }), d3.max(filter_data2, function(d) { return +(100000 * d[1].suicides / d[1].population) }));
 
         this.scaleY1 = d3.scaleLinear()
             .domain([max_sui, 0])
@@ -281,7 +281,7 @@ class Graph {
         let LineGenerator = d3
             .line()
             .x(d => this.scaleX1(d[0]))
-            .y(d => this.scaleY1(d[1].suicides));
+            .y(d => this.scaleY1((100000 * d[1].suicides / d[1].population)));
 
         d3.select(selectID)
             .data(data)
@@ -304,7 +304,7 @@ class Graph {
                         .transition()
                         .attr("r", "3")
                         .attr("cx", d => this.scaleX1(d[0]))
-                        .attr("cy", d => this.scaleY1(d[1].suicides))
+                        .attr("cy", d => this.scaleY1((100000 * d[1].suicides / d[1].population)))
                         .attr("fill", "white")
                         .attr("stroke", "black")
                         .attr("stroke-width", 2);
@@ -313,7 +313,7 @@ class Graph {
                     update.transition()
                         .attr("r", "3")
                         .attr("cx", d => this.scaleX1(d[0]))
-                        .attr("cy", d => this.scaleY1(d[1].suicides))
+                        .attr("cy", d => this.scaleY1((100000 * d[1].suicides / d[1].population)))
                         .attr("fill", "white")
                         .attr("stroke", "black")
                         .attr("stroke-width", 2);
