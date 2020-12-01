@@ -132,6 +132,33 @@ class Graph {
             .style("text-anchor", "middle")
             .text("YEARS");
 
+
+
+        //////////////////Type for graph 2
+        d3.select("#graph")
+            .append("div")
+            // graph_svg2.append("div")
+            // .append("g")
+            .attr("id", "type_toggle_div")
+            .attr("transform", "translate(370, 470)");
+        // .attr("padding", "10px");
+
+        let types = ["gdp", "cellphone", "power", "density", "unemployment"];
+
+        d3.select("#type_toggle_div").selectAll()
+            .data(types)
+            .enter()
+            .append("input")
+            .attr("type", "radio")
+            .attr("id", function(d) {
+                return d + "_TID";
+            })
+            .attr("name", "type_radio")
+            .attr("value", function(d) {
+                return d;
+            });
+
+
         this.drawLegend1();
         this.drawLegend2();
         this.updateGraph2("none", 0);

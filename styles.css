@@ -170,10 +170,9 @@ div.data {
 }
 
 #type_toggle_div {
-    position: absolute;
-    bottom: -1300px;
-    right: 280px;
-    padding: 10px;
+    margin-left: 40%;
+    width: 28%;
+    padding-bottom: 30px;
 }
 
 

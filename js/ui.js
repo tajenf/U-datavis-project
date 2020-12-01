@@ -84,9 +84,13 @@ class UI {
             .append("div")
             .attr("id", "compareToggle_div");
 
-        let type_toggle = ui_div
-            .append("div")
-            .attr("id", "type_toggle_div");
+        // let type_toggle = ui_div
+        //     .append("div")
+        //     .attr("id", "type_toggle_div")
+        // .attr("transform", function(d) {
+        //     let a = d3.select("#graph_svg2").attr("transform");
+        //     console.log(a);
+        // });
 
         //Age Group Title 
         ui_svg.append("text")
@@ -313,20 +317,20 @@ class UI {
         }
 
 
-        let types = ["gdp", "cellphone", "power", "density", "unemployment"];
+        // let types = ["gdp", "cellphone", "power", "density", "unemployment"];
 
-        d3.select("#type_toggle_div").selectAll()
-            .data(types)
-            .enter()
-            .append("input")
-            .attr("type", "radio")
-            .attr("id", function(d) {
-                return d + "_TID";
-            })
-            .attr("name", "type_radio")
-            .attr("value", function(d) {
-                return d;
-            });
+        // d3.select("#type_toggle_div").selectAll()
+        //     .data(types)
+        //     .enter()
+        //     .append("input")
+        //     .attr("type", "radio")
+        //     .attr("id", function(d) {
+        //         return d + "_TID";
+        //     })
+        //     .attr("name", "type_radio")
+        //     .attr("value", function(d) {
+        //         return d;
+        //     });
 
         d3.select("#gdp_TID").attr('checked', "checked");
 
