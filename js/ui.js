@@ -240,61 +240,8 @@ class UI {
 
         //Toggle and updated UI feature visibillity 
         document.getElementById("input_compare").onchange = function() {
-
-            let compareTog = d3.select("#compareToggle_div");
-
-            let path2 = d3.select("#path_group2");
-            let hov2 = d3.select("#Hover_points2");
-
-            let path4 = d3.select("#path_group4");
-            let hov4 = d3.select("#Hover_points4");
-
-            if (this.checked == true) {
-                that.updateCompare(true);
-
-                compareTog
-                    .classed("hidden", false)
-                    .classed("visible", true);
-
-                path2
-                    .classed("hidden", false)
-                    .classed("visible", true);
-
-                hov2
-                    .classed("hidden", false)
-                    .classed("visible", true);
-
-                path4
-                    .classed("hidden", false)
-                    .classed("visible", true);
-
-                hov4
-                    .classed("hidden", false)
-                    .classed("visible", true);
-
-            } else {
-                that.updateCompare(false);
-
-                compareTog
-                    .classed("hidden", true)
-                    .classed("visible", false);
-
-                path2
-                    .classed("hidden", true)
-                    .classed("visible", false);
-
-                hov2
-                    .classed("hidden", true)
-                    .classed("visible", false);
-
-                path4
-                    .classed("hidden", true)
-                    .classed("visible", false);
-
-                hov4
-                    .classed("hidden", true)
-                    .classed("visible", false);
-            }
+            that.OnCompare(this.checked);
+            
         };
 
         let compare_toggle = d3.select("#compareToggle_div")
@@ -415,23 +362,38 @@ class UI {
 
             switch (parseInt(current.value)) {
                 case 0:
-                    //USA 2011
+                    //intro
                     that.setYear(2011);
-                    that.updateCountry("United States of America");
+                    document.getElementById("input_compare").checked = false;
+                    that.OnCompare(false);
+                    that.updateCountry("United States of America", 1);
                     break;
 
                 case 1:
-                    //Japan 1989
+                    //male to female ratio
                     that.setYear(1989);
-                    that.updateCountry("Japan");
+                    document.getElementById("input_compare").checked = false;
+                    that.OnCompare(false);
+                    that.updateCountry("Japan", 1);
                     break;
 
                 case 2:
-                    //tbd
+                    //urbanization/density
+                    that.setYear(2005);
+                    document.getElementById("input_compare").checked = true;
+                    that.OnCompare(true);
+                    that.updateCountry("Israel", 1);
+                    that.updateCountry("cyprus", 2);
                     break;
 
                 case 3:
-                    //tbd
+                    //first world country/third world country
+                    that.setYear(2014);
+                    that.updateCompare(true);
+                    document.getElementById("input_compare").checked = true;
+                    that.OnCompare(true);
+                    that.updateCountry("England", 1);
+                    that.updateCountry("Cuba", 2);
                     break;
 
                 case 4:
@@ -445,6 +407,66 @@ class UI {
             that.updateStory(current.value);
         };
 
+    }
+
+    OnCompare(checked)
+    {
+        console.log(checked);
+
+        let compareTog = d3.select("#compareToggle_div");
+
+            let path2 = d3.select("#path_group2");
+            let hov2 = d3.select("#Hover_points2");
+
+            let path4 = d3.select("#path_group4");
+            let hov4 = d3.select("#Hover_points4");
+
+            if (checked) {
+                this.updateCompare(true);
+
+                compareTog
+                    .classed("hidden", false)
+                    .classed("visible", true);
+
+                path2
+                    .classed("hidden", false)
+                    .classed("visible", true);
+
+                hov2
+                    .classed("hidden", false)
+                    .classed("visible", true);
+
+                path4
+                    .classed("hidden", false)
+                    .classed("visible", true);
+
+                hov4
+                    .classed("hidden", false)
+                    .classed("visible", true);
+
+            } else {
+                this.updateCompare(false);
+
+                compareTog
+                    .classed("hidden", true)
+                    .classed("visible", false);
+
+                path2
+                    .classed("hidden", true)
+                    .classed("visible", false);
+
+                hov2
+                    .classed("hidden", true)
+                    .classed("visible", false);
+
+                path4
+                    .classed("hidden", true)
+                    .classed("visible", false);
+
+                hov4
+                    .classed("hidden", true)
+                    .classed("visible", false);
+            }
     }
 
     story4(year) {
