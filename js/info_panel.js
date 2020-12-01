@@ -381,14 +381,18 @@ class InfoPanel {
                 text.text("Across aboard males consistently commit suicide more often than females." + 
                 "  In our data set there are 7 instances where females match or exceed the number of male suicides." +
                 "  Of those non of them take place on the same year or in the same country and in all cases females have at most 1 more suicide than males." +
-                "  Japan 1989 has the smallest ratio of male to female suicides with atleast 10,000 at males accounting for 61.1% of the suicides." + 
+                "  Japan 1989 has the smallest ratio of male to female suicides with atleast 10,000 total suicides, with males accounting for 61.1% of the suicides." + 
                 "  There are many theories on what can cause this.  Suicides related to male dominated occupations and the ideal male behavior to name two.");
                 text.append('div').html("<a href='https://www.researchgate.net/publication/259114970_Suicide_by_occupation_Systematic_review_and_meta-analysis'>Suicide by Occupation article</a>");
                 break;
 
             case 2:
-                title.text(titlebase + "Economy and Suicide");
-                text.text("unimplemented story");
+                title.text(titlebase + "Urbanization");
+                text.text("Some might be inclined to think that greater population density would lead to more conflict which would lead to more suicides.  Well this doesn't actually track, atleast not entirely.  " +
+                "Population density can have varying affects on suicide rates pending on many factors.  Urban living actually means men are less likely to commit suicide especially when it comes to young men.  " +
+                "Contraversely women actually have a higher suicide rate in urban areas especially in the 24-35 and 65+ age ranges.  While its true on the whole high urban areas have more suicides its mostly correlation not causation.  " +
+                "Take a look at Israel and Cyprus and you'll see that despite the high density the suicides per 100,000 are ont that bad.  Its important to remember that population density and urbanization are similar but not equivalent.");
+                text.append('div').html("<a href='https://academic.oup.com/ije/article/34/4/846/692901'>Urbanicity and Suicide</a>");
                 break;
 
             case 3:
@@ -397,17 +401,17 @@ class InfoPanel {
                 "  First the definition of a \"First World Country\".  Originally the term was used in the cold war to describe countries aligned with NATO/USA " +
                 "and opposed the Soviet Union.  Now the definition has shifted to highly developed or politically stable countries, which is wildly subjective.  " +
                 "Now looking at the data we have even with this vague definition there are still countries that come to mind; US, Canada, South Korea, and England to name four.  " +
-                "We can also think of a few 3rd world countries; Guatemala, Thailand, Jaimaca and Cuba, to name four more.  Looking at most of these the argument for suicide being " +
+                "We can also think of a few 3rd world countries; Guatemala, Thailand, Jamaica and Cuba, to name four more.  Looking at most of these the argument for suicide being " +
                 "a first world problem is strong however, lets look at Cuba and England.  These seem to be outliers to the rule.  Cuba in particular has a very bad suicide rate, doing worse than most of the mentioned first world countries," +
-                " but it's been steadily dropping over the years.  England is on the upper end of par compared to most 3rd world countries which is pretty good.  All of this is made moot by the fact that developping countries are notorious " +
+                " but it's been steadily dropping over the years.  England is on the upper end of par compared to most 3rd world countries which is pretty good.  All of this is made moot by the fact that developing countries are notorious " +
                 "for under-reporting.  With this in mind along with the problems listed above its hard to truly say \"Suicide is a First World Problem\".");
-                text.append('div').html("<a href='https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1414701/'>Suicide in Developing countries</a>");
+                text.append('div').html("<a href='https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1414701/'>Suicide in Developing Countries</a>");
                 break;
 
             case 4:
                 title.text(titlebase + "Explore!");
-                text.text("Press this button and you'll slide through the years until you reach 2015.  Go ahead and select different countries and " +
-                "look at all their stats change and try to find something interesting.");
+                text.text("Press this button and you'll slide through the years until you reach 2015.  Go ahead and select different countries then " +
+                "reselect this story.  You'll be able to see the country's information throughout the years all at once.  Now go explore and find something interesting to break the ice at your next party.");
                 break;
 
             default:

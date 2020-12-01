@@ -99,6 +99,9 @@ Promise.all([suiData, densityData, cellData, powerData, unemploymentData]).then(
 
     //console.log(data[2]);
 
+    let maxDensity = 0;
+    let densityInfo = "";
+
     data[1].forEach(denData => {
         //console.log(denData);
         //console.log(denData.Country);
@@ -112,12 +115,19 @@ Promise.all([suiData, densityData, cellData, powerData, unemploymentData]).then(
                         yearData[country][year] = {};
                     }
 
+                    if (parseFloat(denData[year]) > maxDensity && country != "Singapore") {
+                        maxDensity = parseFloat(denData[year]);
+                        densityInfo = `${country} ${year} density ${maxDensity}`;
+                    }
+
                     yearData[country][year]["density"] = denData[year];
                 }
 
             }
         }
     });
+    
+    console.log(densityInfo);
 
     data[2].forEach(cellData => {
         //console.log(denData);
