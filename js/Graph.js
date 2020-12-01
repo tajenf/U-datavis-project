@@ -66,7 +66,7 @@ class Graph {
             .attr("id", "axis-label-y1")
             .attr("transform", "translate(40, 200), rotate(-90)")
             .style("text-anchor", "middle")
-            .text("SUICIDE PER 100K");
+            .text("SUICIDES");
 
         //Graph 1 x-axis 
         graph_svg1.append("text")
