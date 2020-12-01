@@ -3,6 +3,8 @@ class Graph {
     constructor(data, data2, data2Keys, Gender, type) {
 
         this.data = data;
+        this.data2 = data2;
+        this.type = type;
         this.country1_select = "United States of America";
         this.country2_select = "United Kingdom";
         this.Gender = Gender;
@@ -131,8 +133,8 @@ class Graph {
             .text("YEARS");
 
         this.drawLegend1();
-
-        this.updateGraph2(data2, data2Keys, type);
+        this.drawLegend2();
+        this.updateGraph2("none", 0);
     }
 
 
@@ -190,9 +192,9 @@ class Graph {
         }
 
 
-        min_yr = filter_data[0][0];
-        max_yr = filter_data[filter_data.length - 1][0];
-        max_sui = d3.max(filter_data, function(d) { return +d[1].suicides });
+        min_yr = Math.min(filter_data[0][0], filter_data2[0][0]);
+        max_yr = Math.max(filter_data[filter_data.length - 1][0], filter_data2[filter_data2.length - 1][0]);
+        max_sui = Math.max(d3.max(filter_data, function(d) { return +d[1].suicides }), d3.max(filter_data2, function(d) { return +d[1].suicides }));
 
         this.scaleY1 = d3.scaleLinear()
             .domain([max_sui, 0])
@@ -314,30 +316,40 @@ class Graph {
     }
 
 
+    updateGraph2(type, value) {
+        let that = this;
 
+        if (type == "type") {
+            this.type = value;
+        }
 
+        if (type == "country1") {
+            this.country1_select = value;
+        }
 
+        if (type == "country1") {
+            this.country2_select = value;
+        }
 
-    updateGraph2(data2, data2Keys, type) {
         let filter_data;
         let filter_data2;
         let max_data;
         let max_yr;
         let min_yr;
 
-        filter_data = data2[this.country1_select];
-        filter_data2 = data2[this.country2_select];
+        filter_data = Object.entries(this.data2[this.country1_select]);
+        filter_data2 = Object.entries(this.data2[this.country2_select]);
 
+        let fill = filter_data.filter(d => d[1][this.type] != null);
+        let fill2 = filter_data2.filter(d => d[1][this.type] != null);
 
-        filter_data = Object.entries(filter_data);
-        filter_data2 = Object.entries(filter_data2);
+        min_yr = Math.min(fill[0][0], fill2[0][0]);
+        max_yr = Math.max(fill[fill.length - 1][0], fill2[fill2.length - 1][0]);
 
-        let fill = filter_data.filter(d => d[1][type] != null);
-        let fill2 = filter_data2.filter(d => d[1][type] != null);
+        let max1 = d3.max(fill, function(d) { return +d[1][that.type] });
+        let max2 = d3.max(fill2, function(d) { return +d[1][that.type] });
 
-        min_yr = fill[0][0];
-        max_yr = fill[fill.length - 1][0];
-        max_data = d3.max(fill, function(d) { return +d[1][type] });
+        max_data = Math.max(max1, max2);
 
         this.scaleY2 = d3.scaleLinear()
             .domain([max_data, 0])
@@ -347,11 +359,16 @@ class Graph {
             .domain([min_yr, max_yr])
             .range([0, 500]);
 
-        this.drawLegend2();
-        this.drawLines2(fill, "#graph_path3", type);
-        this.drawLines2(fill2, "#graph_path4", type);
-        this.drawPoints2(fill, "#Hover_points3", type);
-        this.drawPoints2(fill2, "#Hover_points4", type);
+        this.updateLegend2();
+        this.drawLines2(fill, "#graph_path3", this.type);
+        this.drawLines2(fill2, "#graph_path4", this.type);
+        this.drawPoints2(fill, this.country1_select, "#Hover_points3", this.type);
+        this.drawPoints2(fill2, this.country2_select, "#Hover_points4", this.type);
+        this.updateAxisName(this.type);
+    }
+
+    updateAxisName(type) {
+        d3.select("#axis-label-y2").text(type.toUpperCase());
     }
 
     drawLegend2() {
@@ -359,12 +376,16 @@ class Graph {
         let svg2 = d3.select("#graph_svg2");
 
         //x-axis
-        svg2.append("g").attr("transform", "translate(120, 420)")
-            .call(d3.axisBottom(this.scaleX2).ticks().tickFormat(d3.format("d")));
+        svg2.append("g").attr("id", "g2x-axis").attr("transform", "translate(120, 420)");
 
         //y-axis
-        svg2.append("g").attr("transform", "translate(120,20)")
-            .call(d3.axisLeft(this.scaleY2).ticks(10));
+        svg2.append("g").attr("id", "g2y-axis").attr("transform", "translate(120,20)");
+
+    }
+
+    updateLegend2() {
+        d3.select("#g2x-axis").call(d3.axisBottom(this.scaleX2).ticks().tickFormat(d3.format("d")));
+        d3.select("#g2y-axis").call(d3.axisLeft(this.scaleY2).ticks(10));
     }
 
     drawLines2(data, selectID, type) {
@@ -380,7 +401,7 @@ class Graph {
             .attr("d", LineGenerator(data));
     }
 
-    drawPoints2(data, selectID, type) {
+    drawPoints2(data, countryN, selectID, type) {
 
         let that = this;
 
@@ -422,7 +443,7 @@ class Graph {
                 let current_title = current.append("title");
                 current_title
                     .append("text")
-                    .text(type.toUpperCase() + ": " + Math.round(that.scaleY2.invert(current.attr("cy"))) + "\n" + "Year: " + Math.round(that.scaleX2.invert(current.attr("cx"))));
+                    .text(countryN + ": \n" + type.toUpperCase() + ": " + Math.round(that.scaleY2.invert(current.attr("cy"))) + "\n" + "Year: " + Math.round(that.scaleX2.invert(current.attr("cx"))));
             })
             .on("mouseout", function() {
                 let current = d3.select(this);

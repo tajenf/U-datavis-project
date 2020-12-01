@@ -327,14 +327,15 @@ Promise.all([suiData, densityData, cellData, powerData, unemploymentData]).then(
     //1 for primary country
     //2 for country that is only visible when comparing.
     function UpdateCountry(country, countryNum) {
-        console.log(country);
-        console.log(countryNum);
+        // console.log(country);
+        // console.log(countryNum);
         info.UpdateCountry(country, countryNum);
         graph.updateGraph("country" + countryNum, country);
+        graph.updateGraph2("country" + countryNum, country);
     }
 
     function UpdateCountrySelecting(countryNum) {
-        console.log(countryNum);
+        // console.log(countryNum);
         world.changeCountrySelect(countryNum);
     }
 
@@ -371,13 +372,15 @@ Promise.all([suiData, densityData, cellData, powerData, unemploymentData]).then(
         info.UpdateStory(storyNum);
     }
 
-    // console.log(yearData);
-    // console.log(yearKeys);
+    //Update Graph 2 
+    function UpdateGraph2(value) {
+        graph.updateGraph2("type", value);
+    }
 
     let world = new World(oData, UpdateCountry, yearData, suicideData);
     let graph = new Graph(suicideData, yearData, yearKeys, "both", "gdp");
     let info = new InfoPanel(suicideData, yearData, yearKeys, countryData, countryKeys, ageGroups);
-    let ui = new UI(oData, UpdateYear, UpdateAge, UpdateSex, UpdateStory, UpdateDualCountryView, UpdateCountry, UpdateCountrySelecting);
+    let ui = new UI(oData, UpdateYear, UpdateAge, UpdateSex, UpdateStory, UpdateDualCountryView, UpdateCountry, UpdateCountrySelecting, UpdateGraph2);
 
     ui.initiallizePage();
     UpdateCountry("United States of America");

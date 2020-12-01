@@ -1,6 +1,6 @@
 class UI {
 
-    constructor(data, updateYear, updateAge, updateGender, updateStory, updateCompare, updateCountry, UpdateCountrySelecting) {
+    constructor(data, updateYear, updateAge, updateGender, updateStory, updateCompare, updateCountry, UpdateCountrySelecting, updateGraph2) {
 
         this.updateCountry = updateCountry;
         this.updateYear = updateYear;
@@ -9,6 +9,7 @@ class UI {
         this.updateStory = updateStory;
         this.updateCompare = updateCompare;
         this.updateCountrySelecting = UpdateCountrySelecting;
+        this.updateG2 = updateGraph2;
 
         this.checkCount = 6;
 
@@ -312,7 +313,7 @@ class UI {
         }
 
 
-        let types = ["gdp", "cell"];
+        let types = ["gdp", "cellphone", "power", "density", "unemployment"];
 
         d3.select("#type_toggle_div").selectAll()
             .data(types)
@@ -324,10 +325,33 @@ class UI {
             })
             .attr("name", "type_radio")
             .attr("value", function(d) {
-                return 0;
+                return d;
             });
 
-        //add similar functionality as story 
+        d3.select("#gdp_TID").attr('checked', "checked");
+
+        document.getElementById("gdp_TID").onclick = function() {
+            that.updateG2(this.value);
+        };
+
+        document.getElementById("cellphone_TID").onclick = function() {
+            that.updateG2(this.value);
+
+        };
+
+        document.getElementById("power_TID").onclick = function() {
+            that.updateG2(this.value);
+
+        };
+
+        document.getElementById("density_TID").onclick = function() {
+            that.updateG2(this.value);
+
+        };
+
+        document.getElementById("unemployment_TID").onclick = function() {
+            that.updateG2(this.value);
+        };
 
 
         let stories = ["intro", "story_1", "story_2", "story_3", "story_4"];
