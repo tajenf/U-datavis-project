@@ -138,7 +138,17 @@ class Graph {
 
     updateGraph(type, value) {
 
+        console.log(type);
+
         let that = this;
+
+        if (type == "country1") {
+            this.country1_select = value;
+        }
+
+        if (type == "country1") {
+            this.country2_select = value;
+        }
 
         if (type == "age" && value != "all") {
             this.age_map = value;

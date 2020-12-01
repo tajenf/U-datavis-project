@@ -126,7 +126,7 @@ Promise.all([suiData, densityData, cellData, powerData, unemploymentData]).then(
             }
         }
     });
-    
+
     console.log(densityInfo);
 
     data[2].forEach(cellData => {
@@ -327,10 +327,14 @@ Promise.all([suiData, densityData, cellData, powerData, unemploymentData]).then(
     //1 for primary country
     //2 for country that is only visible when comparing.
     function UpdateCountry(country, countryNum) {
+        console.log(country);
+        console.log(countryNum);
         info.UpdateCountry(country, countryNum);
+        graph.updateGraph("country" + countryNum, country);
     }
 
     function UpdateCountrySelecting(countryNum) {
+        console.log(countryNum);
         world.changeCountrySelect(countryNum);
     }
 
