@@ -149,18 +149,12 @@ class Graph {
             this.country1_select = value;
             console.log(this.country1_select);
             console.log(this.country2_select);
-        }
-
-        if (type == "country2") {
+        } else if (type == "country2") {
             console.log("in c222222222 if");
             this.country2_select = value;
-        }
-
-        if (type == "age" && value != "all") {
+        } else if (type == "age" && value != "all") {
             this.age_map = value;
-        }
-
-        if (type == "sex") {
+        } else if (type == "sex") {
             this.Gender = value;
         }
 
@@ -325,13 +319,9 @@ class Graph {
 
         if (type == "type") {
             this.type = value;
-        }
-
-        if (type == "country1") {
+        } else if (type == "country1") {
             this.country1_select = value;
-        }
-
-        if (type == "country1") {
+        } else if (type == "country2") {
             this.country2_select = value;
         }
 
