@@ -2,9 +2,6 @@ class UI {
 
     constructor(data, updateYear, updateAge, updateGender, updateStory, updateCompare, updateCountry, UpdateCountrySelecting) {
 
-        this.country_selected_1 = "United States of America";
-        this.country_selected_2 = "None";
-
         this.updateCountry = updateCountry;
         this.updateYear = updateYear;
         this.updateAge = updateAge;
@@ -48,7 +45,7 @@ class UI {
         let ui_svg = ui_div
             .append("svg")
             .attr("id", "ui_svg")
-            .attr("height", "220px")
+            .attr("height", "130px")
             .attr("width", "1100px");
 
         let ui_slider = ui_div
@@ -91,38 +88,6 @@ class UI {
             .text("Age Group")
             .attr("transform", "translate(80, 60)")
             .attr("id", "age_group_title");
-
-        //Country1 Text
-        ui_svg.append("text")
-            .text("Country: ")
-            .attr("transform", "translate(40, 30)")
-            .attr("id", "country1_title")
-            .attr("class", "title");
-
-        //Country1 Name Text 
-        ui_svg.append("text")
-            .text(this.country_selected_1)
-            .attr("transform", "translate(140, 30)")
-            .attr("id", "country1_name")
-            .attr("class", "title");
-
-        //Country2 Text
-        ui_svg.append("text")
-            .text("Country: ")
-            .attr("transform", "translate(450, 30)")
-            .attr("id", "country2_title")
-            .attr("class", "title")
-            .classed("hidden", true)
-            .classed("visible", false);
-
-        //Country2 name Text
-        ui_svg.append("text")
-            .text(this.country_selected_2)
-            .attr("transform", "translate(550, 30)")
-            .attr("id", "country2_name")
-            .attr("class", "title")
-            .classed('hidden', true)
-            .classed("visible", false);
 
 
         this.year_slider(1985, 2015); ///////////////////////////starting years 
@@ -276,8 +241,6 @@ class UI {
         //Toggle and updated UI feature visibillity 
         document.getElementById("input_compare").onchange = function() {
 
-            let title = d3.select("#country2_title");
-            let name = d3.select("#country2_name");
             let compareTog = d3.select("#compareToggle_div");
 
             let path2 = d3.select("#path_group2");
@@ -288,14 +251,6 @@ class UI {
 
             if (this.checked == true) {
                 that.updateCompare(true);
-
-                title
-                    .classed("hidden", false)
-                    .classed("visible", true);
-
-                name
-                    .classed("hidden", false)
-                    .classed("visible", true);
 
                 compareTog
                     .classed("hidden", false)
@@ -319,14 +274,6 @@ class UI {
 
             } else {
                 that.updateCompare(false);
-
-                title
-                    .classed("hidden", true)
-                    .classed("visible", false);
-
-                name
-                    .classed("hidden", true)
-                    .classed("visible", false);
 
                 compareTog
                     .classed("hidden", true)
@@ -408,12 +355,10 @@ class UI {
 
         document.getElementById("toggle-on").onclick = function() {
             that.updateCountrySelecting(this.value);
-            d3.select("#country1_name").text("ayyy"); ////////////////////////////////////////////////////////
         }
 
         document.getElementById("toggle-off").onclick = function() {
             that.updateCountrySelecting(this.value);
-            d3.select("#country2_name").text(this.country_selected_2);
         }
 
 
