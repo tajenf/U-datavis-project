@@ -116,39 +116,7 @@ class InfoPanel {
         maleBlock.append("div").text("M Suicides: ").classed("cat", true)
             .append("div").text("curSuicides").attr('id', "maleSui").classed("data", true);
 
-        maleBlock.append('br');
-
-        maleBlock.append('div').text("Ages Groups:").classed("cat", true);
-
-        maleBlock.append("div").text("5-14 : ").classed("cat", true)
-            .append("div").text("curSuicides").attr('id', "a5-14_years").classed("data", true);
-
-        maleBlock.append('br');
-
-        maleBlock.append("div").text("15-24: ").classed("cat", true)
-            .append("div").text("curSuicides").attr('id', "a15-24_years").classed("data", true);
-
-        maleBlock.append('br');
-
-        maleBlock.append("div").text("25-34: ").classed("cat", true)
-            .append("div").text("curSuicides").attr('id', "a25-34_years").classed("data", true);
-
-        maleBlock.append('br');
-
-        maleBlock.append("div").text("35-54: ").classed("cat", true)
-            .append("div").text("curSuicides").attr('id', "a35-54_years").classed("data", true);
-
-        maleBlock.append('br');
-
-        maleBlock.append("div").text("55-74: ").classed("cat", true)
-            .append("div").text("curSuicides").attr('id', "a55-74_years").classed("data", true);
-
-        maleBlock.append('br');
-
-        maleBlock.append("div").text("75+ : ").classed("cat", true)
-            .append("div").text("curSuicides").attr('id', "a75_years").classed("data", true);
-
-        maleBlock.append('br');
+        this.initAgeBlocks(maleBlock);
 
 
         femaleBlock.append('br');
@@ -161,39 +129,64 @@ class InfoPanel {
         femaleBlock.append("div").text("F Suicides: ").classed("cat", true)
             .append("div").text("curSuicides").attr('id', "femaleSui").classed("data", true);
 
+        this.initAgeBlocks(femaleBlock);
 
-        femaleBlock.append('br');
+    }
 
-        femaleBlock.append('div').text("Age Groups:").classed("cat", true);
+    initAgeBlocks(block)
+    {
+        block.append('br');
 
-        femaleBlock.append("div").text("5-14 : ").classed("cat", true)
+        block.append('div').text("Ages Groups:").classed("cat", true);
+
+
+        block.append("div").text("5-14 : ").classed("cat", true)
             .append("div").text("curSuicides").attr('id', "a5-14_years").classed("data", true);
 
-        femaleBlock.append('br');
+        block.append("div").text("Suicides/100k : ").classed("cat", true)
+            .append("div").text("curSuicides").attr('id', "a5-14_yearsspk").classed("data", true);
 
-        femaleBlock.append("div").text("15-24: ").classed("cat", true)
+        block.append('br');
+
+        block.append("div").text("15-24: ").classed("cat", true)
             .append("div").text("curSuicides").attr('id', "a15-24_years").classed("data", true);
 
-        femaleBlock.append('br');
+            block.append("div").text("Suicides/100k : ").classed("cat", true)
+                .append("div").text("curSuicides").attr('id', "a15-24_yearsspk").classed("data", true);
 
-        femaleBlock.append("div").text("25-34: ").classed("cat", true)
+        block.append('br');
+
+        block.append("div").text("25-34: ").classed("cat", true)
             .append("div").text("curSuicides").attr('id', "a25-34_years").classed("data", true);
 
-        femaleBlock.append('br');
+            block.append("div").text("Suicides/100k : ").classed("cat", true)
+                .append("div").text("curSuicides").attr('id', "a25-34_yearsspk").classed("data", true);
 
-        femaleBlock.append("div").text("35-54: ").classed("cat", true)
+        block.append('br');
+
+        block.append("div").text("35-54: ").classed("cat", true)
             .append("div").text("curSuicides").attr('id', "a35-54_years").classed("data", true);
 
-        femaleBlock.append('br');
+            block.append("div").text("Suicides/100k : ").classed("cat", true)
+                .append("div").text("curSuicides").attr('id', "a35-54_yearsspk").classed("data", true);
 
-        femaleBlock.append("div").text("55-74: ").classed("cat", true)
+        block.append('br');
+
+        block.append("div").text("55-74: ").classed("cat", true)
             .append("div").text("curSuicides").attr('id', "a55-74_years").classed("data", true);
 
-        femaleBlock.append('br');
+            block.append("div").text("Suicides/100k : ").classed("cat", true)
+                .append("div").text("curSuicides").attr('id', "a55-74_yearsspk").classed("data", true);
 
-        femaleBlock.append("div").text("75+ : ").classed("cat", true)
+        block.append('br');
+
+        block.append("div").text("75+ : ").classed("cat", true)
             .append("div").text("curSuicides").attr('id', "a75_years").classed("data", true);
 
+            block.append("div").text("Suicides/100k : ").classed("cat", true)
+                .append("div").text("curSuicides").attr('id', "a75_yearsspk").classed("data", true);
+
+        block.append('br');
     }
 
     UpdateDualCountryView(display2countries) {
@@ -435,55 +428,26 @@ class InfoPanel {
 
         this.ageGroups.forEach(age => {
             let ageDivM = male.select(`#${age.replace('+', '')}`);
-            let ageDivF = female.select(`#${age.replace('+', '')}`);
+            let ageDivF = female.select(`#${age.replace('+', '')}`);//popsuicides
+            let ageSpKM = male.select(`#${age.replace('+', '')}spk`);
+            let ageSpKF = female.select(`#${age.replace('+', '')}spk`);
 
             if (!this.suicideData[country] || !this.suicideData[country]["male"][age] || !this.suicideData[country]["male"][age][this.year]) {  //May need to expand to check there is data for this year
                 ageDivM.text("N/A");
                 ageDivF.text("N/A");
+                ageSpKM.text("N/A");
+                ageSpKF.text("N/A");
 
             } else {
-                if (this.yearSpan == 0) {
                     ageDivM.text(new Intl.NumberFormat().format(
                         this.suicideData[country]["male"][age][this.year]["suicides"]));
+                    ageSpKM.text(new Intl.NumberFormat().format(
+                        this.suicideData[country]["male"][age][this.year]["popsuicides"]));
                     ageDivF.text(new Intl.NumberFormat().format(
                         this.suicideData[country]["female"][age][this.year]["suicides"]));
-                } else {
-                    let maleRecordFound = false;
-                    let femaleRecordFound = false;
-                    let maleSui = 0;
-                    let femaleSui = 0;
-
-                    for (let year = this.year; year <= this.year + this.yearSpan; year++) {
-                        if (this.suicideData[country]["male"][age][year]) {
-                            maleSui += this.suicideData[country]["male"][age][year]["suicides"];
-                            maleRecordFound = true;
-                        }
-                        if (this.suicideData[country]["female"][age][year]) {
-                            femaleSui += this.suicideData[country]["female"][age][year]["suicides"];
-                            femaleRecordFound = true;
-                        }
-                    }
-
-                    let avgCatString = `Avg/Yr: `;
-
-                    if (maleRecordFound) {
-                        ageDivM.text(new Intl.NumberFormat().format(maleSui));
-                        ageDivM.append("div").text(avgCatString).classed("cat", true)
-                            .append("div").text(new Intl.NumberFormat().format(
-                                Math.round(maleSui / (this.yearSpan + 1)))).classed("data", true);
-                    } else {
-                        ageDivM.text("N/A");
-                    }
-
-                    if (femaleRecordFound) {
-                        ageDivF.text(new Intl.NumberFormat().format(femaleSui));
-                        ageDivF.append("div").text(avgCatString).classed("cat", true)
-                            .append("div").text(new Intl.NumberFormat().format(
-                                Math.round(femaleSui / (this.yearSpan + 1)))).classed("data", true);
-                    } else {
-                        ageDivF.text("N/A");
-                    }
-                }
+                    ageSpKF.text(new Intl.NumberFormat().format(
+                        this.suicideData[country]["female"][age][this.year]["popsuicides"]));
+                
             }
         });
     }

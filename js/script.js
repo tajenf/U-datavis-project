@@ -87,11 +87,11 @@ Promise.all([suiData, densityData, cellData, powerData, unemploymentData]).then(
 
         let suicides = parseInt(suiData.suicides_no);
         let population = parseInt(suiData.population);
-        //let popsuicides = parseFloat(suiData["suicides/100k pop"]);
+        let popsuicides = parseFloat(suiData["suicides/100k pop"]);
 
         suicideData["World"][suiData.sex]["a" + suiData.age.replace(" ", "_")][suiData.year]["suicides"] += (suicides);
         suicideData["World"][suiData.sex]["a" + suiData.age.replace(" ", "_")][suiData.year]["population"] += (population);
-        suicideData[suiData.country][suiData.sex]["a" + suiData.age.replace(" ", "_")][suiData.year] = { suicides, population };
+        suicideData[suiData.country][suiData.sex]["a" + suiData.age.replace(" ", "_")][suiData.year] = { suicides, population, popsuicides };
 
         years.add(suiData.year);
         ageGroups.add("a" + suiData.age.replace(" ", "_"));
@@ -214,6 +214,7 @@ Promise.all([suiData, densityData, cellData, powerData, unemploymentData]).then(
                 let maleSui = 0;
                 let femaleSui = 0;
                 let bothages = {};
+                let bothpop = {};
 
                 ageGroups.forEach(age => {
                     if (suicideData[country]["male"][age] && suicideData[country]["male"][age][year]) {
@@ -221,6 +222,7 @@ Promise.all([suiData, densityData, cellData, powerData, unemploymentData]).then(
                         femalePop += parseInt(suicideData[country]["female"][age][year]["population"]);
                         maleSui += parseInt(suicideData[country]["male"][age][year]["suicides"]);
                         femaleSui += parseInt(suicideData[country]["female"][age][year]["suicides"]);
+                        bothpop[age] = parseInt(suicideData[country]["male"][age][year]["population"]) + parseInt(suicideData[country]["female"][age][year]["population"]);
                         bothages[age] = parseInt(suicideData[country]["male"][age][year]["suicides"]) + parseInt(suicideData[country]["female"][age][year]["suicides"]);
                     }
                 });
@@ -244,44 +246,15 @@ Promise.all([suiData, densityData, cellData, powerData, unemploymentData]).then(
                         suicideData[country]["female"]["all"] = {};
                     }
 
-                    if (!suicideData[country]["both"]["a5-14_years"]) {
-                        suicideData[country]["both"]["a5-14_years"] = {};
-                    }
-                    if (!suicideData[country]["both"]["a15-24_years"]) {
-                        suicideData[country]["both"]["a15-24_years"] = {};
-                    }
-                    if (!suicideData[country]["both"]["a25-34_years"]) {
-                        suicideData[country]["both"]["a25-34_years"] = {};
-                    }
-                    if (!suicideData[country]["both"]["a35-54_years"]) {
-                        suicideData[country]["both"]["a35-54_years"] = {};
-                    }
-                    if (!suicideData[country]["both"]["a55-74_years"]) {
-                        suicideData[country]["both"]["a55-74_years"] = {};
-                    }
-                    if (!suicideData[country]["both"]["a75+_years"]) {
-                        suicideData[country]["both"]["a75+_years"] = {};
-                    }
+                    ageGroups.forEach(age => {
+                        if (!suicideData[country]["both"][age]) {
+                            suicideData[country]["both"][age] = {};
+                        }
 
-                    if (!suicideData[country]["both"]["a5-14_years"][year]) {
-                        suicideData[country]["both"]["a5-14_years"][year] = { suicides: bothages["a5-14_years"] };
-                    }
-
-                    if (!suicideData[country]["both"]["a15-24_years"][year]) {
-                        suicideData[country]["both"]["a15-24_years"][year] = { suicides: bothages["a15-24_years"] };
-                    }
-                    if (!suicideData[country]["both"]["a25-34_years"][year]) {
-                        suicideData[country]["both"]["a25-34_years"][year] = { suicides: bothages["a25-34_years"] };
-                    }
-                    if (!suicideData[country]["both"]["a35-54_years"][year]) {
-                        suicideData[country]["both"]["a35-54_years"][year] = { suicides: bothages["a35-54_years"] };
-                    }
-                    if (!suicideData[country]["both"]["a55-74_years"][year]) {
-                        suicideData[country]["both"]["a55-74_years"][year] = { suicides: bothages["a55-74_years"] };
-                    }
-                    if (!suicideData[country]["both"]["a75+_years"][year]) {
-                        suicideData[country]["both"]["a75+_years"][year] = { suicides: bothages["a75+_years"] };
-                    }
+                        if (!suicideData[country]["both"][age][year]) {
+                            suicideData[country]["both"][age][year] = { suicides: bothages[age], population: bothpop[age]};
+                        }
+                    });
 
 
                     let suicides = maleSui + femaleSui;
@@ -364,7 +337,7 @@ Promise.all([suiData, densityData, cellData, powerData, unemploymentData]).then(
     function UpdateSex(sex) {
         // console.log("called sex");
         world.update("sex", sex);
-        graph.updateGraph("gender", sex);
+        graph.updateGraph("sex", sex);
     }
 
     //story integer
