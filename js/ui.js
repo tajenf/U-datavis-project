@@ -10,7 +10,8 @@ class UI {
         this.updateCompare = updateCompare;
         this.updateCountrySelecting = UpdateCountrySelecting;
         this.updateG2 = updateGraph2;
-
+        
+        this.looping = false;
         this.checkCount = 6;
 
         this.age_map = new Map([
@@ -419,7 +420,10 @@ class UI {
 
                 case 4:
                     //ADVENTURE TIME!!!
-                    that.story4(1985);
+                    if (!that.looping) {
+                        that.looping = true;
+                        that.story4(1985);
+                    }
                     break;
                 default:
                     break;
@@ -496,6 +500,9 @@ class UI {
             setTimeout(() => {
                 this.story4(year + 1)
             }, 300);
+        }
+        else {
+            this.looping = false;
         }
     }
 

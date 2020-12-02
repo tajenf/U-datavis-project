@@ -139,7 +139,7 @@ class Graph {
             .attr("id", "type_toggle_div")
             .attr("transform", "translate(370, 470)");
 
-        let types = ["gdp", "cellphone", "power", "population density", "unemployment"];
+        let types = ["gdp", "cellphone", "power", "density", "unemployment"];
 
         d3.select("#type_toggle_div").selectAll()
             .data(types)
