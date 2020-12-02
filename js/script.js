@@ -74,34 +74,38 @@ Promise.all([suiData, densityData, cellData, powerData, unemploymentData]).then(
             suicideData[suiData.country][suiData.sex] = {};
         }
 
-        if (!suicideData[suiData.country][suiData.sex]["a" + suiData.age.replace(" ", "_")]) {
-            suicideData[suiData.country][suiData.sex]["a" + suiData.age.replace(" ", "_")] = {};
+        //'a' and replacements are to allow d3 to use the string as an id for selection
+        //can't start with a number and no spaces. so 'a' for age and '_' for ' '
+        let age = "a" + suiData.age.replace(" ", "_");
+
+        if (!suicideData[suiData.country][suiData.sex][age]) {
+            suicideData[suiData.country][suiData.sex][age] = {};
         }
 
         if (!suicideData["World"][suiData.sex]) {
             suicideData["World"][suiData.sex] = {};
         }
 
-        if (!suicideData["World"][suiData.sex]["a" + suiData.age.replace(" ", "_")]) {
-            suicideData["World"][suiData.sex]["a" + suiData.age.replace(" ", "_")] = {};
+        if (!suicideData["World"][suiData.sex][age]) {
+            suicideData["World"][suiData.sex][age] = {};
         }
 
-        if (!suicideData["World"][suiData.sex]["a" + suiData.age.replace(" ", "_")][suiData.year]) {
-            suicideData["World"][suiData.sex]["a" + suiData.age.replace(" ", "_")][suiData.year] = {};
-            suicideData["World"][suiData.sex]["a" + suiData.age.replace(" ", "_")][suiData.year]["suicides"] = 0;
-            suicideData["World"][suiData.sex]["a" + suiData.age.replace(" ", "_")][suiData.year]["population"] = 0;
+        if (!suicideData["World"][suiData.sex][age][suiData.year]) {
+            suicideData["World"][suiData.sex][age][suiData.year] = {};
+            suicideData["World"][suiData.sex][age][suiData.year]["suicides"] = 0;
+            suicideData["World"][suiData.sex][age][suiData.year]["population"] = 0;
         }
 
         let suicides = parseInt(suiData.suicides_no);
         let population = parseInt(suiData.population);
         let popsuicides = parseFloat(suiData["suicides/100k pop"]);
 
-        suicideData["World"][suiData.sex]["a" + suiData.age.replace(" ", "_")][suiData.year]["suicides"] += (suicides);
-        suicideData["World"][suiData.sex]["a" + suiData.age.replace(" ", "_")][suiData.year]["population"] += (population);
-        suicideData[suiData.country][suiData.sex]["a" + suiData.age.replace(" ", "_")][suiData.year] = { suicides, population, popsuicides };
+        suicideData["World"][suiData.sex][age][suiData.year]["suicides"] += (suicides);
+        suicideData["World"][suiData.sex][age][suiData.year]["population"] += (population);
+        suicideData[suiData.country][suiData.sex][age][suiData.year] = { suicides, population, popsuicides };
 
         years.add(suiData.year);
-        ageGroups.add("a" + suiData.age.replace(" ", "_"));
+        ageGroups.add(age);
     });
 
     //Following loops add all of the additional data to the year data structure.

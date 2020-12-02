@@ -1,5 +1,6 @@
 class InfoPanel {
 
+    //constructor saves class variables and calls populate
     constructor(sdata, ydata, ykeys, cdata, cKeys, ageGroups) {
         this.yearData = ydata;
         this.yearKeys = ykeys;
@@ -10,14 +11,12 @@ class InfoPanel {
 
         this.transitionTime = 100;
 
-        this.yearSpan = 0;
-
         this.initialPopulate();
-
-        this.UpdateCountry("Jamaica", 2);
-        this.UpdateDualCountryView(false);
     }
 
+    //creates each core block in infopanel
+    //fully creates storyblcok with exception of UI elements.
+    //adds disclaimer info at bottom and calls other methods to populate the various sections.
     initialPopulate() {
         let StoryBlock = d3.select("#detail").append('p').classed("storyBlock", true);
 
@@ -61,6 +60,8 @@ class InfoPanel {
 
     }
 
+    //initializes all country information providing ID's classes and everything for easy loops.
+    //sadly had to hard code this to ensure correct ordering.
     initCountryBlock(block) {
         block.append("div").text("Country: ").classed("cat", true)
             .append("div").text("curCountry").attr('id', "country").classed("data", true);
@@ -97,16 +98,16 @@ class InfoPanel {
         block.append("div").text("Cellular Subscriptions: ").classed("cat", true)
             .append("div").text("This ain't my dad").attr('id', "cellphone").classed("data", true);
 
-        //TODO add other data sets
+        block.append('br');
     }
 
+    //sets up suicide breakdown sections handling everything that isn't shared.
     initPopSui(block) {
         block.classed("info-wrapper", true);
 
         let maleBlock = block.append('g').attr('id', "male");
         let femaleBlock = block.append('g').attr('id', "female");
 
-        maleBlock.append('br');
 
         maleBlock.append("div").text("Male Breakdown: ").classed("cat", true)
 
@@ -119,7 +120,6 @@ class InfoPanel {
         this.initAgeBlocks(maleBlock);
 
 
-        femaleBlock.append('br');
 
         femaleBlock.append("div").text("Female Breakdown: ").classed("cat", true)
 
@@ -133,8 +133,9 @@ class InfoPanel {
 
     }
 
-    initAgeBlocks(block)
-    {
+    //again couldn't loop over ages as they are not in the correct order so hard coded location to be safe
+    //sets up the various ages to be easily grabbed.
+    initAgeBlocks(block) {
         block.append('br');
 
         block.append('div').text("Ages Groups:").classed("cat", true);
@@ -151,44 +152,47 @@ class InfoPanel {
         block.append("div").text("15-24: ").classed("cat", true)
             .append("div").text("curSuicides").attr('id', "a15-24_years").classed("data", true);
 
-            block.append("div").text("Suicides/100k : ").classed("cat", true)
-                .append("div").text("curSuicides").attr('id', "a15-24_yearsspk").classed("data", true);
+        block.append("div").text("Suicides/100k : ").classed("cat", true)
+            .append("div").text("curSuicides").attr('id', "a15-24_yearsspk").classed("data", true);
 
         block.append('br');
 
         block.append("div").text("25-34: ").classed("cat", true)
             .append("div").text("curSuicides").attr('id', "a25-34_years").classed("data", true);
 
-            block.append("div").text("Suicides/100k : ").classed("cat", true)
-                .append("div").text("curSuicides").attr('id', "a25-34_yearsspk").classed("data", true);
+        block.append("div").text("Suicides/100k : ").classed("cat", true)
+            .append("div").text("curSuicides").attr('id', "a25-34_yearsspk").classed("data", true);
 
         block.append('br');
 
         block.append("div").text("35-54: ").classed("cat", true)
             .append("div").text("curSuicides").attr('id', "a35-54_years").classed("data", true);
 
-            block.append("div").text("Suicides/100k : ").classed("cat", true)
-                .append("div").text("curSuicides").attr('id', "a35-54_yearsspk").classed("data", true);
+        block.append("div").text("Suicides/100k : ").classed("cat", true)
+            .append("div").text("curSuicides").attr('id', "a35-54_yearsspk").classed("data", true);
 
         block.append('br');
 
         block.append("div").text("55-74: ").classed("cat", true)
             .append("div").text("curSuicides").attr('id', "a55-74_years").classed("data", true);
 
-            block.append("div").text("Suicides/100k : ").classed("cat", true)
-                .append("div").text("curSuicides").attr('id', "a55-74_yearsspk").classed("data", true);
+        block.append("div").text("Suicides/100k : ").classed("cat", true)
+            .append("div").text("curSuicides").attr('id', "a55-74_yearsspk").classed("data", true);
 
         block.append('br');
 
         block.append("div").text("75+ : ").classed("cat", true)
             .append("div").text("curSuicides").attr('id', "a75_years").classed("data", true);
 
-            block.append("div").text("Suicides/100k : ").classed("cat", true)
-                .append("div").text("curSuicides").attr('id', "a75_yearsspk").classed("data", true);
+        block.append("div").text("Suicides/100k : ").classed("cat", true)
+            .append("div").text("curSuicides").attr('id', "a75_yearsspk").classed("data", true);
 
         block.append('br');
     }
 
+    //now looking at update functions
+
+    //hides/reveals data based on if we are comparing countries.
     UpdateDualCountryView(display2countries) {
         let country2 = d3.select("#detail").select("#country2");
         let sui2 = d3.select("#detail").select("#sui2");
@@ -210,6 +214,7 @@ class InfoPanel {
         }
     }
 
+    //updates class members and calls update view methods
     UpdateCountry(countryID, panelNum) {
         if (!panelNum) {
             panelNum = 1;
@@ -220,18 +225,21 @@ class InfoPanel {
             this.country2 = countryID;
         }
 
-        this.UpdateAllInfo(panelNum);
+        //only update what has changed.
+        this.UpdateCountryInfo(panelNum);
     }
 
+    //updates class members and calls update view methods
     UpdateYear(year) {
         this.year = parseInt(year);
 
+        //calls for both countries
         this.UpdateYearInfo(1);
         this.UpdateYearInfo(2);
     }
 
     //updates country speific data then yearly data
-    UpdateAllInfo(panelNum) {
+    UpdateCountryInfo(panelNum) {
         let detailPanel = d3.select("#detail");
 
         if (panelNum == 1) {
@@ -239,12 +247,6 @@ class InfoPanel {
         } else {
             detailPanel.select("#country2").select("#country").text(this.country2);
         }
-
-
-
-        this.countryKeys.forEach(key => {
-            //this.countryData[key];
-        });
 
         this.UpdateYearInfo(panelNum);
     }
@@ -269,10 +271,12 @@ class InfoPanel {
 
         if (this.yearData[country] && this.yearData[country][this.year]) {
 
+            //can't trust every key will exist for country using yearkeys instead
             this.yearKeys.forEach(key => {
                 let unit = "";
                 let fixVal = 0;
 
+                //sets generic values based on key
                 switch (key) {
                     case "totalSui":
                         totSui = this.yearData[country][this.year][key];
@@ -286,44 +290,31 @@ class InfoPanel {
                         unit = " (kw/capita)";
                         fixVal = 1;
                         break;
-                        
+
                     case "density":
                         unit = " (people/km\u00B2)";
                         fixVal = 2;
                         break;
-                        
+
                     case "unemployment":
                         unit = "% of labor force";
                         break;
-                
+
                     default:
                         break;
                 }
-                //if the key doesn't need to sum over a span do the following
 
                 if (!this.yearData[country][this.year][key]) {
                     //just checked end year. if span is 0 this will be skipped.
                     panel.select(`#${key}`).text("N/A");
 
                 } else {
-                    //transitional numbers are bugged out
-                    /*curDiv.transition()
-                        .duration(5000)
-                        .textTween(d => {
-                            console.log(this._current);
-                            const i = d3.interpolate(this._current, this.yearData[country][this.year][key]);
-                            return t => {
-                                console.log(key);
-                                console.log(this._current);
-                                return (new Intl.NumberFormat().format(this._current = parseInt(i(t)).toFixed(fixVal))) + unit;
-                            }
-                        });*/
                     if (key == "ratio") {
                         let male = this.yearData[country][this.year][key];
                         let female = (100 - male).toFixed(1);
-                        panel.select(`#${key}`).text( `${male}% / ${female}%`);
+                        panel.select(`#${key}`).text(`${male}% / ${female}%`);
                     } else {
-                        panel.select(`#${key}`).text( (new Intl.NumberFormat().format(parseFloat(this.yearData[country][this.year][key]).toFixed(fixVal))) + unit);
+                        panel.select(`#${key}`).text((new Intl.NumberFormat().format(parseFloat(this.yearData[country][this.year][key]).toFixed(fixVal))) + unit);
                     }
                 }
 
@@ -346,6 +337,7 @@ class InfoPanel {
         this.UpdateAgeSuicides(panelNum);
     }
 
+    //updates story text
     UpdateStory(storyNum) {
         let panel = d3.select("#detail");
 
@@ -359,7 +351,7 @@ class InfoPanel {
                 title.text(titlebase + "Introduction");
 
                 text.text("Suicides are problem in our world.  Our data set, which lacks many countries of the world, has 236,484 suicides worldwide in 2011. " +
-                "From 1985-2016 our data set has 6,748,420. Every year hundreds of thousands of people take their own life.  In regards to 2018 the NIH (National Institute of Mental Health) said the following.")
+                    "From 1985-2016 our data set has 6,748,420. Every year hundreds of thousands of people take their own life.  In regards to 2018 the NIH (National Institute of Mental Health) said the following.")
                 text.append('div').text("-\"Suicide was the tenth leading cause of death overall in the United States.\"-")
                 text.append('div').text("-\"Suicide was the second leading cause of death among individuals between ages 10 and 34 (in the US).\"-")
                 text.append('div').text("-\"There were more than two and a half times as many suicides in the US as there were homicides.\"-")
@@ -371,40 +363,40 @@ class InfoPanel {
 
             case 1:
                 title.text(titlebase + "Male to Female Ratio");
-                text.text("Across aboard males consistently commit suicide more often than females." + 
-                "  In our data set there are 7 instances where females match or exceed the number of male suicides." +
-                "  Of those non of them take place on the same year or in the same country and in all cases females have at most 1 more suicide than males." +
-                "  Japan 1989 has the smallest ratio of male to female suicides with atleast 10,000 total suicides, with males accounting for 61.1% of the suicides." + 
-                "  There are many theories on what can cause this.  Suicides related to male dominated occupations and the ideal male behavior to name two.");
+                text.text("Across aboard males consistently commit suicide more often than females." +
+                    "  In our data set there are 7 instances where females match or exceed the number of male suicides." +
+                    "  Of those non of them take place on the same year or in the same country and in all cases females have at most 1 more suicide than males." +
+                    "  Japan 1989 has the smallest ratio of male to female suicides with atleast 10,000 total suicides, with males accounting for 61.1% of the suicides." +
+                    "  There are many theories on what can cause this.  Suicides related to male dominated occupations and the ideal male behavior to name two.");
                 text.append('div').html("<a href='https://www.researchgate.net/publication/259114970_Suicide_by_occupation_Systematic_review_and_meta-analysis'>Suicide by Occupation article</a>");
                 break;
 
             case 2:
                 title.text(titlebase + "Urbanization");
                 text.text("Some might be inclined to think that greater population density would lead to more conflict which would lead to more suicides.  Well this doesn't actually track, atleast not entirely.  " +
-                "Population density can have varying affects on suicide rates pending on many factors.  Urban living actually means men are less likely to commit suicide especially when it comes to young men.  " +
-                "Contraversely women actually have a higher suicide rate in urban areas especially in the 24-35 and 65+ age ranges.  While its true on the whole high urban areas have more suicides its mostly correlation not causation.  " +
-                "Take a look at Israel and Cyprus and you'll see that despite the high density the suicides per 100,000 are ont that bad.  Its important to remember that population density and urbanization are similar but not equivalent.");
+                    "Population density can have varying affects on suicide rates pending on many factors.  Urban living actually means men are less likely to commit suicide especially when it comes to young men.  " +
+                    "Contraversely women actually have a higher suicide rate in urban areas especially in the 24-35 and 65+ age ranges.  While its true on the whole high urban areas have more suicides its mostly correlation not causation.  " +
+                    "Take a look at Israel and Cyprus and you'll see that despite the high density the suicides per 100,000 are ont that bad.  Its important to remember that population density and urbanization are similar but not equivalent.");
                 text.append('div').html("<a href='https://academic.oup.com/ije/article/34/4/846/692901'>Urbanicity and Suicide</a>");
                 break;
 
             case 3:
                 title.text(titlebase + "Suicide, a First World Problem?");
                 text.text("Looking at the data we have it seems like the answer is yes but there is a lot of grey area." +
-                "  First the definition of a \"First World Country\".  Originally the term was used in the cold war to describe countries aligned with NATO/USA " +
-                "and opposed the Soviet Union.  Now the definition has shifted to highly developed or politically stable countries, which is wildly subjective.  " +
-                "Now looking at the data we have even with this vague definition there are still countries that come to mind; US, Canada, South Korea, and England to name four.  " +
-                "We can also think of a few 3rd world countries; Guatemala, Thailand, Jamaica and Cuba, to name four more.  Looking at most of these the argument for suicide being " +
-                "a first world problem is strong however, lets look at Cuba and England.  These seem to be outliers to the rule.  Cuba in particular has a very bad suicide rate, doing worse than most of the mentioned first world countries," +
-                " but it's been steadily dropping over the years.  England is on the upper end of par compared to most 3rd world countries which is pretty good.  All of this is made moot by the fact that developing countries are notorious " +
-                "for under-reporting.  With this in mind along with the problems listed above its hard to truly say \"Suicide is a First World Problem\".");
+                    "  First the definition of a \"First World Country\".  Originally the term was used in the cold war to describe countries aligned with NATO/USA " +
+                    "and opposed the Soviet Union.  Now the definition has shifted to highly developed or politically stable countries, which is wildly subjective.  " +
+                    "Now looking at the data we have even with this vague definition there are still countries that come to mind; US, Canada, South Korea, and England to name four.  " +
+                    "We can also think of a few 3rd world countries; Guatemala, Thailand, Jamaica and Cuba, to name four more.  Looking at most of these the argument for suicide being " +
+                    "a first world problem is strong however, lets look at Cuba and England.  These seem to be outliers to the rule.  Cuba in particular has a very bad suicide rate, doing worse than most of the mentioned first world countries," +
+                    " but it's been steadily dropping over the years.  England is on the upper end of par compared to most 3rd world countries which is pretty good.  All of this is made moot by the fact that developing countries are notorious " +
+                    "for under-reporting.  With this in mind along with the problems listed above its hard to truly say \"Suicide is a First World Problem\".");
                 text.append('div').html("<a href='https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1414701/'>Suicide in Developing Countries</a>");
                 break;
 
             case 4:
                 title.text(titlebase + "Explore!");
                 text.text("Press this button and you'll slide through the years until you reach 2015.  Go ahead and select different countries then " +
-                "reselect this story.  You'll be able to see the country's information throughout the years all at once.  Now go explore and find something interesting to break the ice at your next party.");
+                    "reselect this story.  You'll be able to see the country's information throughout the years all at once.  Now go explore and find something interesting to break the ice at your next party.");
                 break;
 
             default:
@@ -414,6 +406,7 @@ class InfoPanel {
         }
     }
 
+    //
     UpdateAgeSuicides(panelNum) {
         let panel = d3.select("#detail").select(`#country${panelNum}`);
         let male = panel.select("#male");
@@ -427,11 +420,14 @@ class InfoPanel {
         }
 
         this.ageGroups.forEach(age => {
-            let ageDivM = male.select(`#${age.replace('+', '')}`);
-            let ageDivF = female.select(`#${age.replace('+', '')}`);//popsuicides
-            let ageSpKM = male.select(`#${age.replace('+', '')}spk`);
-            let ageSpKF = female.select(`#${age.replace('+', '')}spk`);
+            let ageID = `#${age.replace('+', '')}`;
 
+            let ageDivM = male.select(ageID);
+            let ageDivF = female.select(ageID);
+            let ageSpKM = male.select(`${ageID}spk`);
+            let ageSpKF = female.select(`${ageID}spk`);
+
+            //checks if data doesn't exist
             if (!this.suicideData[country] || !this.suicideData[country]["male"][age] || !this.suicideData[country]["male"][age][this.year]) {  //May need to expand to check there is data for this year
                 ageDivM.text("N/A");
                 ageDivF.text("N/A");
@@ -439,15 +435,16 @@ class InfoPanel {
                 ageSpKF.text("N/A");
 
             } else {
-                    ageDivM.text(new Intl.NumberFormat().format(
-                        this.suicideData[country]["male"][age][this.year]["suicides"]));
-                    ageSpKM.text(new Intl.NumberFormat().format(
-                        this.suicideData[country]["male"][age][this.year]["popsuicides"]));
-                    ageDivF.text(new Intl.NumberFormat().format(
-                        this.suicideData[country]["female"][age][this.year]["suicides"]));
-                    ageSpKF.text(new Intl.NumberFormat().format(
-                        this.suicideData[country]["female"][age][this.year]["popsuicides"]));
-                
+                //update all age groups. is so pretty.
+                ageDivM.text(new Intl.NumberFormat().format(
+                    this.suicideData[country]["male"][age][this.year]["suicides"]));
+                ageSpKM.text(new Intl.NumberFormat().format(
+                    this.suicideData[country]["male"][age][this.year]["popsuicides"]));
+                ageDivF.text(new Intl.NumberFormat().format(
+                    this.suicideData[country]["female"][age][this.year]["suicides"]));
+                ageSpKF.text(new Intl.NumberFormat().format(
+                    this.suicideData[country]["female"][age][this.year]["popsuicides"]));
+
             }
         });
     }
