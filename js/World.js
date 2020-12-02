@@ -1,3 +1,5 @@
+
+// This class contains data used by the world in a format that's easy to access
 class CountryData {
 
     constructor(type, name, data, geometry, yearData, suicideData) {
@@ -10,33 +12,41 @@ class CountryData {
     }
 }
 
-
+//This class represents the map view of the data set
 class World {
 
     constructor(data, updateCountry, yearData, suicideData) {
+
+        //data parameters
         this.data = data;
         this.yearData = yearData;
         this.updateCountry = updateCountry;
         this.suicideData = suicideData;
 
+        //used for deciding which country should be selected
         this.selectCountryNum = 1;
         this.compareEnabled = false;
 
+        //used for panning
         this.maxlat = 83;
         this.width = 900;
         this.height = 700;
         this.rotate = 60;
         this.tlast = [0, 0];
         this.slast = null;
+
+        //heatmap settings
         this.year = 2011;
         this.sex = "Both";
         this.age = ["5-14 years", "15-24 years", "25-34 years", "35-54 years", "55-74 years", "75+ years"];
 
+        //map projection
         this.projection = d3.geoMercator()
             .rotate([this.rotate, 0])
             .scale(1)
             .translate([this.width / 2, this.height / 2]);
 
+        //determines the color scale of the data
         let max = 0;
         for (let i = 1985; i < 2017; i++) {
             let pot = d3.max(Object.values(yearData), d => (d[i] && d[i].totalPop ? d[i].totalSui / (d[i].totalPop / 100000) : 0));
@@ -47,14 +57,17 @@ class World {
             .range(["white", "red"]);
     }
 
+    //called to change which country is being selected
     changeCountrySelect(num) {
         this.selectCountryNum = parseInt(num);
     }
 
+    //called to change which country is being selected
     switchChangeEnabled(bool) {
         this.compareEnabled = bool;
     }
 
+    //gives bounds for the projection
     mercatorBounds(projection, maxlat) {
         var yaw = this.projection.rotate()[0];
         var xymax = projection([-yaw + 180 - 1e-6, -maxlat]);
@@ -63,13 +76,13 @@ class World {
         return [xymin, xymax];
     }
 
+    //draws the world
     drawWorld(world) {
-        // console.log(world);
-        world = topojson.feature(world, world.objects['countriesold']);
-        // console.log(this.yearData);
-        // console.log(this.data);
-        // console.log(this.suicideData);
 
+
+        world = topojson.feature(world, world.objects['countriesold']);
+
+        //creates a countrydata object for each country
         let countries = [];
         let i, j;
         for (i in world.features) {
@@ -95,7 +108,6 @@ class World {
             }
         }
 
-        // console.log(countries);
 
         let svg = d3.select("#map").append("svg")
             .attr('width', this.width)
@@ -106,6 +118,7 @@ class World {
 
         svg.append("g").attr("id", "mapDrawing");
 
+        //sets up initial scaling for map projection
         var b = this.mercatorBounds(this.projection, this.maxlat);
         var s = this.width / (b[1][0] - b[0][0]);
         this.scaleExtent = [s, 10 * s];
@@ -115,6 +128,7 @@ class World {
 
         this.path = d3.geoPath().projection(this.projection);
 
+        //binds data to and draws each country
         d3.select("#mapDrawing").selectAll('path')
             .data(countries)
             .join('path')
@@ -132,7 +146,7 @@ class World {
 
             });
 
-
+        //sets up zoom callback
         let zoom = d3.zoom()
             .scaleExtent(this.scaleExtent)
             .on('zoom', () => {
@@ -145,6 +159,7 @@ class World {
     }
 
     //A lot of this is taken from http://bl.ocks.org/patricksurry/6621971 for a scrolling map with wraparound
+    //This function redraws the map on a zoom event, either moving it by letting it pan horizontally or zooming in or out
     redraw(event) {
         if (event) {
             var scale = event.transform.k;
@@ -179,6 +194,7 @@ class World {
         }
     }
 
+    //draws the legend for the heatmap under the map
     drawLegend() {
         let svg = d3.select("#map-legend").append("svg")
             .attr('width', this.width)
@@ -194,16 +210,12 @@ class World {
             .attr('height', 20)
             .attr('fill', d => this.colorScale(d));
 
-        // console.log(svg.selectAll('rect').data());
-
         svg.selectAll('text').data(this.colorScale.ticks(30))
             .enter()
             .append('text')
             .attr('x', (d, i) => i * 30)
             .attr('y', 45)
             .text(d => d);
-
-        // console.log(svg.selectAll('text').data());
 
         svg.append('text')
             .attr('x', 360)
@@ -233,9 +245,11 @@ class World {
 
     }
 
+    //updates the heatmap
     update(type, param) {
         let that = this;
 
+        //updates relevant variables for settings
         if (type == "sex") {
             this.sex = param;
         } else if (type == "age") {
@@ -252,6 +266,7 @@ class World {
             this.year = param;
         }
 
+        //determines new population and suicide values for each country based on parameters set above
         d3.select("#mapDrawing").selectAll('path')
             .attr('fill', function (d) {
                 let pop = 0;
