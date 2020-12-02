@@ -350,7 +350,7 @@ class InfoPanel {
             case 0:
                 title.text(titlebase + "Introduction");
 
-                text.text("Suicides are problem in our world.  Our data set, which lacks many countries of the world, has 236,484 suicides worldwide in 2011. " +
+                text.text("Suicides are a problem in our world.  Our data set, which lacks many countries of the world, has 236,484 suicides worldwide in 2011. " +
                     "From 1985-2016 our data set has 6,748,420. Every year hundreds of thousands of people take their own life.  In regards to 2018 the NIH (National Institute of Mental Health) said the following.")
                 text.append('div').text("-\"Suicide was the tenth leading cause of death overall in the United States.\"-")
                 text.append('div').text("-\"Suicide was the second leading cause of death among individuals between ages 10 and 34 (in the US).\"-")
@@ -375,8 +375,8 @@ class InfoPanel {
                 title.text(titlebase + "Urbanization");
                 text.text("Some might be inclined to think that greater population density would lead to more conflict which would lead to more suicides.  Well this doesn't actually track, atleast not entirely.  " +
                     "Population density can have varying affects on suicide rates pending on many factors.  Urban living actually means men are less likely to commit suicide especially when it comes to young men.  " +
-                    "Contraversely women actually have a higher suicide rate in urban areas especially in the 24-35 and 65+ age ranges.  While its true on the whole high urban areas have more suicides its mostly correlation not causation.  " +
-                    "Take a look at Israel and Cyprus and you'll see that despite the high density the suicides per 100,000 are ont that bad.  Its important to remember that population density and urbanization are similar but not equivalent.");
+                    "Contraversely women actually have a higher suicide rate in urban areas especially in the 24-35 and 65+ age ranges.  While it's true on the whole high urban areas have more suicides it's mostly correlation not causation.  " +
+                    "Take a look at Israel and Cyprus and you'll see that despite the high density the suicides per 100,000 are not that bad.  It's important to remember that population density and urbanization are similar but not equivalent.");
                 text.append('div').html("<a href='https://academic.oup.com/ije/article/34/4/846/692901'>Urbanicity and Suicide</a>");
                 break;
 
@@ -389,7 +389,7 @@ class InfoPanel {
                     "We can also think of a few 3rd world countries; Guatemala, Thailand, Jamaica and Cuba, to name four more.  Looking at most of these the argument for suicide being " +
                     "a first world problem is strong however, lets look at Cuba and England.  These seem to be outliers to the rule.  Cuba in particular has a very bad suicide rate, doing worse than most of the mentioned first world countries," +
                     " but it's been steadily dropping over the years.  England is on the upper end of par compared to most 3rd world countries which is pretty good.  All of this is made moot by the fact that developing countries are notorious " +
-                    "for under-reporting.  With this in mind along with the problems listed above its hard to truly say \"Suicide is a First World Problem\".");
+                    "for under-reporting.  With this in mind along with the problems listed above it's hard to truly say \"Suicide is a First World Problem\".");
                 text.append('div').html("<a href='https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1414701/'>Suicide in Developing Countries</a>");
                 break;
 
