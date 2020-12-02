@@ -146,11 +146,11 @@ class Graph {
             .enter()
             .append("input")
             .attr("type", "radio")
-            .attr("id", function (d) {
+            .attr("id", function(d) {
                 return d + "_TID";
             })
             .attr("name", "type_radio")
-            .attr("value", function (d) {
+            .attr("value", function(d) {
                 return d;
             });
 
@@ -209,16 +209,16 @@ class Graph {
         }
 
         //Find the min and max data between the two coutnries 
-        min_yr = Math.min(filter_data[0][0], filter_data2[0][0]);
-        max_yr = Math.max(filter_data[filter_data.length - 1][0], filter_data2[filter_data2.length - 1][0]);
-        max_sui = Math.max(d3.max(filter_data, function (d) { return (that.calcSuiper100K(d[1])) }), d3.max(filter_data2, function (d) { return +that.calcSuiper100K(d[1]) }));
+        // min_yr = Math.min(filter_data[0][0], filter_data2[0][0]);
+        // max_yr = Math.max(filter_data[filter_data.length - 1][0], filter_data2[filter_data2.length - 1][0]);
+        max_sui = Math.max(d3.max(filter_data, function(d) { return (that.calcSuiper100K(d[1])) }), d3.max(filter_data2, function(d) { return +that.calcSuiper100K(d[1]) }));
 
         this.scaleY1 = d3.scaleLinear()
             .domain([max_sui, 0])
             .range([0, 400]);
 
         this.scaleX1 = d3.scaleLinear()
-            .domain([min_yr, max_yr])
+            .domain([1985, 2015])
             .range([0, 500]);
 
         //Update all the parts of graph 1 
@@ -325,7 +325,7 @@ class Graph {
         //Create the point information for line graph 
         point_group.selectAll("circle")
             .data(data)
-            .on("mouseover", function (d) {
+            .on("mouseover", function(d) {
                 let current = d3.select(this);
                 current.attr("class", "hovered");
                 let current_title = current.append("title");
@@ -333,7 +333,7 @@ class Graph {
                     .append("text")
                     .text(countryN + ": " + "\n" + "Suicides per 100k: " + Math.round(that.scaleY1.invert(current.attr("cy"))) + "\n" + "Year: " + Math.round(that.scaleX1.invert(current.attr("cx"))));
             })
-            .on("mouseout", function () {
+            .on("mouseout", function() {
                 let current = d3.select(this);
                 current.attr("class", null);
                 current.selectAll("title").remove();
@@ -361,8 +361,8 @@ class Graph {
         let filter_data;
         let filter_data2;
         let max_data;
-        let max_yr;
-        let min_yr;
+        // let max_yr;
+        // let min_yr;
 
         filter_data = Object.entries(this.data2[this.country1_select]);
         filter_data2 = Object.entries(this.data2[this.country2_select]);
@@ -371,11 +371,11 @@ class Graph {
         let fill2 = filter_data2.filter(d => d[1][this.type] != null);
 
         //Find the min and max data between the two coutnries 
-        min_yr = Math.min(fill[0][0], fill2[0][0]);
-        max_yr = Math.max(fill[fill.length - 1][0], fill2[fill2.length - 1][0]);
+        // min_yr = Math.min(fill[0][0], fill2[0][0]);
+        // max_yr = Math.max(fill[fill.length - 1][0], fill2[fill2.length - 1][0]);
 
-        let max1 = d3.max(fill, function (d) { return +d[1][that.type] });
-        let max2 = d3.max(fill2, function (d) { return +d[1][that.type] });
+        let max1 = d3.max(fill, function(d) { return +d[1][that.type] });
+        let max2 = d3.max(fill2, function(d) { return +d[1][that.type] });
 
         max_data = Math.max(max1, max2);
 
@@ -384,7 +384,7 @@ class Graph {
             .range([0, 400]);
 
         this.scaleX2 = d3.scaleLinear()
-            .domain([min_yr, max_yr])
+            .domain([1985, 2015])
             .range([0, 500]);
 
         //update the parts of graph 2 
@@ -470,7 +470,7 @@ class Graph {
         //Add point information for line graph 
         point_group.selectAll("circle")
             .data(data)
-            .on("mouseover", function (d) {
+            .on("mouseover", function(d) {
                 let current = d3.select(this);
                 current.attr("class", "hovered");
                 let current_title = current.append("title");
@@ -478,7 +478,7 @@ class Graph {
                     .append("text")
                     .text(countryN + ": \n" + type.toUpperCase() + ": " + Math.round(that.scaleY2.invert(current.attr("cy"))) + "\n" + "Year: " + Math.round(that.scaleX2.invert(current.attr("cx"))));
             })
-            .on("mouseout", function () {
+            .on("mouseout", function() {
                 let current = d3.select(this);
                 current.attr("class", null);
                 current.selectAll("title").remove();
