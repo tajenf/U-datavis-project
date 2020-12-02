@@ -1,6 +1,7 @@
 # U-datavis-project
 
 Summary
+
 This website will be a tool to explore suicide rates and possible factors that could contribute to suicide. Unfortunately the data we found lacks some countries but should still be useful.
 
 the top section allows to filtering and highlighting of data throughout the page.
