@@ -81,7 +81,7 @@ class UI {
         //Age Group Title 
         ui_svg.append("text")
             .text("Age Group")
-            .attr("transform", "translate(80, 60)")
+            .attr("transform", "translate(80, 20)")
             .attr("id", "age_group_title");
 
         this.year_slider(1985, 2015); //starting years 
