@@ -8,7 +8,6 @@ class Graph {
         this.country1_select = "United States of America";
         this.country2_select = "Jamaica";
         this.Gender = Gender;
-        // this.age_group = Age_group;
 
         this.age_map = new Map([
             ["5-14 years", ["5-14 years", 1]],
@@ -19,7 +18,7 @@ class Graph {
             ["75+ years", ["75+ years", 1]]
         ]);
 
-        ///////////////////////////////////////////////////Graph 1/////////////////////////////////
+        //Graph 1
         let graph_svg1 = d3.select('#graph')
             .append("svg")
             .attr("id", "graph_svg1")
@@ -60,7 +59,7 @@ class Graph {
             .attr("transform", "translate(120,20)")
             .attr("id", "Hover_points2");
 
-        ////////////////////////////////////////////////////////////////Graph 1 axies 
+        //Graph 1 axies 
         //Graph 1 y-axis 
         graph_svg1.append("text")
             .attr("id", "axis-label-y1")
@@ -75,7 +74,7 @@ class Graph {
             .style("text-anchor", "middle")
             .text("YEARS");
 
-        ///////////////////////////////////////////////Graph2 ///////////////////////////////////////////////////////////////////////
+        //Graph2 
         let graph_svg2 = d3.select('#graph')
             .append("svg")
             .attr("id", "graph_svg2")
@@ -117,7 +116,7 @@ class Graph {
             .attr("id", "Hover_points4");
 
 
-        ////////////////////////////////////////////////////Graph 2 axies 
+        //Graph 2 axies 
         //Graph 2 y-axis 
         graph_svg2.append("text")
             .attr("id", "axis-label-y2")
@@ -134,14 +133,11 @@ class Graph {
 
 
 
-        //////////////////Type for graph 2
+        //Type for graph 2
         d3.select("#graph")
             .append("div")
-            // graph_svg2.append("div")
-            // .append("g")
             .attr("id", "type_toggle_div")
             .attr("transform", "translate(370, 470)");
-        // .attr("padding", "10px");
 
         let types = ["gdp", "cellphone", "power", "density", "unemployment"];
 
@@ -169,6 +165,7 @@ class Graph {
 
         let that = this;
 
+        //Checks for what needs to be updated for the graph 
         if (type == "country1") {
             this.country1_select = value;
         } else if (type == "country2") {
@@ -192,6 +189,7 @@ class Graph {
         let val5 = this.age_map.get("55-74 years")[1];
         let val6 = this.age_map.get("75+ years")[1];
 
+        //Check if all values are selected or not. 
         if (this.Gender == "both" && val1 == 1 && val2 == 1 && val3 == 1 && val4 == 1 && val5 == 1 && val6 == 1) {
             filter_data = Object.entries(this.data[this.country1_select][this.Gender]["all"]);
             filter_data2 = Object.entries(this.data[this.country2_select][this.Gender]["all"]);
@@ -210,7 +208,7 @@ class Graph {
             filter_data2 = Object.entries(added2)
         }
 
-
+        //Find the min and max data between the two coutnries 
         min_yr = Math.min(filter_data[0][0], filter_data2[0][0]);
         max_yr = Math.max(filter_data[filter_data.length - 1][0], filter_data2[filter_data2.length - 1][0]);
         max_sui = Math.max(d3.max(filter_data, function(d) { return (that.calcSuiper100K(d[1])) }), d3.max(filter_data2, function(d) { return +that.calcSuiper100K(d[1]) }));
@@ -223,6 +221,7 @@ class Graph {
             .domain([min_yr, max_yr])
             .range([0, 500]);
 
+        //Update all the parts of graph 1 
         this.updateLegend1();
 
         this.drawLines1(filter_data, "#graph_path1");
@@ -232,6 +231,7 @@ class Graph {
         this.drawPoints1(filter_data2, this.country2_select, "#Hover_points2");
 
 
+        //Helper method to adding all the data of the selected groups. 
         function recalc(data, map) {
             for (let value of that.age_map.values()) {
                 if (value[1] == 1) {
@@ -243,7 +243,7 @@ class Graph {
                         if (map[cur[0]] == undefined) {
                             let num = cur[1].suicides;
                             let numpop = cur[1].population;
-                            map[cur[0]] = { suicides: num, population: numpop};
+                            map[cur[0]] = { suicides: num, population: numpop };
                         } else {
                             let sum = map[cur[0]].suicides;
                             sum += parseInt(cur[1].suicides);
@@ -270,6 +270,7 @@ class Graph {
     }
 
     updateLegend1() {
+        //Update the axes points 
         d3.select("#g1x-axis").call(d3.axisBottom(this.scaleX1).ticks().tickFormat(d3.format("d")));
         d3.select("#g1y-axis").call(d3.axisLeft(this.scaleY1).ticks(10));
     }
@@ -292,6 +293,7 @@ class Graph {
 
         let point_group = d3.select(selectID);
 
+        //Create the circles for the line graph 
         point_group.selectAll("circle")
             .data(data)
             .join(
@@ -320,6 +322,7 @@ class Graph {
                 }
             );
 
+        //Create the point information for line graph 
         point_group.selectAll("circle")
             .data(data)
             .on("mouseover", function(d) {
@@ -337,8 +340,8 @@ class Graph {
             });
     }
 
-    calcSuiper100K(data)
-    {
+    calcSuiper100K(data) {
+        //helper method to find per 100k suicides 
         return (100000 * data.suicides) / data.population;
     }
 
@@ -346,6 +349,7 @@ class Graph {
     updateGraph2(type, value) {
         let that = this;
 
+        //Checks for what needs to be updated for the graph 
         if (type == "type") {
             this.type = value;
         } else if (type == "country1") {
@@ -366,6 +370,7 @@ class Graph {
         let fill = filter_data.filter(d => d[1][this.type] != null);
         let fill2 = filter_data2.filter(d => d[1][this.type] != null);
 
+        //Find the min and max data between the two coutnries 
         min_yr = Math.min(fill[0][0], fill2[0][0]);
         max_yr = Math.max(fill[fill.length - 1][0], fill2[fill2.length - 1][0]);
 
@@ -382,6 +387,7 @@ class Graph {
             .domain([min_yr, max_yr])
             .range([0, 500]);
 
+        //update the parts of graph 2 
         this.updateLegend2();
         this.drawLines2(fill, "#graph_path3", this.type);
         this.drawLines2(fill2, "#graph_path4", this.type);
@@ -391,6 +397,7 @@ class Graph {
     }
 
     updateAxisName(type) {
+        //update the axis name 
         d3.select("#axis-label-y2").text(type.toUpperCase());
     }
 
@@ -407,6 +414,7 @@ class Graph {
     }
 
     updateLegend2() {
+        //update the graph points 
         d3.select("#g2x-axis").call(d3.axisBottom(this.scaleX2).ticks().tickFormat(d3.format("d")));
         d3.select("#g2y-axis").call(d3.axisLeft(this.scaleY2).ticks(10));
     }
@@ -430,6 +438,7 @@ class Graph {
 
         let point_group = d3.select(selectID);
 
+        //create the circles for line graph 
         point_group.selectAll("circle")
             .data(data)
             .join(
@@ -458,6 +467,7 @@ class Graph {
                 }
             );
 
+        //Add point information for line graph 
         point_group.selectAll("circle")
             .data(data)
             .on("mouseover", function(d) {

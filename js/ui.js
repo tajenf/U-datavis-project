@@ -36,20 +36,16 @@ class UI {
     }
 
     drawItems() {
-
-        let that = this;
-
         let ui_div = d3.select("#ui");
 
-        // let end = d3.select("#ui_svg").attr("width");//not sure if need yet 
-
-        //Add div sections for UI features 
+        //UI features 
         let ui_svg = ui_div
             .append("svg")
             .attr("id", "ui_svg")
             .attr("height", "130px")
             .attr("width", "1100px");
 
+        //Slider creation 
         let ui_slider = ui_div
             .append("div")
             .attr("id", "slider_div")
@@ -64,11 +60,7 @@ class UI {
             .attr("id", "rangevalue")
             .text(2011);
 
-        // d3.select("#year_slider_id").on("input", function() {
-        //     // console.log(this);
-        //     // console.log(this.value); 
-        // });
-
+        //Create div sections 
         let ui_gender_drop = ui_div
             .append("div")
             .attr("id", "gender_div");
@@ -85,28 +77,20 @@ class UI {
             .append("div")
             .attr("id", "compareToggle_div");
 
-        // let type_toggle = ui_div
-        //     .append("div")
-        //     .attr("id", "type_toggle_div")
-        // .attr("transform", function(d) {
-        //     let a = d3.select("#graph_svg2").attr("transform");
-        //     console.log(a);
-        // });
-
         //Age Group Title 
         ui_svg.append("text")
             .text("Age Group")
             .attr("transform", "translate(80, 60)")
             .attr("id", "age_group_title");
 
-        this.year_slider(1985, 2015); ///////////////////////////starting years 
+        this.year_slider(1985, 2015); //starting years 
         this.ui_Features();
     }
 
     ui_Features() {
         let that = this;
 
-        //Gender feature 
+        //Gender feature creation 
         let gender_options = ["Both", "Female", "Male"];
 
         let gender_div = d3.select("#gender_div");
@@ -119,7 +103,6 @@ class UI {
         let select_gender = gender_form.append("select")
             .attr("name", "gender")
             .attr("id", "gender_select")
-            // .attr("class", "gender-selected")
             .selectAll("option")
             .data(gender_options)
             .enter()
@@ -131,6 +114,7 @@ class UI {
                 return d;
             });
 
+        //update other features 
         document.getElementById("gender_select").onchange = function() {
             that.updateGender(this.value.toLowerCase());
         };
@@ -139,7 +123,7 @@ class UI {
             that.setYear(this.value);
         };
 
-        //Age Group feature  
+        //Age Group feature creation 
         let age_group_options = ["5-14 years", "15-24 years", "25-34 years", "35-54 years", "55-74 years", "75+ years", "All"];
 
         let age_div = d3.select("#age_div");
@@ -180,6 +164,7 @@ class UI {
         age_form.selectAll("g")
             .append("br")
 
+        //Helper method to make sure one check box is always selected for age groups 
         function UpdateAgeOption(current) {
             let array = that.age_map.get(current.value);
 
@@ -309,6 +294,7 @@ class UI {
                 return "Select Country " + d;
             });
 
+        //Update countrires 
         document.getElementById("toggle-on").onclick = function() {
             that.updateCountrySelecting(this.value);
         }
@@ -317,22 +303,7 @@ class UI {
             that.updateCountrySelecting(this.value);
         }
 
-
-        // let types = ["gdp", "cellphone", "power", "density", "unemployment"];
-
-        // d3.select("#type_toggle_div").selectAll()
-        //     .data(types)
-        //     .enter()
-        //     .append("input")
-        //     .attr("type", "radio")
-        //     .attr("id", function(d) {
-        //         return d + "_TID";
-        //     })
-        //     .attr("name", "type_radio")
-        //     .attr("value", function(d) {
-        //         return d;
-        //     });
-
+        //Update graph 2 for what type it needs to be 
         d3.select("#gdp_TID").attr('checked', "checked");
 
         document.getElementById("gdp_TID").onclick = function() {
@@ -384,6 +355,7 @@ class UI {
                 return 4;
             });
 
+        //Story update calls
         d3.select("#intro_ID").attr('checked', "checked");
 
         document.getElementById("intro_ID").onclick = function() {
@@ -407,7 +379,6 @@ class UI {
         };
 
         function UpdateStorySection(current) {
-            // console.log(current.value);
 
 
             switch (parseInt(current.value)) {
@@ -460,7 +431,6 @@ class UI {
     }
 
     OnCompare(checked) {
-        // console.log(checked);
 
         let compareTog = d3.select("#compareToggle_div");
 
@@ -470,6 +440,7 @@ class UI {
         let path4 = d3.select("#path_group4");
         let hov4 = d3.select("#Hover_points4");
 
+        //Make visibility feature for toggle. 
         if (checked) {
             this.updateCompare(true);
 
@@ -528,6 +499,7 @@ class UI {
         }
     }
 
+    //update year 
     setYear(newYear) {
         let slider = d3.select("#year_slider_id");
         let yearLabel = d3.select("#rangevalue")
