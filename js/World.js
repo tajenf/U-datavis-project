@@ -123,7 +123,7 @@ class World {
             .attr('align', 'center')
             .attr('id', d => d.name)
             .attr('fill', d => d.yearData ? (d.yearData[2011] && d.yearData[2011].totalPop ? this.colorScale(d.yearData[2011].totalSui / (d.yearData[2011].totalPop / 100000)) : 'grey') : 'grey')
-            .on('click', function() {
+            .on('click', function () {
                 if (that.switchChangeEnabled) {
                     that.updateCountry(this.id, that.selectCountryNum);
                 } else {
@@ -212,6 +212,12 @@ class World {
             .attr('font-weight', 'bold')
             .text('Suicides per 100,000');
 
+        svg.append('text')
+            .attr('x', 410)
+            .attr('y', 90)
+            .attr('font-size', 12)
+            .text('(of selected populus)');
+
         svg.append('rect')
             .attr('x', 75)
             .attr('y', 55)
@@ -247,7 +253,7 @@ class World {
         }
 
         d3.select("#mapDrawing").selectAll('path')
-            .attr('fill', function(d) {
+            .attr('fill', function (d) {
                 let pop = 0;
                 let sui = 0;
                 for (let i = 0; i < that.age.length; i++) {
