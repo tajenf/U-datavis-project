@@ -31,7 +31,8 @@ class UI {
         this.updateAge("all");
         this.updateGender("both");
         this.updateStory("0");
-        this.updateCountry("United States of America");
+        this.updateCountry("United States of America", 1);
+        this.updateCountry("Jamaica", 2);
     }
 
     drawItems() {

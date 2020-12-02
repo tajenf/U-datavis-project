@@ -25,6 +25,7 @@ Promise.all([suiData, densityData, cellData, powerData, unemploymentData]).then(
     //all possible subkeys for yearly data
     let yearKeys = new Set();
 
+    //data structure map section
     for (let i = 0; i < data[0].length; i++) {
         if (countryName == "") {
             countryName = data[0][i]["country"];
@@ -36,9 +37,13 @@ Promise.all([suiData, densityData, cellData, powerData, unemploymentData]).then(
         }
     }
 
+    //sets for all possible years/agegroups since not every year will exist for every country or age in a given year.
     let years = new Set();
     let ageGroups = new Set();
 
+    //world is a dropped feature as we determined it was dis-honest since data may be lacking.
+    //for example the world population drops from 2014 to 2016 due to lack of data.
+    //it is left in for finding info for stories
     yearData["World"] = {};
     suicideData["World"] = {};
 
@@ -46,6 +51,8 @@ Promise.all([suiData, densityData, cellData, powerData, unemploymentData]).then(
     data[0].forEach(suiData => {
 
         //yearly data section
+        
+        //the following 2 if statements are to ensure things are initiallized properly
         if (!yearData[suiData.country]) {
             yearData[suiData.country] = {};
         }
@@ -97,14 +104,10 @@ Promise.all([suiData, densityData, cellData, powerData, unemploymentData]).then(
         ageGroups.add("a" + suiData.age.replace(" ", "_"));
     });
 
-    //console.log(data[2]);
+    //Following loops add all of the additional data to the year data structure.
 
-    let maxDensity = 0;
-    let densityInfo = "";
-
+    //density
     data[1].forEach(denData => {
-        //console.log(denData);
-        //console.log(denData.Country);
         let country = denData.Country;
 
         if (yearData[country]) {
@@ -115,11 +118,6 @@ Promise.all([suiData, densityData, cellData, powerData, unemploymentData]).then(
                         yearData[country][year] = {};
                     }
 
-                    if (parseFloat(denData[year]) > maxDensity && country != "Singapore") {
-                        maxDensity = parseFloat(denData[year]);
-                        densityInfo = `${country} ${year} density ${maxDensity}`;
-                    }
-
                     yearData[country][year]["density"] = denData[year];
                 }
 
@@ -127,11 +125,8 @@ Promise.all([suiData, densityData, cellData, powerData, unemploymentData]).then(
         }
     });
 
-    // console.log(densityInfo);
-
+    //cellphone subscriptions
     data[2].forEach(cellData => {
-        //console.log(denData);
-        //console.log(denData.Country);
         let country = cellData.Country;
 
         if (yearData[country]) {
@@ -149,9 +144,8 @@ Promise.all([suiData, densityData, cellData, powerData, unemploymentData]).then(
         }
     });
 
+    //power consumption
     data[3].forEach(powData => {
-        //console.log(denData);
-        //console.log(denData.Country);
         let country = powData.Country;
 
         if (yearData[country]) {
@@ -169,9 +163,8 @@ Promise.all([suiData, densityData, cellData, powerData, unemploymentData]).then(
         }
     });
 
+    //unemployment % of workforce
     data[4].forEach(unEmploymentData => {
-        //console.log(denData);
-        //console.log(denData.Country);
         let country = unEmploymentData.Country;
 
         if (yearData[country]) {
@@ -190,20 +183,8 @@ Promise.all([suiData, densityData, cellData, powerData, unemploymentData]).then(
     });
 
 
-    yearKeys.add("gdp");
-    yearKeys.add("malePop");
-    yearKeys.add("femalePop");
-    yearKeys.add("totalPop");
-    yearKeys.add("maleSui");
-    yearKeys.add("femaleSui");
-    yearKeys.add("totalSui");
-    yearKeys.add("density");
-    yearKeys.add("cellphone");
-    yearKeys.add("unemployment");
-    yearKeys.add("power");
-    yearKeys.add("ratio");
-
-
+    //graph seciton asked for compilation of suicide over all ages and both sexes.
+    //used this to also used to calculate ratio
     years.forEach(year => {
 
         Object.keys(suicideData).forEach(country => {
@@ -217,6 +198,7 @@ Promise.all([suiData, densityData, cellData, powerData, unemploymentData]).then(
                 let bothpop = {};
 
                 ageGroups.forEach(age => {
+                    //checks there is data in sucides to compile the information.
                     if (suicideData[country]["male"][age] && suicideData[country]["male"][age][year]) {
                         malePop += parseInt(suicideData[country]["male"][age][year]["population"]);
                         femalePop += parseInt(suicideData[country]["female"][age][year]["population"]);
@@ -229,7 +211,10 @@ Promise.all([suiData, densityData, cellData, powerData, unemploymentData]).then(
 
                 let population = malePop + femalePop;
 
+                //checks to see if any data was found
                 if (population > 0) {
+
+                    //again checks to make sure the data structure is ready for more values.
                     if (!suicideData[country]["both"]) {
                         suicideData[country]["both"] = {};
                     }
@@ -246,6 +231,7 @@ Promise.all([suiData, densityData, cellData, powerData, unemploymentData]).then(
                         suicideData[country]["female"]["all"] = {};
                     }
 
+                    //this was added late so graphs didn't need to add males/females together.
                     ageGroups.forEach(age => {
                         if (!suicideData[country]["both"][age]) {
                             suicideData[country]["both"][age] = {};
@@ -257,9 +243,10 @@ Promise.all([suiData, densityData, cellData, powerData, unemploymentData]).then(
                     });
 
 
+                    //population already set do dermine if data was found.
                     let suicides = maleSui + femaleSui;
 
-
+                    //Bellow we actually populate the rest of the information
                     suicideData[country]["both"]["all"][year] = { population, suicides };
                     suicideData[country]["female"]["all"][year] = {};
                     suicideData[country]["male"]["all"][year] = {};
@@ -278,6 +265,7 @@ Promise.all([suiData, densityData, cellData, powerData, unemploymentData]).then(
                     yearData[country][year]["femaleSui"] = femaleSui;
                     yearData[country][year]["totalSui"] = suicides;
 
+                    //ratio is the % that males make up the total number of suicides
                     let ratio = (parseInt(maleSui) / parseInt(suicides) * 100).toFixed(1);
 
                     yearData[country][year]["ratio"] = ratio;
@@ -286,6 +274,22 @@ Promise.all([suiData, densityData, cellData, powerData, unemploymentData]).then(
 
         });
     });
+
+
+    //yearKeys moved together for reference (don't need console.log() now) again since not all data is available in
+    //a given year we made this set to iterate over and update values even if are not present that year.
+    yearKeys.add("gdp");
+    yearKeys.add("malePop");
+    yearKeys.add("femalePop");
+    yearKeys.add("totalPop");
+    yearKeys.add("maleSui");
+    yearKeys.add("femaleSui");
+    yearKeys.add("totalSui");
+    yearKeys.add("density");
+    yearKeys.add("cellphone");
+    yearKeys.add("unemployment");
+    yearKeys.add("power");
+    yearKeys.add("ratio");
 
     //quick code for data analysis
     /*
@@ -297,18 +301,16 @@ Promise.all([suiData, densityData, cellData, powerData, unemploymentData]).then(
     console.log(totSui);
     */
 
+    //broadcasts country selected
     //1 for primary country
     //2 for country that is only visible when comparing.
     function UpdateCountry(country, countryNum) {
-        // console.log(country);
-        // console.log(countryNum);
         info.UpdateCountry(country, countryNum);
         graph.updateGraph("country" + countryNum, country);
         graph.updateGraph2("country" + countryNum, country);
     }
 
     function UpdateCountrySelecting(countryNum) {
-        // console.log(countryNum);
         world.changeCountrySelect(countryNum);
     }
 
@@ -328,19 +330,17 @@ Promise.all([suiData, densityData, cellData, powerData, unemploymentData]).then(
 
     //updates selected age groups
     function UpdateAge(ageGroups) {
-        // console.log("called Age");
         world.update("age", ageGroups);
         graph.updateGraph("age", ageGroups);
     }
 
     //updates which sex is selected between male, female or both
     function UpdateSex(sex) {
-        // console.log("called sex");
         world.update("sex", sex);
         graph.updateGraph("sex", sex);
     }
 
-    //story integer
+    //story integer to inform story related text.
     function UpdateStory(storyNum) {
         info.UpdateStory(storyNum);
     }
@@ -350,13 +350,14 @@ Promise.all([suiData, densityData, cellData, powerData, unemploymentData]).then(
         graph.updateGraph2("type", value);
     }
 
+    //initialization of coding sections
     let world = new World(oData, UpdateCountry, yearData, suicideData);
     let graph = new Graph(suicideData, yearData, yearKeys, "both", "gdp");
     let info = new InfoPanel(suicideData, yearData, yearKeys, countryData, countryKeys, ageGroups);
     let ui = new UI(oData, UpdateYear, UpdateAge, UpdateSex, UpdateStory, UpdateDualCountryView, UpdateCountry, UpdateCountrySelecting, UpdateGraph2);
 
+    //sends out initial information so that all sections show the same information.
     ui.initiallizePage();
-    UpdateCountry("United States of America");
 
     d3.json('./data/countriestopo.json').then(map => { world.drawWorld(map) });
 
